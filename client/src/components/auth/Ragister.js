@@ -16,8 +16,15 @@ class Register extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors })
+    }
+  }
+
   async onSubmit(e) {
     e.preventDefault()
+    console.log(this.state)
     await this.props.registerUser(this.state)
   }
 
@@ -37,7 +44,7 @@ class Register extends Component {
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
               <p className="lead text-center">Create your CETutor account</p>
-              <form onSubmit={this.onSubmit.bind(this)}>
+              <form noValidate onSubmit={this.onSubmit.bind(this)}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -119,7 +126,7 @@ class Register extends Component {
   }
 }
 
-Register.prototype = {
+Register.prototypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.required,
   errors: PropTypes.object.required,
