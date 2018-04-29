@@ -38,7 +38,9 @@
     "babel-node": "babel-node server.js",
     "start": "nodemon --exec yarn babel-node",
     "client": "cd client && nodemon --exec yarn start",
-    "dev": "concurrently \"yarn start\" \"yarn client\""
+    "dev": "concurrently \"yarn start\" \"yarn client\"",
+    "heroku-postbuild":
+      "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "babel": {
     "presets": ["es2015", "react", "stage-1"],
