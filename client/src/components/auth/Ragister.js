@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import classnames from 'classnames'
+import { connect } from 'react-redux'
+import { registerUser } from '../../actions/authActions'
 
-export default class Register extends Component {
+class Register extends Component {
   constructor() {
     super()
     this.state = {
@@ -16,13 +18,14 @@ export default class Register extends Component {
 
   async onSubmit(e) {
     e.preventDefault()
-    try {
-      const res = await axios.post('api/users/', this.state)
-      console.log(res.data)
-    } catch (error) {
-      this.setState({ errors: error.response.data })
-      console.log(error.response.data)
-    }
+    this.props.registerUser(this.state)
+    // try {
+    //   const res = await axios.post('api/users/', this.state)
+    //   console.log(res.data)
+    // } catch (error) {
+    //   this.setState({ errors: error.response.data })
+    //   console.log(error.response.data)
+    // }
   }
 
   onChange(e) {
@@ -32,6 +35,7 @@ export default class Register extends Component {
 
   render() {
     const { errors } = this.state
+    const { user } = this.props.auth
 
     return (
       <div className="register">
@@ -121,3 +125,9 @@ export default class Register extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+})
+
+export default connect(mapStateToProps, { registerUser })(Register)
