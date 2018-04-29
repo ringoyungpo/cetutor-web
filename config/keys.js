@@ -1,3 +1,5 @@
-const mongoURI = 'mongodb://ringo:woods@ds161539.mlab.com:61539/cetutor'
-const secretOrKey = 'secret'
-export { mongoURI, secretOrKey }
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./keys_prod')
+} else {
+  module.exports = require('./keys_dev')
+}
