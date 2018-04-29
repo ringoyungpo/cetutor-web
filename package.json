@@ -1,0 +1,48 @@
+{
+  "name": "cetutor-web",
+  "version": "1.0.0",
+  "description": "Social network for developers.",
+  "main": "server.js",
+  "repository": "git@github.com:ringoyungpo/cetutor-web.git",
+  "author": "Ringo Yungpo",
+  "license": "MIT",
+  "dependencies": {
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "gravatar": "^1.6.0",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.10",
+    "mongoose": "^5.0.15",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^9.4.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-lodash": "^3.3.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "nodemon": "^1.17.3"
+  },
+  "scripts": {
+    "babel-node": "babel-node server.js",
+    "start": "nodemon --exec yarn babel-node"
+  },
+  "babel": {
+    "presets": ["es2015", "react", "stage-1"],
+    "plugins": [
+      "syntax-async-functions",
+      "transform-regenerator",
+      "transform-async-to-generator",
+      "lodash"
+    ]
+  }
+}
