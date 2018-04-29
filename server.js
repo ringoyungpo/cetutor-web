@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import passport from 'passport'
 import passportConfig from './config/passportConfig'
+import path from 'path'
 
 import users from './routes/api/users'
 // import profile from './routes/api/profile'
