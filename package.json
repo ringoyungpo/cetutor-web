@@ -13,6 +13,7 @@
     "babel-polyfill": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "express": "^4.16.3",
     "gravatar": "^1.6.0",
     "jsonwebtoken": "^8.2.1",
@@ -33,8 +34,11 @@
     "nodemon": "^1.17.3"
   },
   "scripts": {
+    "client-install": " yarn install --prefix client",
     "babel-node": "babel-node server.js",
-    "start": "nodemon --exec yarn babel-node"
+    "start": "nodemon --exec yarn babel-node",
+    "client": "cd client && yarn start",
+    "dev": "concurrently \"yarn start\" \"yarn client\""
   },
   "babel": {
     "presets": ["es2015", "react", "stage-1"],
