@@ -37,7 +37,7 @@
     "client-install": " yarn install --prefix client",
     "babel-node": "babel-node server.js",
     "start": "nodemon --exec yarn babel-node",
-    "client": "cd client && yarn start",
+    "client": "cd client && nodemon --exec yarn start",
     "dev": "concurrently \"yarn start\" \"yarn client\""
   },
   "babel": {
