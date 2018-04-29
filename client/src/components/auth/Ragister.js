@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { registerUser } from '../../actions/authActions'
@@ -18,14 +18,7 @@ class Register extends Component {
 
   async onSubmit(e) {
     e.preventDefault()
-    this.props.registerUser(this.state)
-    // try {
-    //   const res = await axios.post('api/users/', this.state)
-    //   console.log(res.data)
-    // } catch (error) {
-    //   this.setState({ errors: error.response.data })
-    //   console.log(error.response.data)
-    // }
+    await this.props.registerUser(this.state)
   }
 
   onChange(e) {
@@ -34,8 +27,8 @@ class Register extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { errors } = this.state
-    const { user } = this.props.auth
 
     return (
       <div className="register">
@@ -126,8 +119,15 @@ class Register extends Component {
   }
 }
 
+Register.prototype = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.required,
+  errors: PropTypes.object.required,
+}
+
 const mapStateToProps = state => ({
   auth: state.auth,
+  errors: state.errors,
 })
 
 export default connect(mapStateToProps, { registerUser })(Register)
