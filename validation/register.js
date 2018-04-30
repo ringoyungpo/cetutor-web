@@ -1,13 +1,13 @@
-import Validator from 'validator'
-import { isEmpty } from 'lodash'
+const Validator = require('validator')
+const isEmpty = require('lodash').isEmpty
 
-export function validatoRegisterInput(data) {
-  const errors = {}
+module.exports = function validateRegisterInput(data) {
+  let errors = {}
 
   if (isEmpty(data.nickname)) {
     errors.nickname = 'Nickname field is required'
   } else if (!Validator.isLength(data.nickname, { min: 2, max: 30 })) {
-    errors.nickname = 'Nickname charactors length must be between 2 and 30'
+    errors.nickname = 'Nickname must be between 2 and 30 characters'
   }
 
   if (isEmpty(data.email)) {
@@ -19,13 +19,13 @@ export function validatoRegisterInput(data) {
   if (isEmpty(data.password)) {
     errors.password = 'Password field is required'
   } else if (!Validator.isLength(data.password, { min: 5, max: 30 })) {
-    errors.password = 'Password charactors length must be between 5 and 30'
+    errors.password = 'Password must be at least 6 characters'
   }
 
   if (isEmpty(data.passwordComfirmed)) {
-    errors.passwordComfirmed = 'Confirm password field is required'
+    errors.passwordComfirmed = 'Confirm Password field is required'
   } else if (!Validator.equals(data.password, data.passwordComfirmed)) {
-    errors.passwordComfirmed = 'Passwords shoud be matched'
+    errors.passwordComfirmed = 'Passwords must match'
   }
 
   return {

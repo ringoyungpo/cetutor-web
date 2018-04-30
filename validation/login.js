@@ -1,8 +1,8 @@
-import Validator from 'validator'
-import { isEmpty } from 'lodash'
+const Validator = require('validator')
+const isEmpty = require('lodash').isEmpty
 
-export function validatoLoginInput(data) {
-  const errors = {}
+module.exports = function validateLoginInput(data) {
+  let errors = {}
 
   if (isEmpty(data.email)) {
     errors.email = 'Email field is required'
@@ -12,8 +12,6 @@ export function validatoLoginInput(data) {
 
   if (isEmpty(data.password)) {
     errors.password = 'Password field is required'
-  } else if (!Validator.isLength(data.password, { min: 5, max: 30 })) {
-    errors.password = 'Password charactors length must be between 5 and 30'
   }
 
   return {

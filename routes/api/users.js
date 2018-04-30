@@ -1,136 +1,127 @@
-import express from 'express'
+const express = require('express')
 const router = express.Router()
-import gravatar from 'gravatar'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import { secretOrKey } from '../../config/keys'
-import passport from 'passport'
-import { validatoRegisterInput } from '../../validation/register'
-import { validatoLoginInput } from '../../validation/login'
+const gravatar = require('gravatar')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const keys = require('../../config/keys')
+const passport = require('passport')
 
-//Load User model
-import User from '../../models/User'
+// Load Input Validation
+const validateRegisterInput = require('../../validation/register')
+const validateLoginInput = require('../../validation/login')
 
-//Load ResponseError
-import ResponseError from '../../config/responseError'
+// Load User model
+const User = require('../../models/User')
 
-// @route   GET api/users/register
-// @desc    Register route
+// @route   GET api/users/test
+// @desc    Tests users route
 // @access  Public
+router.get('/test', (req, res) => res.json({ msg: 'Users Works' }))
 
-router.post('/', async (req, res) => {
-  try {
-    const { errors, isValid } = validatoRegisterInput(req.body)
-    if (!isValid) throw new ResponseError(400, errors)
+// @route   POST api/users/register
+// @desc    Register user
+// @access  Public
+router.post('/', (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body)
 
-    const user = await User.findOne({ email: req.body.email })
-
-    if (user) {
-      errors.email = 'Email already exits'
-      throw new ResponseError(400, errors)
-    }
-
-    const newUser = new User({
-      nickname: req.body.nickname,
-      email: req.body.email,
-      avatar: gravatar.url({
-        s: '200', //Size
-        r: 'pg', //Rating
-        d: 'mm', //Default
-      }),
-      password: req.body.password,
-    })
-
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) throw err
-      bcrypt.hash(newUser.password, salt, async (err, hash) => {
-        if (err) throw err
-        newUser.password = hash
-        const user = await newUser.save()
-        res.json(user)
-      })
-    })
-  } catch (error) {
-    console.log(error)
-    switch (error.name) {
-      case 'ResponseError':
-        return res.status(error.status).json(error.detail)
-      default:
-        return res.status(400).json({ error: 'unknown error' })
-    }
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors)
   }
+
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      errors.email = 'Email already exists'
+      return res.status(400).json(errors)
+    } else {
+      const avatar = gravatar.url(req.body.email, {
+        s: '200', // Size
+        r: 'pg', // Rating
+        d: 'mm', // Default
+      })
+
+      const newUser = new User({
+        nickname: req.body.nickname,
+        email: req.body.email,
+        avatar,
+        password: req.body.password,
+      })
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err
+          newUser.password = hash
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err))
+        })
+      })
+    }
+  })
 })
 
-// @route   POST api/users/token
-// @desc    Create token by login route to
+// @route   GET api/users/login
+// @desc    Login User / Returning JWT Token
 // @access  Public
+router.post('/token', (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body)
 
-// find user by email
-router.post('/token', async (req, res) => {
-  const { email, password } = req.body
-  try {
-    const { errors, isValid } = validatoLoginInput(req.body)
-    if (!isValid) throw new ResponseError(400, errors)
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors)
+  }
 
-    const user = await User.findOne({ email })
+  const email = req.body.email
+  const password = req.body.password
 
-    //check for user
+  // Find user by email
+  User.findOne({ email }).then(user => {
+    // Check for user
     if (!user) {
       errors.email = 'User not found'
-      throw new ResponseError(404, errors)
+      return res.status(404).json(errors)
     }
 
-    //check password
-    const isMatch = await bcrypt.compare(password, user.password)
+    // Check Password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        // User Matched
+        const payload = { id: user.id, name: user.name, avatar: user.avatar } // Create JWT Payload
 
-    if (!isMatch) {
-      errors.password = 'Password incorrect'
-      throw new ResponseError(400, errors)
-    }
-
-    // return res.json({ msg: 'Success' })
-    // User Matched
-    const payload = {
-      id: user.id,
-      nickname: user.nickname,
-      avatar: user.avatar,
-    } //create user payload
-    jwt.sign(
-      payload,
-      secretOrKey,
-      { expiresIn: 3 * 60 * 60 },
-      async (err, token) => {
-        if (err) throw err
-        res.json({
-          success: true,
-          token: `Bearer ${token}`,
-        })
-      },
-    )
-
-    // Sign Token
-  } catch (error) {
-    console.log(error)
-    switch (error.name) {
-      case 'ResponseError':
-        return res.status(error.status).json(error.detail)
-      default:
-        return res.status(400).json({ error: 'unknown error' })
-    }
-  }
+        // Sign Token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          { expiresIn: 3600 },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: 'Bearer ' + token,
+            })
+          },
+        )
+      } else {
+        errors.password = 'Password incorrect'
+        return res.status(400).json(errors)
+      }
+    })
+  })
 })
 
-// @route   GET api/users/token
-// @desc    Get current user by token
+// @route   GET api/users/current
+// @desc    Return current user
 // @access  Private
-
 router.get(
   '/token',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const { id, nickname, email } = req.user
-    res.json({ id, nickname, email })
+    res.json({
+      id: req.user.id,
+      nickname: req.user.nickname,
+      email: req.user.email,
+    })
   },
 )
 
-export default router
+module.exports = router

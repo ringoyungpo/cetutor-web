@@ -1,13 +1,10 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import bodyParser from 'body-parser'
-import passport from 'passport'
-import passportConfig from './config/passportConfig'
-import path from 'path'
+const express = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+const path = require('path')
 
-import users from './routes/api/users'
-// import profile from './routes/api/profile'
-// import posts from './routes/api/posts'
+const users = require('./routes/api/users')
 
 const app = express()
 
@@ -16,20 +13,22 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // DB Config
-import { mongoURI as db } from './config/keys'
+const db = require('./config/keys').mongoURI
 
+// Connect to MongoDB
 mongoose
   .connect(db)
-  .then(() => console.log('Mongo Connected'))
+  .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err))
 
+// Passport middleware
 app.use(passport.initialize())
-passportConfig(passport)
 
+// Passport Config
+require('./config/passport')(passport)
+
+// Use Routes
 app.use('/api/users', users)
-
-// app.use('/api/profile', profile)
-// app.use('/api/posts', posts)
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
