@@ -10,11 +10,10 @@ const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION__
   ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   : null
 
-const store = createStore(
-  rootReducer,
-  initialState,
-  applyMiddleware(...middleware),
-  compose(applyMiddleware(...middleware), reduxDevtools),
-)
+const middlewareApplied = window.__REDUX_DEVTOOLS_EXTENSION__
+  ? compose(applyMiddleware(...middleware), reduxDevtools)
+  : applyMiddleware(...middleware)
+
+const store = createStore(rootReducer, initialState, middlewareApplied)
 
 export default store

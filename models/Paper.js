@@ -23,6 +23,10 @@ const PaperSchema = new Schema({
     question: String,
     required,
   },
+  // isChecked:{
+  //   type: Boolean,
+  //   default: false
+  // },
   date: {
     type: Date,
     default: Date.now,
