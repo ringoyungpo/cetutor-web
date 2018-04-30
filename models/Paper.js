@@ -1,32 +1,51 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const { CET_4, CET_6 } = require('../constant/paperConst')
 
 // Create Schema
 const PaperSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users',
+    required: true,
   },
   title: {
     type: String,
-    required,
+    required: true,
   },
   level: {
     type: String,
-    required,
+    required: true,
+    validate: {
+      validator: function(level) {
+        return [CET_4, CET_6].includes(level)
+      },
+    },
   },
   writing: {
-    dirctions: String,
-    required,
+    dirctions: {
+      type: String,
+      required: true,
+    },
   },
   translation: {
-    question: String,
-    required,
+    question: {
+      type: String,
+      required: true,
+    },
   },
-  // isChecked:{
-  //   type: Boolean,
-  //   default: false
-  // },
+  formated: {
+    type: Boolean,
+    default: false,
+  },
+  likes: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+    },
+  ],
   date: {
     type: Date,
     default: Date.now,

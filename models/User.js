@@ -17,10 +17,10 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
   },
-  // isSuperUser: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  isSuperUser: {
+    type: Boolean,
+    default: false,
+  },
   data: {
     type: Date,
     default: Date.now,

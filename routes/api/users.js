@@ -25,9 +25,7 @@ router.post('/', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body)
 
   // Check Validation
-  if (!isValid) {
-    return res.status(400).json(errors)
-  }
+  if (!isValid) return res.status(400).json(errors)
 
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
@@ -87,7 +85,12 @@ router.post('/token', (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, name: user.name, avatar: user.avatar } // Create JWT Payload
+        const payload = {
+          id: user.id,
+          name: user.name,
+          avatar: user.avatar,
+          isSuperUser: user.isSuperUser,
+        } // Create JWT Payload
 
         // Sign Token
         jwt.sign(
