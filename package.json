@@ -18,9 +18,11 @@
     "gravatar": "^1.6.0",
     "jsonwebtoken": "^8.2.1",
     "lodash": "^4.17.10",
+    "moment": "^2.22.1",
     "mongoose": "^5.0.15",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "react-moment": "^0.7.0",
     "validator": "^9.4.1"
   },
   "devDependencies": {
@@ -39,13 +41,17 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild":
-      "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+    "deva": "concurrently \"yarn server\" \"cd client && yarn start\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "babel-node": "babel-node server.js",
-    "nodemon": "nodemon ----exec yarn start server.js"
+    "nodemon": "nodemon --exec yarn start server.js"
   },
   "babel": {
-    "presets": ["es2015", "react", "stage-1"],
+    "presets": [
+      "es2015",
+      "react",
+      "stage-1"
+    ],
     "plugins": [
       "syntax-async-functions",
       "transform-regenerator",

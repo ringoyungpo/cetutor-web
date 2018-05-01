@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 const TextFieldGroup = ({
+  title,
   name,
   placeholder,
   value,
@@ -15,6 +16,7 @@ const TextFieldGroup = ({
 }) => {
   return (
     <div className="form-group">
+      {title && <b>{title}</b>}
       <input
         type={type}
         className={classnames('form-control form-control-lg', {
@@ -33,6 +35,7 @@ const TextFieldGroup = ({
 }
 
 TextFieldGroup.propTypes = {
+  title: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,

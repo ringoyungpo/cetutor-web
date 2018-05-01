@@ -23,8 +23,8 @@ router.post(
   },
 )
 
-// // @route   GET api/papers/
-// // @desc    Get papers route
+// // @route   GET api/papers/all
+// // @desc    Get all papers route
 // // @access  Public
 router.get('/', (req, res) => {
   Paper.find()
@@ -32,6 +32,20 @@ router.get('/', (req, res) => {
     .then(papers => res.json(papers))
     .catch(err => res.status(404).json(err))
 })
+
+// // @route   GET api/papers/token
+// // @desc    Get papers route with token
+// // @access  Private
+router.get(
+  '/token',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Paper.find({ user: req.user.id })
+      .populate('user', ['nickname', 'avatar', 'isSuperUser'])
+      .then(papers => res.json(papers))
+      .catch(err => res.status(404).json(err))
+  },
+)
 
 // // @route   GET api/papers/:id
 // // @desc    Get papers by id route
@@ -79,9 +93,9 @@ router.delete(
         if (req.user.id !== paper.user.toString() && !req.user.isSuperUser)
           res.status(401).json({ unauthority: true })
 
-        Paper.findOneAndRemove({ user: req.params.id })
+        Paper.findOneAndRemove({ _id: req.params.id })
           .then(paper => res.json({ success: true }))
-          .catch(err => res.status(400).json(err))
+          .catch(err => res.status(404).json(err))
       })
       .catch(err => res.status(404).json(err))
   },

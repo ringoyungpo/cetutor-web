@@ -1,2 +1,11 @@
+//errors
 export const GET_ERRORS = 'GET_ERRORS'
+//auth
 export const SET_CURRENT_USER = 'SET_CURRENT_USER'
+//paper
+export const GET_PAPERS_ALL = 'GET_PAPERS_ALL'
+export const PAPER_LOADING = 'PAPER_LOADING'
+export const PAPER_NOT_FOUND = 'PAPER_NOT_FOUND'
+export const CLEAR_CURRENT_PAPER = 'CLEAR_CURRENT_PAPER'
+export const GET_CURRENT_USER_PAPERS = 'GET_CURRENT_USER_PAPERS'
+export const DELETE_PAPERS = 'DELETE_PAPERS'
