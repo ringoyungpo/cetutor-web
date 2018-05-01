@@ -3,6 +3,7 @@ const router = express.Router()
 
 const Paper = require('../../models/Paper')
 const passport = require('passport')
+const isEmpty = require('lodash').isEmpty
 
 // @route   GET api/papers/test
 // @desc    Tests papers route
@@ -19,7 +20,7 @@ router.post(
     new Paper({ ...req.body, user: req.user.id })
       .save()
       .then(paper => res.json(paper))
-      .catch(err => res.status(400).json(err.errors))
+      .catch(err => res.status(400).json(err))
   },
 )
 
@@ -41,8 +42,14 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Paper.find({ user: req.user.id })
-      .populate('user', ['nickname', 'avatar', 'isSuperUser'])
-      .then(papers => res.json(papers))
+      // .populate('user', ['nickname', 'avatar', 'isSuperUser'])
+      .then(papers => {
+        papers = papers.map(paper => {
+          const { _id, title, level, date } = paper
+          return { _id, title, level, date }
+        })
+        res.json(papers)
+      })
       .catch(err => res.status(404).json(err))
   },
 )
@@ -58,26 +65,25 @@ router.get('/:id', (req, res) => {
 })
 
 // // @route   PUT api/papers/:id
-// // @desc    Create papers route
+// // @desc    Update paper by id route
 // // @access  Private
 router.put(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Paper.findById(req.params.id)
+    Paper.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    )
       .then(paper => {
-        if (req.user.id !== paper.user.toString() && !req.user.isSuperUser)
-          res.status(401).json({ unauthority: true })
-
-        Paper.findOneAndUpdate(
-          { user: req.params.id },
-          { $set: req.body },
-          { new: true },
-        )
-          .then(paper => res.json({ success: true }))
-          .catch(err => res.status(400).json(err))
+        if (isEmpty(paper)) res.status(404).json({ NoFound: 'paper no found' })
+        res.json(paper)
       })
-      .catch(err => res.status(404).json(err))
+      .catch(err => res.status(400).json(err))
   },
 )
 
@@ -88,15 +94,8 @@ router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Paper.findById(req.params.id)
-      .then(paper => {
-        if (req.user.id !== paper.user.toString() && !req.user.isSuperUser)
-          res.status(401).json({ unauthority: true })
-
-        Paper.findOneAndRemove({ _id: req.params.id })
-          .then(paper => res.json({ success: true }))
-          .catch(err => res.status(404).json(err))
-      })
+    Paper.findOneAndRemove({ _id: req.params.id, user: req.user._id })
+      .then(paper => res.json({ success: true }))
       .catch(err => res.status(404).json(err))
   },
 )

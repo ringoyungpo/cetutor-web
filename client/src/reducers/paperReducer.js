@@ -1,8 +1,9 @@
 import {
   GET_CURRENT_USER_PAPERS,
-  PAPER_LOADING,
+  PAPERS_LOADING,
   CLEAR_CURRENT_PAPER,
   GET_PAPERS_ALL,
+  GET_PAPER,
 } from '../actions/types'
 
 const initialState = {
@@ -14,7 +15,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case PAPER_LOADING:
+    case PAPERS_LOADING:
       return {
         ...state,
         loading: true,
@@ -29,6 +30,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allPapers: action.payload,
+        loading: false,
+      }
+    case GET_PAPER:
+      return {
+        ...state,
+        paper: action.payload,
         loading: false,
       }
     default:

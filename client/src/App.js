@@ -18,6 +18,7 @@ import Login from './components/auth/Login'
 import Dashboard from './components/dashboard/Dashboard'
 import { clearCurrentPaper } from './actions/paperActions'
 import PaperEditor from './components/paper/PaperEditor'
+import Errors from './components/errors/Errors'
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -52,6 +53,7 @@ class App extends Component {
             <div className="container">
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+              <Route exact path="/errors" component={Errors} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
               </Switch>
@@ -59,6 +61,13 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/paper-editor"
+                  component={PaperEditor}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/paper-editor/:paperId"
                   component={PaperEditor}
                 />
               </Switch>

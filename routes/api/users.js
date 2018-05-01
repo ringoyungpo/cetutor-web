@@ -87,7 +87,7 @@ router.post('/token', (req, res) => {
         // User Matched
         const payload = {
           id: user.id,
-          name: user.name,
+          nickname: user.nickname,
           avatar: user.avatar,
           isSuperUser: user.isSuperUser,
         } // Create JWT Payload
@@ -112,7 +112,7 @@ router.post('/token', (req, res) => {
   })
 })
 
-// @route   GET api/users/current
+// @route   GET api/users/token
 // @desc    Return current user
 // @access  Private
 router.get(

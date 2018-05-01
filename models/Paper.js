@@ -16,11 +16,7 @@ const PaperSchema = new Schema({
   level: {
     type: String,
     required: true,
-    validate: {
-      validator: function(level) {
-        return [CET_4, CET_6].includes(level)
-      },
-    },
+    enum: ['CET_4', 'CET_6'],
   },
   writing: {
     dirctions: {

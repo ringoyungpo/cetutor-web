@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import TextFieldGroup from '../common/TextFieldGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
 import InputGroup from '../common/InputGroup'
 import SelectListGroup from '../common/SelectListGroup'
 import { createPaper } from '../../actions/paperActions'
+import { updatePaper } from '../../actions/paperActions'
+import { getPaperById } from '../../actions/paperActions'
+import Spinner from '../common/Spinner'
+import { isEmpty } from 'lodash'
 
 class PaperEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isloading: true,
       paper: {
         translation: {
-          question: 'Patsddffh `translation.question` is required',
+          question: '',
         },
         writing: {
-          dirctions: 'Patasdfh `writing.dirctions` is required',
+          dirctions: '',
         },
         level: 'CET_4',
-        title: 'Paadsfth `title` is required',
+        title: '',
       },
       errors: {},
     }
@@ -30,8 +35,20 @@ class PaperEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
+    if (nextProps.errors) this.setState({ errors: nextProps.errors })
+
+    if (nextProps.papers) this.setState({ ...nextProps.papers })
+  }
+
+  componentDidMount() {
+    console.log(1)
+    if (this.props.match.params.paperId) {
+      console.log(2)
+
+      this.props.getPaperById(
+        this.props.match.params.paperId,
+        this.props.history,
+      )
     }
   }
 
@@ -54,13 +71,22 @@ class PaperEditor extends Component {
     //     instagram: this.state.instagram,
     //   }
 
-    this.props.createPaper(this.state.paper, this.props.history)
+    if (!this.props.match.params.paperId)
+      this.props.createPaper(this.state.paper, this.props.history)
+    else
+      this.props.updatePaper(
+        { ...this.state.paper, _id: this.props.match.params.paperId },
+        this.props.history,
+      )
   }
 
   onChange(e) {
     let [valueThis, state, paper, part, partDetail] = e.target.name.split('.')
     paper = this.state.paper
     switch (part) {
+      case 'title':
+        paper.title = e.target.value
+        break
       case 'level':
         paper.level = e.target.value
         break
@@ -75,7 +101,16 @@ class PaperEditor extends Component {
   }
 
   render() {
-    const { errors, paper } = this.state
+    const isCreating = () => isEmpty(this.props.match.params.paperId)
+
+    const { errors } = this.props
+    const { paper, loading } = this.state
+    const { title, level, writing, translation } = paper || {}
+
+    const options = [
+      { label: 'CET-4', value: 'CET_4' },
+      { label: 'CET-6', value: 'CET_6' },
+    ]
 
     // let socialInputs
 
@@ -131,72 +166,79 @@ class PaperEditor extends Component {
     // }
 
     // Select options for status
-    const options = [
-      { label: 'CET-?', value: 0 },
-      { label: 'CET-4', value: 'CET_4' },
-      { label: 'CET-6', value: 'CET-6' },
-    ]
+    const paperEditorForm = loading ? (
+      <Spinner />
+    ) : (
+      <form onSubmit={this.onSubmit}>
+        <h2>Paper</h2>
+        <TextFieldGroup
+          title="Title"
+          placeholder="Paper Title"
+          name="this.state.paper.title"
+          value={title}
+          onChange={this.onChange}
+          error={errors.title && errors.title.message}
+        />
+
+        <SelectListGroup
+          title="Level"
+          placeholder="CET-?"
+          name="this.state.paper.level"
+          value={level}
+          onChange={this.onChange}
+          options={options}
+          error={errors.status}
+        />
+
+        <h4>Part I Writting</h4>
+        <TextFieldGroup
+          title="Directions:"
+          placeholder="Writting Dirctions"
+          name="this.state.paper.writing.dirctions"
+          value={writing && writing.dirctions}
+          onChange={this.onChange}
+          error={errors.handle}
+        />
+
+        <h4>Part IV Translation</h4>
+        <b>Directions:</b>
+        <p>
+          For this part, you are allowed 30 minted to translate a passage from
+          Chinese into English. You should write your answer on{' '}
+          <b>Answer Sheet</b>
+        </p>
+        <TextFieldGroup
+          placeholder="Tran Dirctions"
+          name="this.state.paper.translation.question"
+          value={translation && translation.question}
+          onChange={this.onChange}
+          error={errors.handle}
+        />
+        <input
+          type="submit"
+          value="Submit"
+          className="btn btn-info btn-block mt-4"
+        />
+      </form>
+    )
 
     return (
       <div className="create-profile">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Your Paper</h1>
+              <Link to="/dashboard" className="btn btn-light">
+                Go Back
+              </Link>
+              <h1 className="display-4 text-center">
+                {isCreating() ? 'Create' : 'Updating'} Your Paper
+              </h1>
               <p className="lead text-center">
                 Let's get some information to make your question completed
               </p>
-              <form onSubmit={this.onSubmit}>
-                <h2>Paper</h2>
-                <TextFieldGroup
-                  title="Title"
-                  placeholder="Paper Title"
-                  name="this.state.paper.title"
-                  value={this.state.paper.title}
-                  onChange={this.onChange}
-                  error={errors.handle}
-                />
+              {paperEditorForm}
 
-                <SelectListGroup
-                  title="Level"
-                  placeholder="CET-?"
-                  name="this.state.paper.level"
-                  value={this.state.paper.level}
-                  onChange={this.onChange}
-                  options={options}
-                  error={errors.status}
-                />
-
-                <h4>Part I Writting</h4>
-                <TextFieldGroup
-                  title="Directions:"
-                  placeholder="Writting Dirctions"
-                  name="this.state.paper.writing.dirctions"
-                  value={this.state.paper.writing.dirctions}
-                  onChange={this.onChange}
-                  error={errors.handle}
-                />
-
-                <h4>Part IV Translation</h4>
-                <b>Directions:</b>
-                <p>
-                  For this part, you are allowed 30 minted to translate a
-                  passage from Chinese into English. You should write your
-                  answer on <b>Answer Sheet</b>
-                </p>
-                <TextFieldGroup
-                  placeholder="Tran Dirctions"
-                  name="this.state.paper.translation.question"
-                  value={this.state.paper.translation.question}
-                  onChange={this.onChange}
-                  error={errors.handle}
-                />
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-info btn-block mt-4"
-                />
-                {/* <SelectListGroup
+              {/* <SelectListGroup
                   placeholder="Status"
                   name="status"
                   value={this.state.status}
@@ -275,7 +317,6 @@ class PaperEditor extends Component {
                   value="Submit"
                   className="btn btn-info btn-block mt-4"
                 /> */}
-              </form>
             </div>
           </div>
         </div>
@@ -294,6 +335,8 @@ const mapStateToProps = state => ({
   errors: state.errors,
 })
 
-export default connect(mapStateToProps, { createPaper })(
-  withRouter(PaperEditor),
-)
+export default connect(mapStateToProps, {
+  createPaper,
+  updatePaper,
+  getPaperById,
+})(withRouter(PaperEditor))

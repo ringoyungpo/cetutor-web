@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getCurrentUserPapers } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import PaperIntro from '../../components/paper/PaperIntro'
-// import ProfileActions from './ProfileActions'
+import DashActionBar from './DashActionBar'
 // import Experience from './Experience'
 // import Education from './Education'
 
@@ -35,6 +35,7 @@ class Dashboard extends Component {
               {/* Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link> */}
               Welcome {user.nickname}
             </p>
+            <DashActionBar />
             {/* <ProfileActions /> */}
             {/* <Experience experience={profile.experience} />
             <Education education={profile.education} /> */}
@@ -52,7 +53,7 @@ class Dashboard extends Component {
         // User is logged in but has no profile
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
+            <p className="lead text-muted">Welcome {user.nickname}</p>
             <p>You have not yet create a paper, would you like to make one?</p>
             <Link to="/paper-editor" className="btn btn-lg btn-info">
               Create Paper

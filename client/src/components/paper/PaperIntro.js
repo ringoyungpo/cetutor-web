@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import { deletePaper } from '../../actions/paperActions'
+import { Link } from 'react-router-dom'
 
 class PaperIntro extends Component {
   onDeleteClick(id) {
@@ -12,10 +13,12 @@ class PaperIntro extends Component {
   render() {
     const currentUserPapers = this.props.currentUserPapers.map(paperValue => (
       <tr key={paperValue._id}>
-        <td>{paperValue.title}</td>
+        <td>
+          <Link to={`/paper-editor/${paperValue._id}`}>{paperValue.title}</Link>{' '}
+        </td>
         <td>{paperValue.level}</td>
         <td>
-          <Moment format="YYYY/MM/DD">{paperValue.date}</Moment>
+          <Moment format="YYYY-MM-DD HH:mm:ss">{paperValue.date}</Moment>
           {/* {paperValue.to === null ? (
             ' Now'
           ) : (
