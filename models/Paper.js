@@ -34,7 +34,7 @@ const PaperSchema = new Schema({
       required: true,
     },
   },
-  formated: {
+  isCheckedBySuperUser: {
     type: Boolean,
     default: false,
   },
