@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loginUser } from '../../actions/authActions'
 import TextFieldGroup from '../common/TextFieldGroup'
+import Spinner from '../common/Spinner'
 
 class Login extends Component {
   constructor() {
@@ -50,6 +51,12 @@ class Login extends Component {
 
   render() {
     const { errors } = this.state
+    const { submitting } = this.props.spinner.submitting
+    const submitButton = submitting ? (
+      <spinner />
+    ) : (
+      <input type="submit" className="btn btn-info btn-block mt-4" />
+    )
 
     return (
       <div className="login">
@@ -78,7 +85,7 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                {submitButton}
               </form>
             </div>
           </div>
@@ -92,11 +99,13 @@ Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  spinner: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors,
+  spinner: state.spinner,
 })
 
 export default connect(mapStateToProps, { loginUser })(Login)

@@ -1,7 +1,13 @@
-import { GET_ERRORS, SET_CURRENT_USER } from './types'
+import {
+  GET_ERRORS,
+  SET_CURRENT_USER,
+  INFO_SUBMITTING,
+  INFO_SUBMITTED,
+} from './types'
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
+import { setSubmitting, setSubmitted } from './spinnerAction'
 
 //Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -17,6 +23,11 @@ export const registerUser = (userData, history) => dispatch => {
 }
 
 export const loginUser = userData => dispatch => {
+  dispatch(setSubmitting())
+  dispatch({
+    type: GET_ERRORS,
+    payload: null,
+  })
   axios
     .post('api/users/token', userData)
     .then(res => {
@@ -32,6 +43,7 @@ export const loginUser = userData => dispatch => {
         payload: err.response.data,
       }),
     )
+  dispatch(setSubmitted())
 }
 
 // Set logged in user
@@ -50,4 +62,16 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false)
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
+}
+
+export const setInfoSubmitting = () => {
+  return {
+    type: INFO_SUBMITTING,
+  }
+}
+
+export const setInfoSubmitted = () => {
+  return {
+    type: INFO_SUBMITTED,
+  }
 }
