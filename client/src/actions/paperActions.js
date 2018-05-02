@@ -62,8 +62,8 @@ export const createPaper = (paperData, history) => dispatch => {
     .then(res => {
       history.push('/dashboard')
       dispatch({
-        type: GET_PAPER,
-        payload: {},
+        type: GET_CURRENT_USER_PAPERS,
+        payload: null,
       })
     })
     .catch(err => {
@@ -85,8 +85,8 @@ export const updatePaper = (paperData, history) => dispatch => {
     .then(res => {
       history.push('/dashboard')
       dispatch({
-        type: GET_PAPER,
-        payload: {},
+        type: GET_CURRENT_USER_PAPERS,
+        payload: null,
       })
     })
     .catch(err =>

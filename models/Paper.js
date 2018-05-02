@@ -7,45 +7,93 @@ const PaperSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users',
-    required: true,
+    required: true
   },
   title: {
     type: String,
-    required: true,
+    required: true
   },
   level: {
     type: String,
     required: true,
-    enum: ['CET_4', 'CET_6'],
+    enum: ['CET_4', 'CET_6']
   },
   writing: {
     dirctions: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
+  // listening: {
+  //   sections: [
+  //     {
+  //       sectionTitle: {
+  //         type: String,
+  //         required: true
+  //       },
+  //       dirctions: {
+  //         type: String,
+  //         required: true
+  //       },
+  //       modules: [
+  //         {
+  //           moduleTitle: {
+  //             type: String,
+  //             required: true
+  //           },
+  //           moduleSound: {
+  //             url: {
+  //               type: String,
+  //               required: true
+  //             }
+  //           },
+  //           questions: [
+  //             {
+  //               questionSound: {
+  //                 url: {
+  //                   type: String,
+  //                   required: true
+  //                 }
+  //               },
+  //               options: [
+  //                 {
+  //                   type: String,
+  //                   required: true
+  //                 }
+  //               ],
+  //               rightAnswer: {
+  //                 type: Number,
+  //                 required: true
+  //               }
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   translation: {
     question: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   isCheckedBySuperUser: {
     type: Boolean,
-    default: false,
+    default: false
   },
   likes: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
-      },
-    },
+        ref: 'users'
+      }
+    }
   ],
   date: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 })
 
 module.exports = Paper = mongoose.model('Papers', PaperSchema)
