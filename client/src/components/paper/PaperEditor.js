@@ -247,10 +247,42 @@ class PaperEditor extends Component {
         writing.directions = e.target.value || ''
         break
       case 'listening':
-        let [sections, sectionIndex, sectionField] = partDetail
+        let [sections, sectionIndex, sectionField, ...sectionChild] = partDetail
         listening = listening || {}
         sections = sections || []
-        listening[sections][sectionIndex][sectionField] = e.target.value || ''
+        switch (sectionField) {
+          case 'directions':
+          case 'sectionTitle':
+            listening[sections][sectionIndex][sectionField] =
+              e.target.value || ''
+            break
+          case 'modules':
+            const [moduleIndex, moduleField, ...moduleChild] = sectionChild
+            switch (moduleField) {
+              case 'moduleTitle':
+                listening[sections][sectionIndex][sectionField][moduleIndex][
+                  moduleField
+                ] =
+                  e.target.value || ''
+                break
+              case 'questions':
+                const [
+                  questionIndex,
+                  questionField,
+                  ...questionChild
+                ] = moduleChild
+                switch (questionField) {
+                  case 'options':
+                    const [optionIndex] = questionChild
+                    listening[sections][sectionIndex][sectionField][
+                      moduleIndex
+                    ][moduleField][questionIndex][questionField][optionIndex] =
+                      e.target.value || ''
+                    break
+                }
+                break
+            }
+        }
         break
       case 'translation':
         translation = translation || {}
