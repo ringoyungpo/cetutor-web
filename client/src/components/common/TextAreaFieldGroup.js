@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import PropTypes from 'prop-types'
 
 const TextAreaFieldGroup = ({
+  title,
   name,
   placeholder,
   value,
@@ -12,6 +13,7 @@ const TextAreaFieldGroup = ({
 }) => {
   return (
     <div className="form-group">
+      {title && <b>{title}</b>}
       <textarea
         className={classnames('form-control form-control-lg', {
           'is-invalid': error,
@@ -28,6 +30,7 @@ const TextAreaFieldGroup = ({
 }
 
 TextAreaFieldGroup.propTypes = {
+  title: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string,

@@ -191,7 +191,7 @@ class PaperEditor extends Component {
         />
 
         <h4>Part I Writting</h4>
-        <TextFieldGroup
+        <TextAreaFieldGroup
           title="Directions:"
           placeholder="Writting Dirctions"
           name="this.state.paper.writing.dirctions"
@@ -207,7 +207,7 @@ class PaperEditor extends Component {
           Chinese into English. You should write your answer on{' '}
           <b>Answer Sheet</b>
         </p>
-        <TextFieldGroup
+        <TextAreaFieldGroup
           placeholder="Tran Dirctions"
           name="this.state.paper.translation.question"
           value={translation && translation.question}
