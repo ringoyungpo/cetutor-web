@@ -279,6 +279,12 @@ class PaperEditor extends Component {
                     ][moduleField][questionIndex][questionField][optionIndex] =
                       e.target.value || ''
                     break
+                  case 'rightAnswer':
+                    listening[sections][sectionIndex][sectionField][
+                      moduleIndex
+                    ][moduleField][questionIndex][questionField] =
+                      e.target.value || ''
+                    break
                 }
                 break
             }
@@ -453,7 +459,7 @@ class PaperEditor extends Component {
                 {isCreating() ? 'Create' : 'Updating'} Your Paper
               </h1>
               <p className="lead text-center">
-                Let's get some information to make your question completed
+                Let's get some information to make your paper completed
               </p>
               {paperEditorForm}
 

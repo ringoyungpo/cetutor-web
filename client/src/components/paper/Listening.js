@@ -12,7 +12,7 @@ import {
 
 const Listening = ({ sections, errors, onChange }) => {
   const sectionTitleOptions = [
-    { label: 'News_Report', value: NEWS_REPORT },
+    { label: 'News Report', value: NEWS_REPORT },
     { label: 'Conversation', value: CONVERSATION },
     { label: 'Passange', value: PASSANGE },
     { label: 'Record', value: RECORD }
@@ -55,6 +55,9 @@ const Listening = ({ sections, errors, onChange }) => {
               const { moduleTitle, questions } = moduleValue
               return (
                 <div key={moduleIndex}>
+                  <b>
+                    {sectionTitle} {moduleIndex + 1}
+                  </b>
                   <TextFieldGroup
                     title="Module Title"
                     placeholder="Module Title"
@@ -72,32 +75,61 @@ const Listening = ({ sections, errors, onChange }) => {
                     }
                   />
                   {questions.map((questionValue, questionIndex) => {
-                    const { options } = questionValue
+                    const { options, rightAnswer } = questionValue
+                    const rightAnswerOptions = options.map(
+                      (optionValue, optionIndex) => {
+                        return {
+                          label: `${String.fromCharCode(
+                            optionIndex + 65
+                          )}: ${optionValue}`,
+                          value: optionIndex
+                        }
+                      }
+                    )
                     return (
                       <div key={questionIndex}>
-                        <b>{questionIndex + 1}.</b>
-                        {options.map((optionValue, optionIndex) => {
-                          return (
-                            <div key={optionIndex}>
-                              <TextFieldGroup
-                                title={String.fromCharCode(optionIndex + 65)}
-                                placeholder="Question Option"
-                                name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
-                                value={optionValue}
-                                onChange={onChange}
-                                error={
-                                  errors &&
-                                  errors[
-                                    `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
-                                  ] &&
-                                  errors[
-                                    `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
-                                  ].message
-                                }
-                              />
-                            </div>
-                          )
-                        })}
+                        <b>Question {questionIndex + 1}.</b>
+                        {options.map(
+                          (optionValue, optionIndex, optionsArray) => {
+                            return (
+                              <div key={optionIndex}>
+                                <TextFieldGroup
+                                  title={String.fromCharCode(optionIndex + 65)}
+                                  placeholder="Question Option"
+                                  name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
+                                  value={optionValue}
+                                  onChange={onChange}
+                                  error={
+                                    errors &&
+                                    errors[
+                                      `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
+                                    ] &&
+                                    errors[
+                                      `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
+                                    ].message
+                                  }
+                                />
+                              </div>
+                            )
+                          }
+                        )}
+                        <SelectListGroup
+                          title="Right Answer"
+                          placeholder="Right Answer"
+                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
+                          value={rightAnswer || 0}
+                          onChange={onChange}
+                          options={rightAnswerOptions}
+                          error={
+                            errors &&
+                            errors[
+                              `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
+                            ] &&
+                            errors[
+                              `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
+                            ].message
+                          }
+                        />
                       </div>
                     )
                   })}
@@ -121,7 +153,9 @@ Listening.prototype = {
           moduleTitle: PropTypes.string.isRequired,
           questions: PropTypes.arrayOf(
             PropTypes.shape({
-              options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+              options: PropTypes.arrayOf(PropTypes.string.isRequired)
+                .isRequired,
+              rightAnswer: PropTypes.number.isRequired
             })
           ).isRequired
         }).isRequired
