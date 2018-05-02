@@ -22,7 +22,7 @@ class PaperIntro extends Component {
           </td>
           <td>{paperValue.level}</td>
           <td>
-            <Moment format="YYYY-MM-DD HH:mm:ss">{paperValue.date}</Moment>
+            <Moment format="LLL">{paperValue.date}</Moment>
             {/* {paperValue.to === null ? (
             ' Now'
           ) : (
@@ -35,7 +35,7 @@ class PaperIntro extends Component {
                 this,
                 paperValue,
                 paperIndex,
-                paperArrays,
+                paperArrays
               )}
               className="btn btn-danger"
               disabled={paperValue.deleting}
@@ -44,7 +44,7 @@ class PaperIntro extends Component {
             </button>
           </td>
         </tr>
-      ),
+      )
     )
     return (
       <div>
@@ -66,7 +66,7 @@ class PaperIntro extends Component {
 }
 
 PaperIntro.propTypes = {
-  deletePaper: PropTypes.func.isRequired,
+  deletePaper: PropTypes.func.isRequired
 }
 
 export default connect(null, { deletePaper })(PaperIntro)

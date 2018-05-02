@@ -19,15 +19,163 @@ class PaperEditor extends Component {
       isloading: true,
       paper: {
         translation: {
-          question: '',
+          question: ''
+        },
+        listening: {
+          sections: [
+            {
+              directions: 'sdfsdfasadsf',
+              sectionTitle: 'jkjdfkjdf',
+              modules: [
+                {
+                  moduleTitle: '1Questions are based on what you have heard?',
+                  moduleSound: {
+                    url:
+                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
+                    status: 2
+                  },
+                  questions: [
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              directions: 'sdfsdfasadsf',
+              sectionTitle: 'jkjdfkjdf',
+              modules: [
+                {
+                  moduleTitle: '1Questions are based on what you have heard?',
+                  moduleSound: {
+                    url:
+                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
+                    status: 2
+                  },
+                  questions: [
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    },
+                    {
+                      questionSound: {
+                        url:
+                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+                      },
+                      rightAnswer: 0,
+                      optionSelected: null,
+                      options: [
+                        '1The news report mainly about A?',
+                        '1The news report mainly about B?',
+                        '1The news report mainly about C?',
+                        '1The news report mainly about D?'
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         },
         writing: {
-          dirctions: '',
+          directions: ''
         },
         level: 'CET_4',
-        title: '',
+        title: ''
       },
-      errors: {},
+      errors: {}
     }
 
     this.onChange = this.onChange.bind(this)
@@ -47,7 +195,7 @@ class PaperEditor extends Component {
 
       this.props.getPaperById(
         this.props.match.params.paperId,
-        this.props.history,
+        this.props.history
       )
     }
   }
@@ -76,7 +224,7 @@ class PaperEditor extends Component {
     else
       this.props.updatePaper(
         { ...this.state.paper, _id: this.props.match.params.paperId },
-        this.props.history,
+        this.props.history
       )
   }
 
@@ -93,7 +241,7 @@ class PaperEditor extends Component {
       case 'writing':
         let { writing } = paper
         writing = writing || {}
-        writing.dirctions = e.target.value || ''
+        writing.directions = e.target.value || ''
         paper = { ...paper, writing: writing }
         break
       case 'translation':
@@ -115,7 +263,7 @@ class PaperEditor extends Component {
 
     const options = [
       { label: 'CET-4', value: 'CET_4' },
-      { label: 'CET-6', value: 'CET_6' },
+      { label: 'CET-6', value: 'CET_6' }
     ]
 
     // let socialInputs
@@ -199,12 +347,15 @@ class PaperEditor extends Component {
         <h4>Part I Writting</h4>
         <TextAreaFieldGroup
           title="Directions:"
-          placeholder="Writting Dirctions"
-          name="this.state.paper.writing.dirctions"
-          value={writing && writing.dirctions}
+          placeholder="Writting directions"
+          name="this.state.paper.writing.directions"
+          value={writing && writing.directions}
           onChange={this.onChange}
           error={errors && errors.handle}
         />
+
+        <h4>Part II Listening</h4>
+        <b>Directions:</b>
 
         <h4>Part IV Translation</h4>
         <b>Directions:</b>
@@ -214,7 +365,7 @@ class PaperEditor extends Component {
           <b>Answer Sheet</b>
         </p>
         <TextAreaFieldGroup
-          placeholder="Tran Dirctions"
+          placeholder="Tran directions"
           name="this.state.paper.translation.question"
           value={translation && translation.question}
           onChange={this.onChange}
@@ -333,16 +484,16 @@ class PaperEditor extends Component {
 
 PaperEditor.propTypes = {
   papers: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   papers: state.papers,
-  errors: state.errors,
+  errors: state.errors
 })
 
 export default connect(mapStateToProps, {
   createPaper,
   updatePaper,
-  getPaperById,
+  getPaperById
 })(withRouter(PaperEditor))
