@@ -85,16 +85,22 @@ class PaperEditor extends Component {
     paper = this.state.paper
     switch (part) {
       case 'title':
-        paper.title = e.target.value
+        paper.title = e.target.value || ''
         break
       case 'level':
-        paper.level = e.target.value
+        paper.level = e.target.value || ''
         break
       case 'writing':
-        paper.writing.dirctions = e.target.value
+        let { writing } = paper
+        writing = writing || {}
+        writing.dirctions = e.target.value || ''
+        paper = { ...paper, writing: writing }
         break
       case 'translation':
-        paper.translation.question = e.target.value
+        let { translation } = paper
+        translation = translation || {}
+        translation.question = e.target.value || ''
+        paper = { ...paper, translation: translation }
         break
     }
     this.setState({ paper: paper })
@@ -123,7 +129,7 @@ class PaperEditor extends Component {
     //         icon="fab fa-twitter"
     //         value={this.state.twitter}
     //         onChange={this.onChange}
-    //         error={errors.twitter}
+    //          error={errors&&errors.twitter}
     //       />
 
     //       <InputGroup
@@ -132,7 +138,7 @@ class PaperEditor extends Component {
     //         icon="fab fa-facebook"
     //         value={this.state.facebook}
     //         onChange={this.onChange}
-    //         error={errors.facebook}
+    //          error={errors&&errors.facebook}
     //       />
 
     //       <InputGroup
@@ -141,7 +147,7 @@ class PaperEditor extends Component {
     //         icon="fab fa-linkedin"
     //         value={this.state.linkedin}
     //         onChange={this.onChange}
-    //         error={errors.linkedin}
+    //          error={errors&&errors.linkedin}
     //       />
 
     //       <InputGroup
@@ -150,7 +156,7 @@ class PaperEditor extends Component {
     //         icon="fab fa-youtube"
     //         value={this.state.youtube}
     //         onChange={this.onChange}
-    //         error={errors.youtube}
+    //          error={errors&&errors.youtube}
     //       />
 
     //       <InputGroup
@@ -159,7 +165,7 @@ class PaperEditor extends Component {
     //         icon="fab fa-instagram"
     //         value={this.state.instagram}
     //         onChange={this.onChange}
-    //         error={errors.instagram}
+    //          error={errors&&errors.instagram}
     //       />
     //     </div>
     //   )
@@ -177,7 +183,7 @@ class PaperEditor extends Component {
           name="this.state.paper.title"
           value={title}
           onChange={this.onChange}
-          error={errors.title && errors.title.message}
+          error={errors && errors.title && errors.title.message}
         />
 
         <SelectListGroup
@@ -187,7 +193,7 @@ class PaperEditor extends Component {
           value={level}
           onChange={this.onChange}
           options={options}
-          error={errors.status}
+          error={errors && errors.status}
         />
 
         <h4>Part I Writting</h4>
@@ -197,7 +203,7 @@ class PaperEditor extends Component {
           name="this.state.paper.writing.dirctions"
           value={writing && writing.dirctions}
           onChange={this.onChange}
-          error={errors.handle}
+          error={errors && errors.handle}
         />
 
         <h4>Part IV Translation</h4>
@@ -212,7 +218,7 @@ class PaperEditor extends Component {
           name="this.state.paper.translation.question"
           value={translation && translation.question}
           onChange={this.onChange}
-          error={errors.handle}
+          error={errors && errors.handle}
         />
         <input
           type="submit"
@@ -244,7 +250,7 @@ class PaperEditor extends Component {
                   value={this.state.status}
                   onChange={this.onChange}
                   options={options}
-                  error={errors.status}
+                   error={errors&&errors.status}
                   info="Give us an idea of where you are at in your career"
                 />
                 <TextFieldGroup
@@ -252,7 +258,7 @@ class PaperEditor extends Component {
                   name="company"
                   value={this.state.company}
                   onChange={this.onChange}
-                  error={errors.company}
+                   error={errors&&errors.company}
                   info="Could be your own company or one you work for"
                 />
                 <TextFieldGroup
@@ -260,7 +266,7 @@ class PaperEditor extends Component {
                   name="website"
                   value={this.state.website}
                   onChange={this.onChange}
-                  error={errors.website}
+                   error={errors&&errors.website}
                   info="Could be your own website or a company one"
                 />
                 <TextFieldGroup
@@ -268,7 +274,7 @@ class PaperEditor extends Component {
                   name="location"
                   value={this.state.location}
                   onChange={this.onChange}
-                  error={errors.location}
+                   error={errors&&errors.location}
                   info="City or city & state suggested (eg. Boston, MA)"
                 />
                 <TextFieldGroup
@@ -276,7 +282,7 @@ class PaperEditor extends Component {
                   name="skills"
                   value={this.state.skills}
                   onChange={this.onChange}
-                  error={errors.skills}
+                   error={errors&&errors.skills}
                   info="Please use comma separated values (eg.
                     HTML,CSS,JavaScript,PHP"
                 />
@@ -285,7 +291,7 @@ class PaperEditor extends Component {
                   name="githubusername"
                   value={this.state.githubusername}
                   onChange={this.onChange}
-                  error={errors.githubusername}
+                   error={errors&&errors.githubusername}
                   info="If you want your latest repos and a Github link, include your username"
                 />
                 <TextAreaFieldGroup
@@ -293,7 +299,7 @@ class PaperEditor extends Component {
                   name="bio"
                   value={this.state.bio}
                   onChange={this.onChange}
-                  error={errors.bio}
+                   error={errors&&errors.bio}
                   info="Tell us a little about yourself"
                 />
 

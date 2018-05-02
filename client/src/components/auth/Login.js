@@ -51,12 +51,8 @@ class Login extends Component {
 
   render() {
     const { errors } = this.state
-    const { submitting } = this.props.spinner.submitting
-    const submitButton = submitting ? (
-      <spinner />
-    ) : (
-      <input type="submit" className="btn btn-info btn-block mt-4" />
-    )
+    const { submitting } = this.props.spinner
+    // console.log
 
     return (
       <div className="login">
@@ -85,7 +81,11 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                {submitButton}
+                <input
+                  type="submit"
+                  className="btn btn-info btn-block mt-4"
+                  disabled={submitting}
+                />
               </form>
             </div>
           </div>

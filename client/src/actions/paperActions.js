@@ -49,22 +49,46 @@ export const clearCurrentPaper = () => {
 
 // Create Paper
 export const createPaper = (paperData, history) => dispatch => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: {},
+  })
+  dispatch({
+    type: GET_PAPER,
+    payload: paperData,
+  })
   axios
     .post('/api/papers', paperData)
-    .then(res => history.push('/dashboard'))
-    .catch(err =>
+    .then(res => {
+      history.push('/dashboard')
+      dispatch({
+        type: GET_PAPER,
+        payload: {},
+      })
+    })
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data,
-      }),
-    )
+        payload: err.response.data.errors,
+      })
+    })
 }
 
 // Update Paper
 export const updatePaper = (paperData, history) => dispatch => {
+  dispatch({
+    type: GET_ERRORS,
+    payload: {},
+  })
   axios
     .put('/api/papers/' + paperData._id, paperData)
-    .then(res => history.push('/dashboard'))
+    .then(res => {
+      history.push('/dashboard')
+      dispatch({
+        type: GET_PAPER,
+        payload: {},
+      })
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -75,21 +99,14 @@ export const updatePaper = (paperData, history) => dispatch => {
 
 // Get paper by id
 export const getPaperById = (id, history) => dispatch => {
-  console.log(3)
-
   dispatch(setPaperLoading())
-  console.log(4)
-
   axios
     .get(`/api/papers/${id}`)
     .then(res => {
-      console.log(5)
-
       dispatch({
         type: GET_PAPER,
         payload: res.data,
       })
-      console.log(6)
     })
     .catch(err => {
       dispatch({
@@ -101,7 +118,11 @@ export const getPaperById = (id, history) => dispatch => {
 }
 
 // Delete Paper
-export const deletePaper = paperId => dispatch => {
+export const deletePaper = (papers, paperId) => dispatch => {
+  dispatch({
+    type: GET_CURRENT_USER_PAPERS,
+    payload: papers,
+  })
   axios
     .delete('/api/papers/' + paperId)
     .then(res => dispatch(getCurrentUserPapers()))

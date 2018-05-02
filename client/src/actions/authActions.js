@@ -24,9 +24,10 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const loginUser = userData => dispatch => {
   dispatch(setSubmitting())
+  // console.log(setSubmitting())
   dispatch({
     type: GET_ERRORS,
-    payload: null,
+    payload: {},
   })
   axios
     .post('api/users/token', userData)
@@ -35,15 +36,16 @@ export const loginUser = userData => dispatch => {
       localStorage.setItem('jwtToken', token)
       setAuthToken(token)
       const decode = jwt_decode(token)
+      dispatch(setSubmitted())
       dispatch(setCurrentUser(decode))
     })
-    .catch(err =>
+    .catch(err => {
+      dispatch(setSubmitted())
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
-      }),
-    )
-  dispatch(setSubmitted())
+      })
+    })
 }
 
 // Set logged in user

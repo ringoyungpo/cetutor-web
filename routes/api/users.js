@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
 })
 
 // @route   GET api/users/login
-// @desc    Login User / Returning JWT Token
+// @desc    Login User Returning JWT Token
 // @access  Public
 router.post('/token', (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body)

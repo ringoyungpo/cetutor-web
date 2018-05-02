@@ -6,35 +6,46 @@ import { deletePaper } from '../../actions/paperActions'
 import { Link } from 'react-router-dom'
 
 class PaperIntro extends Component {
-  onDeleteClick(id) {
-    this.props.deletePaper(id)
+  onDeleteClick(paperValue, paperIndex, paperArrays) {
+    paperArrays[paperIndex] = { ...paperValue, disabled: true }
+    this.props.deletePaper(paperArrays, paperValue._id)
   }
 
   render() {
-    const currentUserPapers = this.props.currentUserPapers.map(paperValue => (
-      <tr key={paperValue._id}>
-        <td>
-          <Link to={`/paper-editor/${paperValue._id}`}>{paperValue.title}</Link>{' '}
-        </td>
-        <td>{paperValue.level}</td>
-        <td>
-          <Moment format="YYYY-MM-DD HH:mm:ss">{paperValue.date}</Moment>
-          {/* {paperValue.to === null ? (
+    const currentUserPapers = this.props.currentUserPapers.map(
+      (paperValue, paperIndex, paperArrays) => (
+        <tr key={paperValue._id}>
+          <td>
+            <Link to={`/paper-editor/${paperValue._id}`}>
+              {paperValue.title}
+            </Link>{' '}
+          </td>
+          <td>{paperValue.level}</td>
+          <td>
+            <Moment format="YYYY-MM-DD HH:mm:ss">{paperValue.date}</Moment>
+            {/* {paperValue.to === null ? (
             ' Now'
           ) : (
             <Moment format="YYYY/MM/DD">{paperValue.to}</Moment>
           )} */}
-        </td>
-        <td>
-          <button
-            onClick={this.onDeleteClick.bind(this, paperValue._id)}
-            className="btn btn-danger"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ))
+          </td>
+          <td>
+            <button
+              onClick={this.onDeleteClick.bind(
+                this,
+                paperValue,
+                paperIndex,
+                paperArrays,
+              )}
+              className="btn btn-danger"
+              disabled={paperValue.deleting}
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      ),
+    )
     return (
       <div>
         <h4 className="mb-4">Paper Intro</h4>

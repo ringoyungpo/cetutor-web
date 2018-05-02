@@ -18,6 +18,7 @@ const TextAreaFieldGroup = ({
         className={classnames('form-control form-control-lg', {
           'is-invalid': error,
         })}
+        rows="5"
         placeholder={placeholder}
         name={name}
         value={value || ''}
