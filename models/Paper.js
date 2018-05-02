@@ -1,6 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const { CET_4, CET_6 } = require('../constant/paperConst')
+const {
+  CET_4,
+  CET_6,
+  NEWS_REPORT,
+  CONVERSATION,
+  PASSANGE,
+  RECORD
+} = require('../client/src/constant/paperConst')
 
 // Create Schema
 const PaperSchema = new Schema({
@@ -16,7 +23,7 @@ const PaperSchema = new Schema({
   level: {
     type: String,
     required: true,
-    enum: ['CET_4', 'CET_6']
+    enum: [CET_4, CET_6]
   },
   writing: {
     directions: {
@@ -29,7 +36,8 @@ const PaperSchema = new Schema({
       {
         sectionTitle: {
           type: String,
-          required: true
+          required: true,
+          enum: [NEWS_REPORT, CONVERSATION, PASSANGE, RECORD]
         },
         directions: {
           type: String,

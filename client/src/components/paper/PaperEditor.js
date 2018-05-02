@@ -11,6 +11,8 @@ import { updatePaper } from '../../actions/paperActions'
 import { getPaperById } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import { isEmpty } from 'lodash'
+import Listening from './Listening'
+import { CET_4, CET_6 } from '../../constant/paperConst'
 
 class PaperEditor extends Component {
   constructor(props) {
@@ -172,7 +174,7 @@ class PaperEditor extends Component {
         writing: {
           directions: ''
         },
-        level: 'CET_4',
+        level: CET_6,
         title: ''
       },
       errors: {}
@@ -183,16 +185,13 @@ class PaperEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) this.setState({ errors: nextProps.errors })
+    if (nextProps.errors) this.setState({ errors: nextProps.errors.errors })
 
     if (nextProps.papers) this.setState({ ...nextProps.papers })
   }
 
   componentDidMount() {
-    console.log(1)
     if (this.props.match.params.paperId) {
-      console.log(2)
-
       this.props.getPaperById(
         this.props.match.params.paperId,
         this.props.history
@@ -229,37 +228,51 @@ class PaperEditor extends Component {
   }
 
   onChange(e) {
-    let [valueThis, state, paper, part, partDetail] = e.target.name.split('.')
+    let [valueThis, state, paper, part, ...partDetail] = e.target.name.split(
+      '.'
+    )
     paper = this.state.paper
+
+    let { writing, listening, translation } = paper
+
     switch (part) {
       case 'title':
         paper.title = e.target.value || ''
         break
       case 'level':
-        paper.level = e.target.value || ''
+        paper.level = e.target.value || CET_6
         break
       case 'writing':
-        let { writing } = paper
         writing = writing || {}
         writing.directions = e.target.value || ''
-        paper = { ...paper, writing: writing }
+        break
+      case 'listening':
+        let [sections, sectionIndex, sectionField] = partDetail
+        listening = listening || {}
+        sections = sections || []
+        listening[sections][sectionIndex][sectionField] = e.target.value || ''
         break
       case 'translation':
-        let { translation } = paper
         translation = translation || {}
         translation.question = e.target.value || ''
-        paper = { ...paper, translation: translation }
         break
     }
-    this.setState({ paper: paper })
+    paper = {
+      writing,
+      listening,
+      translation,
+      ...this.state.paper
+    }
+
+    this.setState({
+      paper: paper
+    })
   }
 
   render() {
     const isCreating = () => isEmpty(this.props.match.params.paperId)
-
-    const { errors } = this.props
-    const { paper, loading } = this.state
-    const { title, level, writing, translation } = paper || {}
+    let { paper, loading, errors } = this.state
+    let { title, level, writing, listening, translation } = paper || {}
 
     const options = [
       { label: 'CET-4', value: 'CET_4' },
@@ -324,6 +337,14 @@ class PaperEditor extends Component {
       <Spinner />
     ) : (
       <form onSubmit={this.onSubmit}>
+        <h2>
+          {JSON.stringify(
+            errors && errors.writing
+            // &&errors.writing.directions &&
+            // errors.writing.directions.message
+          )}
+        </h2>
+
         <h2>Paper</h2>
         <TextFieldGroup
           title="Title"
@@ -333,7 +354,6 @@ class PaperEditor extends Component {
           onChange={this.onChange}
           error={errors && errors.title && errors.title.message}
         />
-
         <SelectListGroup
           title="Level"
           placeholder="CET-?"
@@ -341,22 +361,28 @@ class PaperEditor extends Component {
           value={level}
           onChange={this.onChange}
           options={options}
-          error={errors && errors.status}
+          error={errors && errors.level && errors.level.message}
         />
-
-        <h4>Part I Writting</h4>
+        <h4>Part I Writing</h4>
         <TextAreaFieldGroup
           title="Directions:"
-          placeholder="Writting directions"
+          placeholder="Writing directions"
           name="this.state.paper.writing.directions"
           value={writing && writing.directions}
           onChange={this.onChange}
-          error={errors && errors.handle}
+          error={
+            errors &&
+            errors['writing.directions'] &&
+            errors['writing.directions'].message
+          }
         />
+        <h4>Part II Listening Comprehension</h4>
 
-        <h4>Part II Listening</h4>
-        <b>Directions:</b>
-
+        <Listening
+          sections={listening.sections}
+          onChange={this.onChange}
+          errors={errors}
+        />
         <h4>Part IV Translation</h4>
         <b>Directions:</b>
         <p>
@@ -365,11 +391,15 @@ class PaperEditor extends Component {
           <b>Answer Sheet</b>
         </p>
         <TextAreaFieldGroup
-          placeholder="Tran directions"
+          placeholder="Translation Directions"
           name="this.state.paper.translation.question"
           value={translation && translation.question}
           onChange={this.onChange}
-          error={errors && errors.handle}
+          error={
+            errors &&
+            errors['translation.question'] &&
+            errors['translation.question'].message
+          }
         />
         <input
           type="submit"
