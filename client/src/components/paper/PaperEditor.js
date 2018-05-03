@@ -38,8 +38,7 @@ class PaperEditor extends Component {
                   moduleTitle: '1Questions are based on what you have heard?',
                   moduleSound: {
                     url:
-                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
-                    status: 2
+                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
                   },
                   questions: [
                     {
@@ -239,9 +238,9 @@ class PaperEditor extends Component {
       sectionIndex,
       modules,
       moduleIndex,
-      moduleSound
+      ...moduleField
     ] = paperPath
-    // console.log({ uploadApi, SelectedFile })
+    console.log({ paperPath, moduleField })
     const timestamp = Date.now()
     const tags = 'listening'
     const folder = 'listening'
@@ -269,17 +268,39 @@ class PaperEditor extends Component {
       data: formData
     })
       .then(res => {
+        // const [questions, questionIndex, questionSound] = moduleField
+        // console.log(
+        //   paper[listening][sections][sectionIndex][modules][moduleIndex][
+        //     questions
+        //   ][questionIndex][questionSound].url
+        // )
         axios.defaults.headers.common['Authorization'] = authorization
-        paper[listening][sections][sectionIndex][modules][moduleIndex][
-          moduleSound
-        ].url =
-          res.data.secure_url
+        switch (moduleField) {
+          case 'moduleSound':
+            paper[listening][sections][sectionIndex][modules][moduleIndex][
+              moduleField
+            ].url =
+              res.data.secure_url
+            break
+          default:
+            console.log('kjasdfkasldfj')
+            const [questions, questionIndex, questionSound] = moduleField
+            paper[listening][sections][sectionIndex][modules][moduleIndex][
+              questions
+            ][questionIndex][questionSound].url =
+              res.data.secure_url
+            break
+        }
         this.setState({ paper: paper })
       })
       .catch(error => {
         console.log(error)
         axios.defaults.headers.common['Authorization'] = authorization
       })
+  }
+
+  onDeleteListening(sectionIndex) {
+    console.log(sectionIndex)
   }
 
   onChange(e) {
@@ -334,6 +355,12 @@ class PaperEditor extends Component {
                   ...questionChild
                 ] = moduleChild
                 switch (questionField) {
+                  case 'questionSound':
+                    this.fileUploadHandler(e.target.files[0], paper, [
+                      part,
+                      ...partDetail
+                    ])
+                    break
                   case 'options':
                     const [optionIndex] = questionChild
                     listening[sections][sectionIndex][sectionField][
@@ -482,6 +509,7 @@ class PaperEditor extends Component {
           sections={listening.sections}
           onChange={this.onChange}
           errors={errors}
+          onDeleteListening={this.onDeleteListening}
         />
         <h4>Part IV Translation</h4>
         <b>Directions:</b>

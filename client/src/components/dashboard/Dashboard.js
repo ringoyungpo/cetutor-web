@@ -14,10 +14,6 @@ class Dashboard extends Component {
     this.props.getCurrentUserPapers()
   }
 
-  onDeleteClick(e) {
-    // this.props.deleteAccount()
-  }
-
   render() {
     const { user } = this.props.auth
     const { currentUserPapers, loading } = this.props.papers
@@ -82,12 +78,12 @@ Dashboard.propTypes = {
   getCurrentUserPapers: PropTypes.func.isRequired,
   // deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  papers: PropTypes.object.isRequired,
+  papers: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   papers: state.papers,
-  auth: state.auth,
+  auth: state.auth
 })
 
 export default connect(mapStateToProps, { getCurrentUserPapers })(Dashboard)

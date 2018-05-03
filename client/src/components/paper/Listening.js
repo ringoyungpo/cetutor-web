@@ -4,14 +4,16 @@ import SelectListGroup from '../common/SelectListGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
 import TextFieldGroup from '../common/TextFieldGroup'
 import ReactAudioPlayer from 'react-audio-player'
+import isEmpty from 'lodash'
 import {
   NEWS_REPORT,
   CONVERSATION,
   PASSANGE,
-  RECORD
+  RECORD,
+  LOADING_AUDIO_URL
 } from '../../constant/paperConst'
 
-const Listening = ({ sections, errors, onChange }) => {
+const Listening = ({ sections, errors, onChange, onDeleteListening }) => {
   const sectionTitleOptions = [
     { label: 'News Report', value: NEWS_REPORT },
     { label: 'Conversation', value: CONVERSATION },
@@ -25,7 +27,18 @@ const Listening = ({ sections, errors, onChange }) => {
         const { sectionTitle, directions, modules } = sectionValue
         return (
           <div key={sectionIndex}>
-            <b>Section {String.fromCharCode(sectionIndex + 65)}</b>
+            <span>
+              <b>Section {String.fromCharCode(sectionIndex + 65)}</b>
+              <button
+                onClick={() => {
+                  onDeleteListening(sectionIndex)
+                }}
+                className="btn btn-danger"
+              >
+                Delete This Section
+              </button>
+            </span>
+
             <SelectListGroup
               title="Title"
               placeholder="Section Title"
@@ -62,8 +75,13 @@ const Listening = ({ sections, errors, onChange }) => {
                       {sectionTitle} {moduleIndex + 1}
                     </b>
                     {/* <Audio src={url} id={moduleIndex} /> */}
-                    <p>{url}</p>
-                    <ReactAudioPlayer src={url} controls />
+                    <b>
+                      {url ? (
+                        <ReactAudioPlayer src={url} controls />
+                      ) : (
+                        'No Audio Here'
+                      )}
+                    </b>
                     <input
                       type="file"
                       name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
@@ -110,6 +128,12 @@ const Listening = ({ sections, errors, onChange }) => {
                         <span>
                           <b>Question {questionIndex + 1}.</b>
                           <ReactAudioPlayer src={url} controls />
+                          <input
+                            type="file"
+                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
+                            onChange={onChange}
+                            accept="audio/*"
+                          />
                         </span>
                         {options.map(
                           (optionValue, optionIndex, optionsArray) => {
@@ -194,7 +218,8 @@ Listening.prototype = {
     }).isRequired
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object
+  errors: PropTypes.object,
+  onDeleteListening: PropTypes.func.isRequired
 }
 
 export default Listening
