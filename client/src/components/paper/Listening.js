@@ -23,6 +23,13 @@ const Listening = ({ sections, errors, onChange }) => {
 
   return (
     <div>
+      <input
+        type="button"
+        name={`this.state.paper.listening.sections.unshift`}
+        className="btn btn-success"
+        onClick={onChange}
+        value="Insert A New Section"
+      />
       {sections.map((sectionValue, sectionIndex) => {
         const { sectionTitle, directions, modules } = sectionValue
         return (
@@ -64,8 +71,9 @@ const Listening = ({ sections, errors, onChange }) => {
                 errors[`listening.sections.${sectionIndex}.directions`].message
               }
             />
+
             {modules.map((moduleValue, moduleIndex) => {
-              const { moduleTitle, moduleSound, questions } = moduleValue
+              const { moduleSound, questions } = moduleValue
               const { url } = moduleSound
               return (
                 <div key={moduleIndex}>
@@ -95,22 +103,6 @@ const Listening = ({ sections, errors, onChange }) => {
                     className="btn btn-danger float-right"
                     onClick={onChange}
                     value="Delete This Module"
-                  />
-                  <TextFieldGroup
-                    title="Module Title"
-                    placeholder="Module Title"
-                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleTitle`}
-                    value={moduleTitle}
-                    onChange={onChange}
-                    error={
-                      errors &&
-                      errors[
-                        `listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleTitle`
-                      ] &&
-                      errors[
-                        `listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleTitle`
-                      ].message
-                    }
                   />
                   {questions.map((questionValue, questionIndex) => {
                     const {
@@ -188,28 +180,28 @@ const Listening = ({ sections, errors, onChange }) => {
                       </div>
                     )
                   })}
+                  <div>
+                    <input
+                      type="button"
+                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.insert`}
+                      className="btn btn-success"
+                      onClick={onChange}
+                      value="Insert A Module"
+                    />
+                  </div>
                 </div>
               )
             })}
             <input
               type="button"
-              name={`this.state.paper.listening.sections.${sectionIndex}.append`}
+              name={`this.state.paper.listening.sections.${sectionIndex}.insert`}
               className="btn btn-success"
               onClick={onChange}
-              value="Append A New Section"
+              value="Insert A New Section"
             />
           </div>
         )
       })}
-      {sections.length === 0 ? (
-        <input
-          type="button"
-          name={`this.state.paper.listening.sections.post`}
-          className="btn btn-success"
-          onClick={onChange}
-          value="Add A New Section"
-        />
-      ) : null}
     </div>
   )
 }
@@ -226,7 +218,6 @@ Listening.prototype = {
               url: PropTypes.string.isRequired
             })
           ).isRequired,
-          moduleTitle: PropTypes.string.isRequired,
           questions: PropTypes.arrayOf(
             PropTypes.shape({
               questionSound: PropTypes.arrayOf(

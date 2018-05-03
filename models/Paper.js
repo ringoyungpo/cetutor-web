@@ -45,10 +45,6 @@ const PaperSchema = new Schema({
         },
         modules: [
           {
-            moduleTitle: {
-              type: String,
-              required: true
-            },
             moduleSound: {
               url: {
                 type: String,

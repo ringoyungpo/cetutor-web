@@ -35,7 +35,6 @@ class PaperEditor extends Component {
               sectionTitle: 'jkjdfkjdf',
               modules: [
                 {
-                  moduleTitle: '1Questions are based on what you have heard?',
                   moduleSound: {
                     url:
                       'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
@@ -106,7 +105,6 @@ class PaperEditor extends Component {
               sectionTitle: 'jkjdfkjdf',
               modules: [
                 {
-                  moduleTitle: '1Questions are based on what you have heard?',
                   moduleSound: {
                     url:
                       'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
@@ -203,14 +201,13 @@ class PaperEditor extends Component {
     }
   }
 
-  listeningTemplate = {
+  listeningTemplate = JSON.stringify({
     sections: [
       {
         directions: '',
         sectionTitle: '',
         modules: [
           {
-            moduleTitle: '',
             moduleSound: {
               url: ''
             },
@@ -227,7 +224,51 @@ class PaperEditor extends Component {
         ]
       }
     ]
-  }
+  })
+
+  sectionTemplate = JSON.stringify({
+    directions: '',
+    sectionTitle: '',
+    modules: [
+      {
+        moduleSound: {
+          url: ''
+        },
+        questions: [
+          {
+            questionSound: {
+              url: ''
+            },
+            rightAnswer: 0,
+            options: ['', '', '', '']
+          }
+        ]
+      }
+    ]
+  })
+
+  moduleTemplate = JSON.stringify({
+    moduleSound: {
+      url: ''
+    },
+    questions: [
+      {
+        questionSound: {
+          url: ''
+        },
+        rightAnswer: 0,
+        options: ['', '', '', '']
+      }
+    ]
+  })
+
+  questionTemplate = JSON.stringify({
+    questionSound: {
+      url: ''
+    },
+    rightAnswer: 0,
+    options: ['', '', '', '']
+  })
 
   onSubmit(e) {
     e.preventDefault()
@@ -353,16 +394,14 @@ class PaperEditor extends Component {
         sections = sections || []
         switch (sectionField) {
           case undefined:
-            if (sectionIndex === 'post')
-              listening[sections].push(
-                new Object(this.listeningTemplate.sections[0])
-              )
+            if (sectionIndex === 'unshift')
+              listening[sections].unshift(JSON.parse(this.sectionTemplate))
             break
-          case 'append':
+          case 'insert':
             listening[sections].splice(
               sectionIndex + 1,
               0,
-              new Object(this.listeningTemplate.sections[0])
+              JSON.parse(this.sectionTemplate)
             )
             break
           case 'delete':
@@ -376,17 +415,19 @@ class PaperEditor extends Component {
           case 'modules':
             const [moduleIndex, moduleField, ...moduleChild] = sectionChild
             switch (moduleField) {
+              case 'insert':
+                listening[sections][[sectionIndex]][sectionField].splice(
+                  moduleIndex + 1,
+                  0,
+                  JSON.parse(this.moduleTemplate)
+                )
+                console.log(listening[sections][[sectionIndex]][sectionField])
+                break
               case 'delete':
                 listening[sections][[sectionIndex]][sectionField].splice(
                   moduleIndex,
                   1
                 )
-                break
-              case 'moduleTitle':
-                listening[sections][sectionIndex][sectionField][moduleIndex][
-                  moduleField
-                ] =
-                  e.target.value || ''
                 break
               case 'moduleSound':
                 if (!e.target.files) break
