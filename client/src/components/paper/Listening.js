@@ -68,7 +68,7 @@ const Listening = ({ sections, errors, onChange }) => {
               const { moduleTitle, moduleSound, questions } = moduleValue
               const { url } = moduleSound
               return (
-                <div keys={moduleIndex}>
+                <div key={moduleIndex}>
                   <b>
                     {sectionTitle} {moduleIndex + 1}.{'\t'}
                   </b>
@@ -89,6 +89,13 @@ const Listening = ({ sections, errors, onChange }) => {
                     />
                     {/* <embed height="100" width="100" src="url" /> */}
                   </span>
+                  <input
+                    type="button"
+                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
+                    className="btn btn-danger float-right"
+                    onClick={onChange}
+                    value="Delete This Module"
+                  />
                   <TextFieldGroup
                     title="Module Title"
                     placeholder="Module Title"

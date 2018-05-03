@@ -376,6 +376,12 @@ class PaperEditor extends Component {
           case 'modules':
             const [moduleIndex, moduleField, ...moduleChild] = sectionChild
             switch (moduleField) {
+              case 'delete':
+                listening[sections][[sectionIndex]][sectionField].splice(
+                  moduleIndex,
+                  1
+                )
+                break
               case 'moduleTitle':
                 listening[sections][sectionIndex][sectionField][moduleIndex][
                   moduleField
