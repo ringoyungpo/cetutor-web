@@ -6,6 +6,11 @@
   "repository": "git@github.com:ringoyungpo/cetutor-web.git",
   "author": "Ringo Yungpo",
   "license": "MIT",
+  "engines": {
+    "node": "8.11.1",
+    "npm": "6.0.0",
+    "yarn": "1.6.0"
+  }
   "dependencies": {
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
