@@ -415,13 +415,18 @@ class PaperEditor extends Component {
           case 'modules':
             const [moduleIndex, moduleField, ...moduleChild] = sectionChild
             switch (moduleField) {
+              case undefined:
+                if (moduleIndex === 'unshift')
+                  listening[sections][[sectionIndex]][sectionField].unshift(
+                    JSON.parse(this.moduleTemplate)
+                  )
+                break
               case 'insert':
                 listening[sections][[sectionIndex]][sectionField].splice(
                   moduleIndex + 1,
                   0,
                   JSON.parse(this.moduleTemplate)
                 )
-                console.log(listening[sections][[sectionIndex]][sectionField])
                 break
               case 'delete':
                 listening[sections][[sectionIndex]][sectionField].splice(

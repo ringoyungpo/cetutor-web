@@ -71,7 +71,13 @@ const Listening = ({ sections, errors, onChange }) => {
                 errors[`listening.sections.${sectionIndex}.directions`].message
               }
             />
-
+            <input
+              type="button"
+              name={`this.state.paper.listening.sections.${sectionIndex}.modules.unshift`}
+              className="btn btn-success"
+              onClick={onChange}
+              value="Insert A Module"
+            />
             {modules.map((moduleValue, moduleIndex) => {
               const { moduleSound, questions } = moduleValue
               const { url } = moduleSound
