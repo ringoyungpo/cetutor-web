@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import SelectListGroup from '../common/SelectListGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
 import TextFieldGroup from '../common/TextFieldGroup'
+import ReactAudioPlayer from 'react-audio-player'
 import {
   NEWS_REPORT,
   CONVERSATION,
@@ -52,12 +53,19 @@ const Listening = ({ sections, errors, onChange }) => {
               }
             />
             {modules.map((moduleValue, moduleIndex) => {
-              const { moduleTitle, questions } = moduleValue
+              const { moduleTitle, moduleSound, questions } = moduleValue
+              const { url } = moduleSound
               return (
                 <div key={moduleIndex}>
-                  <b>
-                    {sectionTitle} {moduleIndex + 1}
-                  </b>
+                  <span>
+                    <b>
+                      {sectionTitle} {moduleIndex + 1}
+                    </b>
+                    {/* <Audio src={url} id={moduleIndex} /> */}
+                    <p>{url}</p>
+                    <ReactAudioPlayer src={url} controls />
+                    {/* <embed height="100" width="100" src="url" /> */}
+                  </span>
                   <TextFieldGroup
                     title="Module Title"
                     placeholder="Module Title"
@@ -75,7 +83,12 @@ const Listening = ({ sections, errors, onChange }) => {
                     }
                   />
                   {questions.map((questionValue, questionIndex) => {
-                    const { options, rightAnswer } = questionValue
+                    const {
+                      questionSound,
+                      options,
+                      rightAnswer
+                    } = questionValue
+                    const { url } = questionSound
                     const rightAnswerOptions = options.map(
                       (optionValue, optionIndex) => {
                         return {
@@ -88,13 +101,15 @@ const Listening = ({ sections, errors, onChange }) => {
                     )
                     return (
                       <div key={questionIndex}>
-                        <b>Question {questionIndex + 1}.</b>
+                        <span>
+                          <b>Question {questionIndex + 1}.</b>
+                          <ReactAudioPlayer src={url} controls />
+                        </span>
                         {options.map(
                           (optionValue, optionIndex, optionsArray) => {
                             return (
                               <div key={optionIndex}>
                                 <TextFieldGroup
-                                  title={String.fromCharCode(optionIndex + 65)}
                                   placeholder="Question Option"
                                   name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
                                   value={optionValue}
@@ -114,7 +129,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           }
                         )}
                         <SelectListGroup
-                          title="Right Answer"
+                          title={`Right Answer ${questionIndex + 1}.`}
                           placeholder="Right Answer"
                           name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
                           value={rightAnswer || 0}
@@ -150,9 +165,19 @@ Listening.prototype = {
       sectionTitle: PropTypes.string.isRequired,
       modules: PropTypes.arrayOf(
         PropTypes.shape({
+          moduleSound: PropTypes.arrayOf(
+            PropTypes.shape({
+              url: PropTypes.string.isRequired
+            })
+          ).isRequired,
           moduleTitle: PropTypes.string.isRequired,
           questions: PropTypes.arrayOf(
             PropTypes.shape({
+              questionSound: PropTypes.arrayOf(
+                PropTypes.shape({
+                  url: PropTypes.string.isRequired
+                })
+              ).isRequired,
               options: PropTypes.arrayOf(PropTypes.string.isRequired)
                 .isRequired,
               rightAnswer: PropTypes.number.isRequired
