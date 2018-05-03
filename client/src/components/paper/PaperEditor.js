@@ -327,6 +327,9 @@ class PaperEditor extends Component {
         listening = listening || {}
         sections = sections || []
         switch (sectionField) {
+          case 'delete':
+            listening[sections].splice(sectionIndex, 1)
+            break
           case 'directions':
           case 'sectionTitle':
             listening[sections][sectionIndex][sectionField] =
@@ -509,7 +512,6 @@ class PaperEditor extends Component {
           sections={listening.sections}
           onChange={this.onChange}
           errors={errors}
-          onDeleteListening={this.onDeleteListening}
         />
         <h4>Part IV Translation</h4>
         <b>Directions:</b>

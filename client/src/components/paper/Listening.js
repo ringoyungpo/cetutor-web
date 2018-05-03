@@ -13,7 +13,7 @@ import {
   LOADING_AUDIO_URL
 } from '../../constant/paperConst'
 
-const Listening = ({ sections, errors, onChange, onDeleteListening }) => {
+const Listening = ({ sections, errors, onChange }) => {
   const sectionTitleOptions = [
     { label: 'News Report', value: NEWS_REPORT },
     { label: 'Conversation', value: CONVERSATION },
@@ -29,14 +29,13 @@ const Listening = ({ sections, errors, onChange, onDeleteListening }) => {
           <div key={sectionIndex}>
             <span>
               <b>Section {String.fromCharCode(sectionIndex + 65)}</b>
-              <button
-                onClick={() => {
-                  onDeleteListening(sectionIndex)
-                }}
+              <input
+                type="button"
+                name={`this.state.paper.listening.sections.${sectionIndex}.delete`}
                 className="btn btn-danger"
-              >
-                Delete This Section
-              </button>
+                onClick={onChange}
+                value="Delete This Section"
+              />
             </span>
 
             <SelectListGroup
@@ -218,8 +217,7 @@ Listening.prototype = {
     }).isRequired
   ).isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object,
-  onDeleteListening: PropTypes.func.isRequired
+  errors: PropTypes.object
 }
 
 export default Listening
