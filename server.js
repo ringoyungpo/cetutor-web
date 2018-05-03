@@ -37,7 +37,11 @@ app.use('/api/papers', papers)
 
 app.use(
   '/v1_1',
-  proxy({ target: 'https://api.cloudinary.com', changeOrigin: true })
+  proxy({
+    target: 'https://api.cloudinary.com',
+    protocolRewrite: true,
+    changeOrigin: true
+  })
 )
 
 // Server static assets if in production

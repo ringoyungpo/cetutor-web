@@ -82,13 +82,7 @@ const Listening = ({ sections, errors, onChange }) => {
                   </b>
                   <span>
                     {/* <Audio src={url} id={moduleIndex} /> */}
-
-                    {!isEmpty(url) ? (
-                      <ReactAudioPlayer src={url} controls />
-                    ) : (
-                      'No Audio Here'
-                    )}
-
+                    <ReactAudioPlayer src={url} controls />
                     <input
                       type="file"
                       name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
@@ -125,11 +119,7 @@ const Listening = ({ sections, errors, onChange }) => {
                       <div key={questionIndex}>
                         <span>
                           <b>Question {questionIndex + 1}. </b>
-                          {!isEmpty(url) ? (
-                            <ReactAudioPlayer src={url} controls />
-                          ) : (
-                            'No Audio Here'
-                          )}
+                          <ReactAudioPlayer src={url} controls />
                           <input
                             type="file"
                             name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
