@@ -32,7 +32,7 @@ const Listening = ({ sections, errors, onChange }) => {
               <input
                 type="button"
                 name={`this.state.paper.listening.sections.${sectionIndex}.delete`}
-                className="btn btn-danger"
+                className="btn btn-danger float-right"
                 onClick={onChange}
                 value="Delete This Section"
               />
@@ -68,19 +68,19 @@ const Listening = ({ sections, errors, onChange }) => {
               const { moduleTitle, moduleSound, questions } = moduleValue
               const { url } = moduleSound
               return (
-                <div key={moduleIndex}>
+                <div keys={moduleIndex}>
+                  <b>
+                    {sectionTitle} {moduleIndex + 1}.{'\t'}
+                  </b>
                   <span>
-                    <b>
-                      {sectionTitle} {moduleIndex + 1}
-                    </b>
                     {/* <Audio src={url} id={moduleIndex} /> */}
-                    <b>
-                      {url ? (
-                        <ReactAudioPlayer src={url} controls />
-                      ) : (
-                        'No Audio Here'
-                      )}
-                    </b>
+
+                    {!isEmpty(url) ? (
+                      <ReactAudioPlayer src={url} controls />
+                    ) : (
+                      'No Audio Here'
+                    )}
+
                     <input
                       type="file"
                       name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
@@ -125,8 +125,12 @@ const Listening = ({ sections, errors, onChange }) => {
                     return (
                       <div key={questionIndex}>
                         <span>
-                          <b>Question {questionIndex + 1}.</b>
-                          <ReactAudioPlayer src={url} controls />
+                          <b>Question {questionIndex + 1}. </b>
+                          {!isEmpty(url) ? (
+                            <ReactAudioPlayer src={url} controls />
+                          ) : (
+                            'No Audio Here'
+                          )}
                           <input
                             type="file"
                             name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
@@ -180,9 +184,25 @@ const Listening = ({ sections, errors, onChange }) => {
                 </div>
               )
             })}
+            <input
+              type="button"
+              name={`this.state.paper.listening.sections.${sectionIndex}.append`}
+              className="btn btn-success"
+              onClick={onChange}
+              value="Append A New Section"
+            />
           </div>
         )
       })}
+      {sections.length === 0 ? (
+        <input
+          type="button"
+          name={`this.state.paper.listening.sections.post`}
+          className="btn btn-success"
+          onClick={onChange}
+          value="Add A New Section"
+        />
+      ) : null}
     </div>
   )
 }

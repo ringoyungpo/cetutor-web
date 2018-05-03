@@ -203,6 +203,32 @@ class PaperEditor extends Component {
     }
   }
 
+  listeningTemplate = {
+    sections: [
+      {
+        directions: '',
+        sectionTitle: '',
+        modules: [
+          {
+            moduleTitle: '',
+            moduleSound: {
+              url: ''
+            },
+            questions: [
+              {
+                questionSound: {
+                  url: ''
+                },
+                rightAnswer: 0,
+                options: ['', '', '', '']
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
   onSubmit(e) {
     e.preventDefault()
 
@@ -283,7 +309,6 @@ class PaperEditor extends Component {
               res.data.secure_url
             break
           default:
-            console.log('kjasdfkasldfj')
             const [questions, questionIndex, questionSound] = moduleField
             paper[listening][sections][sectionIndex][modules][moduleIndex][
               questions
@@ -327,6 +352,19 @@ class PaperEditor extends Component {
         listening = listening || {}
         sections = sections || []
         switch (sectionField) {
+          case undefined:
+            if (sectionIndex === 'post')
+              listening[sections].push(
+                new Object(this.listeningTemplate.sections[0])
+              )
+            break
+          case 'append':
+            listening[sections].splice(
+              sectionIndex + 1,
+              0,
+              new Object(this.listeningTemplate.sections[0])
+            )
+            break
           case 'delete':
             listening[sections].splice(sectionIndex, 1)
             break
