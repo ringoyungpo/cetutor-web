@@ -64,6 +64,12 @@ const Listening = ({ sections, errors, onChange }) => {
                     {/* <Audio src={url} id={moduleIndex} /> */}
                     <p>{url}</p>
                     <ReactAudioPlayer src={url} controls />
+                    <input
+                      type="file"
+                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
+                      onChange={onChange}
+                      accept="audio/*"
+                    />
                     {/* <embed height="100" width="100" src="url" /> */}
                   </span>
                   <TextFieldGroup
@@ -95,7 +101,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           label: `${String.fromCharCode(
                             optionIndex + 65
                           )}: ${optionValue}`,
-                          value: optionIndex
+                          value: String(optionIndex)
                         }
                       }
                     )
@@ -132,7 +138,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           title={`Right Answer ${questionIndex + 1}.`}
                           placeholder="Right Answer"
                           name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
-                          value={rightAnswer || 0}
+                          value={String(rightAnswer) || '0'}
                           onChange={onChange}
                           options={rightAnswerOptions}
                           error={

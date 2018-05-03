@@ -13,7 +13,12 @@ import Spinner from '../common/Spinner'
 import { isEmpty } from 'lodash'
 import Listening from './Listening'
 import { CET_4, CET_6 } from '../../constant/paperConst'
-
+import axios from 'axios'
+import { CLOUDINARY_AUDIO_API } from '../../config/keys'
+import { api_key, base, api_secret, audio } from '../../config/keys'
+import sha1 from 'sha1'
+import qs from 'qs'
+import { Z_DATA_ERROR } from 'zlib'
 class PaperEditor extends Component {
   constructor(props) {
     super(props)
@@ -227,6 +232,56 @@ class PaperEditor extends Component {
       )
   }
 
+  fileUploadHandler(SelectedFile, paper, paperPath) {
+    const [
+      listening,
+      sections,
+      sectionIndex,
+      modules,
+      moduleIndex,
+      moduleSound
+    ] = paperPath
+    // console.log({ uploadApi, SelectedFile })
+    const timestamp = Date.now()
+    const tags = 'listening'
+    const folder = 'listening'
+    const signature = sha1(
+      `${qs.stringify({
+        folder,
+        tags,
+        timestamp
+      })}${api_secret}`
+    )
+    const formData = new FormData()
+    formData.append('file', SelectedFile)
+    formData.append('folder', folder)
+    formData.append('signature', signature)
+    formData.append('tags', tags)
+    formData.append('timestamp', timestamp)
+    formData.append('api_key', api_key)
+
+    const authorization = axios.defaults.headers.common['Authorization']
+    delete axios.defaults.headers.common['Authorization']
+
+    axios({
+      method: 'POST',
+      url: audio,
+      data: formData
+    })
+      .then(res => {
+        axios.defaults.headers.common['Authorization'] = authorization
+        paper[listening][sections][sectionIndex][modules][moduleIndex][
+          moduleSound
+        ].url =
+          res.data.secure_url
+        this.setState({ paper: paper })
+      })
+      .catch(error => {
+        console.log(error)
+        axios.defaults.headers.common['Authorization'] = authorization
+      })
+  }
+
   onChange(e) {
     let [valueThis, state, paper, part, ...partDetail] = e.target.name.split(
       '.'
@@ -265,6 +320,13 @@ class PaperEditor extends Component {
                 ] =
                   e.target.value || ''
                 break
+              case 'moduleSound':
+                if (!e.target.files) break
+                this.fileUploadHandler(e.target.files[0], paper, [
+                  part,
+                  ...partDetail
+                ])
+                break
               case 'questions':
                 const [
                   questionIndex,
@@ -277,13 +339,13 @@ class PaperEditor extends Component {
                     listening[sections][sectionIndex][sectionField][
                       moduleIndex
                     ][moduleField][questionIndex][questionField][optionIndex] =
-                      e.target.value || ''
+                      e.target.value || 0
                     break
                   case 'rightAnswer':
                     listening[sections][sectionIndex][sectionField][
                       moduleIndex
                     ][moduleField][questionIndex][questionField] =
-                      e.target.value || ''
+                      Number(e.target.value) || ''
                     break
                 }
                 break

@@ -9,7 +9,7 @@ const SelectListGroup = ({
   error,
   info,
   onChange,
-  options,
+  options
 }) => {
   const selectOptions = options.map(option => (
     <option key={option.label} value={option.value}>
@@ -21,7 +21,7 @@ const SelectListGroup = ({
       {title && <b>{title}</b>}
       <select
         className={classnames('form-control form-control-lg', {
-          'is-invalid': error,
+          'is-invalid': error
         })}
         name={name}
         value={value}
@@ -42,7 +42,7 @@ SelectListGroup.propTypes = {
   info: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.array.isRequired
 }
 
 export default SelectListGroup

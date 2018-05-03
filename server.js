@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const path = require('path')
+const proxy = require('http-proxy-middleware')
 
 const users = require('./routes/api/users')
 const papers = require('./routes/api/papers')
@@ -33,6 +34,11 @@ app.use('/api/users', users)
 
 // Paper Routes
 app.use('/api/papers', papers)
+
+app.use(
+  '/v1_1',
+  proxy({ target: 'https://api.cloudinary.com', changeOrigin: true })
+)
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') {
