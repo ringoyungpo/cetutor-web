@@ -104,6 +104,13 @@ const Listening = ({ sections, errors, onChange }) => {
                     onClick={onChange}
                     value="Delete This Module"
                   />
+                  <input
+                    type="button"
+                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
+                    className="btn btn-success float-left"
+                    onClick={onChange}
+                    value="Insert a Question"
+                  />
                   {questions.map((questionValue, questionIndex) => {
                     const {
                       questionSound,
@@ -133,6 +140,13 @@ const Listening = ({ sections, errors, onChange }) => {
                             accept="audio/*"
                           />
                         </span>
+                        <input
+                          type="button"
+                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
+                          className="btn btn-danger float-right"
+                          onClick={onChange}
+                          value="Delete This Question"
+                        />
                         {options.map(
                           (optionValue, optionIndex, optionsArray) => {
                             return (
@@ -172,6 +186,13 @@ const Listening = ({ sections, errors, onChange }) => {
                               `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
                             ].message
                           }
+                        />
+                        <input
+                          type="button"
+                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
+                          className="btn btn-success float-left"
+                          onClick={onChange}
+                          value="Insert a Question"
                         />
                       </div>
                     )

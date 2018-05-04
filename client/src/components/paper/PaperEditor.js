@@ -448,6 +448,27 @@ class PaperEditor extends Component {
                   ...questionChild
                 ] = moduleChild
                 switch (questionField) {
+                  case undefined:
+                    if (questionIndex === 'unshift')
+                      listening[sections][[sectionIndex]][sectionField][
+                        moduleIndex
+                      ][moduleField].unshift(JSON.parse(this.questionTemplate))
+                    break
+                  case 'insert':
+                    console.log({ sectionIndex, moduleIndex, questionIndex })
+                    listening[sections][[sectionIndex]][sectionField][
+                      moduleIndex
+                    ][moduleField].splice(
+                      questionIndex + 1,
+                      0,
+                      JSON.parse(this.questionTemplate)
+                    )
+                    break
+                  case 'delete':
+                    listening[sections][[sectionIndex]][sectionField][
+                      moduleIndex
+                    ][moduleField].splice(questionIndex, 1)
+                    break
                   case 'questionSound':
                     this.fileUploadHandler(e.target.files[0], paper, [
                       part,
