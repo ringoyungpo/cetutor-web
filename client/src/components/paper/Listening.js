@@ -71,7 +71,7 @@ const Listening = ({ sections, errors, onChange }) => {
                 ...new Set(
                   modules.map(moduleValue => moduleValue.questions.length)
                 )
-              ]}{' '}
+              ].join(',')}{' '}
               questions. Both the {sectionTitleTemp}s and the question-s will be
               spoken only once. After you hear a question, you must choose the
               best answer from the four choices marked A), B), C) and D). Then
