@@ -7,7 +7,7 @@ import {
   PAPERS_LOADING,
   CLEAR_CURRENT_PAPER,
   GET_ERRORS,
-  SET_CURRENT_USER,
+  SET_CURRENT_USER
 } from './types'
 
 // Get current paper
@@ -20,7 +20,7 @@ export const getCurrentUserPapers = () => dispatch => {
       // console.log(res.data)
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
-        payload: res.data,
+        payload: res.data
       })
     })
     .catch(err => {
@@ -28,7 +28,7 @@ export const getCurrentUserPapers = () => dispatch => {
       // console.log(err)
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
-        payload: [],
+        payload: []
       })
     })
 }
@@ -36,14 +36,14 @@ export const getCurrentUserPapers = () => dispatch => {
 // paper loading
 export const setPaperLoading = () => {
   return {
-    type: PAPERS_LOADING,
+    type: PAPERS_LOADING
   }
 }
 
 // paper clear
 export const clearCurrentPaper = () => {
   return {
-    type: CLEAR_CURRENT_PAPER,
+    type: CLEAR_CURRENT_PAPER
   }
 }
 
@@ -51,11 +51,11 @@ export const clearCurrentPaper = () => {
 export const createPaper = (paperData, history) => dispatch => {
   dispatch({
     type: GET_ERRORS,
-    payload: {},
+    payload: {}
   })
   dispatch({
     type: GET_PAPER,
-    payload: paperData,
+    payload: paperData
   })
   axios
     .post('/api/papers', paperData)
@@ -63,13 +63,13 @@ export const createPaper = (paperData, history) => dispatch => {
       history.push('/dashboard')
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
-        payload: null,
+        payload: null
       })
     })
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data.errors,
+        payload: err.response.data
       })
     })
 }
@@ -78,7 +78,7 @@ export const createPaper = (paperData, history) => dispatch => {
 export const updatePaper = (paperData, history) => dispatch => {
   dispatch({
     type: GET_ERRORS,
-    payload: {},
+    payload: {}
   })
   axios
     .put('/api/papers/' + paperData._id, paperData)
@@ -86,14 +86,14 @@ export const updatePaper = (paperData, history) => dispatch => {
       history.push('/dashboard')
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
-        payload: null,
+        payload: null
       })
     })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data,
-      }),
+        payload: err.response.data
+      })
     )
 }
 
@@ -105,13 +105,13 @@ export const getPaperById = (id, history) => dispatch => {
     .then(res => {
       dispatch({
         type: GET_PAPER,
-        payload: res.data,
+        payload: res.data
       })
     })
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err,
+        payload: err
       })
       history.push('/errors')
     })
@@ -121,7 +121,7 @@ export const getPaperById = (id, history) => dispatch => {
 export const deletePaper = (papers, paperId) => dispatch => {
   dispatch({
     type: GET_CURRENT_USER_PAPERS,
-    payload: papers,
+    payload: papers
   })
   axios
     .delete('/api/papers/' + paperId)
@@ -129,7 +129,7 @@ export const deletePaper = (papers, paperId) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data,
-      }),
+        payload: err.response.data
+      })
     )
 }

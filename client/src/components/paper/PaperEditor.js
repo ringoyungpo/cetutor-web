@@ -23,161 +23,9 @@ class PaperEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isloading: true,
-      paper: {
-        // translation: {
-        //   question: ''
-        // },
-        // listening: {
-        //   sections: [
-        //     {
-        //       directions: 'sdfsdfasadsf',
-        //       sectionTitle: 'jkjdfkjdf',
-        //       modules: [
-        //         {
-        //           moduleSound: {
-        //             url:
-        //               'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //           },
-        //           questions: [
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             }
-        //           ]
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       directions: 'sdfsdfasadsf',
-        //       sectionTitle: 'jkjdfkjdf',
-        //       modules: [
-        //         {
-        //           moduleSound: {
-        //             url:
-        //               'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
-        //             status: 2
-        //           },
-        //           questions: [
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             },
-        //             {
-        //               questionSound: {
-        //                 url:
-        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-        //               },
-        //               rightAnswer: 0,
-        //               optionSelected: null,
-        //               options: [
-        //                 '1The news report mainly about A?',
-        //                 '1The news report mainly about B?',
-        //                 '1The news report mainly about C?',
-        //                 '1The news report mainly about D?'
-        //               ]
-        //             }
-        //           ]
-        //         }
-        //       ]
-        //     }
-        //   ]
-        // },
-        // writing: {
-        //   directions: ''
-        // },
-        // level: CET_6,
-        // title: ''
+      papers: {
+        isloading: true,
+        paper: JSON.parse(this.PaperTemplate)
       },
       errors: {}
     }
@@ -187,10 +35,15 @@ class PaperEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) this.setState({ errors: nextProps.errors.errors })
+    if (nextProps.errors) this.setState({ errors: nextProps.errors })
 
-    if (nextProps.papers) this.setState({ ...nextProps.papers })
-    else this.setState({ paper: JSON.parse(this.PaperTemplate) })
+    if (!isEmpty(nextProps.papers.paper))
+      this.setState({ papers: nextProps.papers })
+    else {
+      this.setState({
+        papers: { ...nextProps.papers, paper: JSON.parse(this.PaperTemplate) }
+      })
+    }
   }
 
   componentDidMount() {
@@ -202,12 +55,35 @@ class PaperEditor extends Component {
     }
   }
 
-  PaperTemplate = JSONl.stringify({
+  PaperTemplate = JSON.stringify({
+    title: '',
+    level: 'CET_4',
     writing: {
       directions: ''
     },
     listening: {
-      sections: [JSON.parse(sectionTemplate)]
+      sections: [
+        {
+          directions: '',
+          sectionTitle: '',
+          modules: [
+            {
+              moduleSound: {
+                url: ''
+              },
+              questions: [
+                {
+                  questionSound: {
+                    url: ''
+                  },
+                  rightAnswer: 0,
+                  options: ['', '', '', '']
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     translation: {
       question: ''
@@ -216,15 +92,38 @@ class PaperEditor extends Component {
 
   sectionTemplate = JSON.stringify({
     directions: '',
-    sectionTitle: '',
-    modules: [JSON.parse(moduleTemplate)]
+    sectionTitle: 'NEWS_REPORT',
+    modules: [
+      {
+        moduleSound: {
+          url: ''
+        },
+        questions: [
+          {
+            questionSound: {
+              url: ''
+            },
+            rightAnswer: 0,
+            options: ['', '', '', '']
+          }
+        ]
+      }
+    ]
   })
 
   moduleTemplate = JSON.stringify({
     moduleSound: {
       url: ''
     },
-    questions: [JSON.parse(questionTemplate)]
+    questions: [
+      {
+        questionSound: {
+          url: ''
+        },
+        rightAnswer: 0,
+        options: ['', '', '', '']
+      }
+    ]
   })
 
   questionTemplate = JSON.stringify({
@@ -237,22 +136,6 @@ class PaperEditor extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-
-    //   const profileData = {
-    //     handle: this.state.handle,
-    //     company: this.state.company,
-    //     website: this.state.website,
-    //     location: this.state.location,
-    //     status: this.state.status,
-    //     skills: this.state.skills,
-    //     githubusername: this.state.githubusername,
-    //     bio: this.state.bio,
-    //     twitter: this.state.twitter,
-    //     facebook: this.state.facebook,
-    //     linkedin: this.state.linkedin,
-    //     youtube: this.state.youtube,
-    //     instagram: this.state.instagram,
-    //   }
 
     if (!this.props.match.params.paperId)
       this.props.createPaper(this.state.paper, this.props.history)
@@ -335,10 +218,17 @@ class PaperEditor extends Component {
   }
 
   onChange(e) {
-    let [valueThis, state, paper, part, ...partDetail] = e.target.name.split(
-      '.'
-    )
-    paper = this.state.paper
+    let [
+      valueThis,
+      state,
+      papers,
+      paper,
+      part,
+      ...partDetail
+    ] = e.target.name.split('.')
+    papers = this.state.papers
+
+    paper = papers.paper
 
     let { writing, listening, translation } = paper
 
@@ -355,6 +245,7 @@ class PaperEditor extends Component {
         break
       case 'listening':
         let [sections, sectionIndex, sectionField, ...sectionChild] = partDetail
+        console.log({ sections, sectionIndex, sectionField, ...sectionChild })
         listening = listening || {}
         sections = sections || []
         switch (sectionField) {
@@ -470,75 +361,28 @@ class PaperEditor extends Component {
       ...this.state.paper
     }
 
-    this.setState({
+    papers = {
+      ...papers,
       paper: paper
+    }
+
+    this.setState({
+      papers: papers
     })
   }
 
   render() {
+    console.log(this.state)
     const isCreating = () => isEmpty(this.props.match.params.paperId)
-    let { paper, loading, errors } = this.state
-    let { title, level, writing, listening, translation } = paper || {}
+    let { papers, errors } = this.state
+    let { paper, loading } = papers
+    let { title, level, writing, listening, translation } = paper
 
     const options = [
       { label: 'CET-4', value: 'CET_4' },
       { label: 'CET-6', value: 'CET_6' }
     ]
 
-    // let socialInputs
-
-    // if (displaySocialInputs) {
-    //   socialInputs = (
-    //     <div>
-    //       <InputGroup
-    //         placeholder="Twitter Profile URL"
-    //         name="twitter"
-    //         icon="fab fa-twitter"
-    //         value={this.state.twitter}
-    //         onChange={this.onChange}
-    //          error={errors&&errors.twitter}
-    //       />
-
-    //       <InputGroup
-    //         placeholder="Facebook Page URL"
-    //         name="facebook"
-    //         icon="fab fa-facebook"
-    //         value={this.state.facebook}
-    //         onChange={this.onChange}
-    //          error={errors&&errors.facebook}
-    //       />
-
-    //       <InputGroup
-    //         placeholder="Linkedin Profile URL"
-    //         name="linkedin"
-    //         icon="fab fa-linkedin"
-    //         value={this.state.linkedin}
-    //         onChange={this.onChange}
-    //          error={errors&&errors.linkedin}
-    //       />
-
-    //       <InputGroup
-    //         placeholder="YouTube Channel URL"
-    //         name="youtube"
-    //         icon="fab fa-youtube"
-    //         value={this.state.youtube}
-    //         onChange={this.onChange}
-    //          error={errors&&errors.youtube}
-    //       />
-
-    //       <InputGroup
-    //         placeholder="Instagram Page URL"
-    //         name="instagram"
-    //         icon="fab fa-instagram"
-    //         value={this.state.instagram}
-    //         onChange={this.onChange}
-    //          error={errors&&errors.instagram}
-    //       />
-    //     </div>
-    //   )
-    // }
-
-    // Select options for status
     const paperEditorForm = loading ? (
       <Spinner />
     ) : (
@@ -555,15 +399,15 @@ class PaperEditor extends Component {
         <TextFieldGroup
           title="Title"
           placeholder="Paper Title"
-          name="this.state.paper.title"
+          name="this.state.papers.paper.title"
           value={title}
           onChange={this.onChange}
           error={errors && errors.title && errors.title.message}
         />
         <SelectListGroup
           title="Level"
-          placeholder="CET-?"
-          name="this.state.paper.level"
+          placeholder="CET-4"
+          name="this.state.papers.paper.level"
           value={level}
           onChange={this.onChange}
           options={options}
@@ -573,8 +417,8 @@ class PaperEditor extends Component {
         <TextAreaFieldGroup
           title="Directions:"
           placeholder="Writing directions"
-          name="this.state.paper.writing.directions"
-          value={writing && writing.directions}
+          name="this.state.papers.paper.writing.directions"
+          value={writing.directions}
           onChange={this.onChange}
           error={
             errors &&
@@ -585,11 +429,7 @@ class PaperEditor extends Component {
         <h4>Part II Listening Comprehension</h4>
 
         <Listening
-          sections={
-            (listening && listening.sections) || [
-              JSON.parse(this.listeningTemplate)
-            ]
-          }
+          sections={listening.sections}
           onChange={this.onChange}
           errors={errors}
         />
@@ -602,8 +442,8 @@ class PaperEditor extends Component {
         </p>
         <TextAreaFieldGroup
           placeholder="Translation Directions"
-          name="this.state.paper.translation.question"
-          value={translation && translation.question}
+          name="this.state.papers.paper.translation.question"
+          value={translation.question}
           onChange={this.onChange}
           error={
             errors &&
@@ -724,43 +564,48 @@ class PaperEditor extends Component {
 
 PaperEditor.propTypes = {
   papers: PropTypes.shape({
-    writing: PropTypes.shape({
-      directions: PropTypes.string.isRequired
-    }).isRequired,
-    Listening: PropTypes.shape({
-      sections: PropTypes.arrayOf(
-        PropTypes.shape({
-          directions: PropTypes.string.isRequired,
-          sectionTitle: PropTypes.string.isRequired,
-          modules: PropTypes.arrayOf(
-            PropTypes.shape({
-              moduleSound: PropTypes.arrayOf(
-                PropTypes.shape({
-                  url: PropTypes.string.isRequired
-                })
-              ).isRequired,
-              questions: PropTypes.arrayOf(
-                PropTypes.shape({
-                  questionSound: PropTypes.arrayOf(
-                    PropTypes.shape({
-                      url: PropTypes.string.isRequired
-                    })
-                  ).isRequired,
-                  options: PropTypes.arrayOf(PropTypes.string.isRequired)
-                    .isRequired,
-                  rightAnswer: PropTypes.number.isRequired
-                })
-              ).isRequired
-            }).isRequired
-          ).isRequired
-        }).isRequired
-      ).isRequired,
-      onChange: PropTypes.func.isRequired,
-      errors: PropTypes.object
-    }).isRequired,
-    translation: PropTypes.shape({
-      question: PropTypes.string.isRequired
-    }).isRequired
+    isloading: PropTypes.bool,
+    paper: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      level: PropTypes.string.isRequired,
+      writing: PropTypes.shape({
+        directions: PropTypes.string.isRequired
+      }).isRequired,
+      Listening: PropTypes.shape({
+        sections: PropTypes.arrayOf(
+          PropTypes.shape({
+            directions: PropTypes.string.isRequired,
+            sectionTitle: PropTypes.string.isRequired,
+            modules: PropTypes.arrayOf(
+              PropTypes.shape({
+                moduleSound: PropTypes.arrayOf(
+                  PropTypes.shape({
+                    url: PropTypes.string.isRequired
+                  })
+                ).isRequired,
+                questions: PropTypes.arrayOf(
+                  PropTypes.shape({
+                    questionSound: PropTypes.arrayOf(
+                      PropTypes.shape({
+                        url: PropTypes.string.isRequired
+                      })
+                    ).isRequired,
+                    options: PropTypes.arrayOf(PropTypes.string.isRequired)
+                      .isRequired,
+                    rightAnswer: PropTypes.number.isRequired
+                  })
+                ).isRequired
+              }).isRequired
+            ).isRequired
+          }).isRequired
+        ).isRequired,
+        onChange: PropTypes.func.isRequired,
+        errors: PropTypes.object
+      }).isRequired,
+      translation: PropTypes.shape({
+        question: PropTypes.string.isRequired
+      }).isRequired
+    })
   }).isRequired,
   errors: PropTypes.object.isRequired
 }

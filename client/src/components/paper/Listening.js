@@ -25,7 +25,7 @@ const Listening = ({ sections, errors, onChange }) => {
     <div>
       <input
         type="button"
-        name={`this.state.paper.listening.sections.unshift`}
+        name={`this.state.papers.paper.listening.sections.unshift`}
         className="btn btn-success"
         onClick={onChange}
         value="Insert A New Section"
@@ -38,7 +38,7 @@ const Listening = ({ sections, errors, onChange }) => {
               <b>Section {String.fromCharCode(sectionIndex + 65)}</b>
               <input
                 type="button"
-                name={`this.state.paper.listening.sections.${sectionIndex}.delete`}
+                name={`this.state.papers.paper.listening.sections.${sectionIndex}.delete`}
                 className="btn btn-danger float-right"
                 onClick={onChange}
                 value="Delete This Section"
@@ -48,7 +48,7 @@ const Listening = ({ sections, errors, onChange }) => {
             <SelectListGroup
               title="Title"
               placeholder="Section Title"
-              name={`this.state.paper.listening.sections.${sectionIndex}.sectionTitle`}
+              name={`this.state.papers.paper.listening.sections.${sectionIndex}.sectionTitle`}
               value={sectionTitle || NEWS_REPORT}
               onChange={onChange}
               options={sectionTitleOptions}
@@ -62,7 +62,7 @@ const Listening = ({ sections, errors, onChange }) => {
             <b>Directions:</b>
             <TextAreaFieldGroup
               placeholder="Section Directions"
-              name={`this.state.paper.listening.sections.${sectionIndex}.directions`}
+              name={`this.state.papers.paper.listening.sections.${sectionIndex}.directions`}
               value={directions || ''}
               onChange={onChange}
               error={
@@ -77,7 +77,7 @@ const Listening = ({ sections, errors, onChange }) => {
             <br />
             <input
               type="button"
-              name={`this.state.paper.listening.sections.${sectionIndex}.modules.unshift`}
+              name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.unshift`}
               className="btn btn-success"
               onClick={onChange}
               value="Insert A Module"
@@ -96,7 +96,7 @@ const Listening = ({ sections, errors, onChange }) => {
                       <ReactAudioPlayer src={url} controls />
                       <input
                         type="file"
-                        name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
+                        name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
                         onChange={onChange}
                         accept="audio/*"
                       />
@@ -104,7 +104,7 @@ const Listening = ({ sections, errors, onChange }) => {
                     </span>
                     <input
                       type="button"
-                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
+                      name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
                       className="btn btn-danger float-right"
                       onClick={onChange}
                       value="Delete This Module"
@@ -115,7 +115,7 @@ const Listening = ({ sections, errors, onChange }) => {
                     <br />
                     <input
                       type="button"
-                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
+                      name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
                       className="btn btn-success float-left"
                       onClick={onChange}
                       value="Insert a Question"
@@ -144,14 +144,14 @@ const Listening = ({ sections, errors, onChange }) => {
                             <ReactAudioPlayer src={url} controls />
                             <input
                               type="file"
-                              name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
+                              name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
                               onChange={onChange}
                               accept="audio/*"
                             />
                           </span>
                           <input
                             type="button"
-                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
+                            name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
                             className="btn btn-danger float-right"
                             onClick={onChange}
                             value="Delete This Question"
@@ -162,7 +162,7 @@ const Listening = ({ sections, errors, onChange }) => {
                                 <div key={optionIndex}>
                                   <TextFieldGroup
                                     placeholder="Question Option"
-                                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
+                                    name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
                                     value={optionValue}
                                     onChange={onChange}
                                     error={
@@ -182,7 +182,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           <SelectListGroup
                             title={`Right Answer ${questionIndex + 1}.`}
                             placeholder="Right Answer"
-                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
+                            name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
                             value={String(rightAnswer) || '0'}
                             onChange={onChange}
                             options={rightAnswerOptions}
@@ -198,7 +198,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           />
                           <input
                             type="button"
-                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
+                            name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
                             className="btn btn-success float-left"
                             onClick={onChange}
                             value="Insert a Question"
@@ -209,7 +209,7 @@ const Listening = ({ sections, errors, onChange }) => {
                     <div>
                       <input
                         type="button"
-                        name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.insert`}
+                        name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.insert`}
                         className="btn btn-success"
                         onClick={onChange}
                         value="Insert A Module"
@@ -220,7 +220,7 @@ const Listening = ({ sections, errors, onChange }) => {
               })}
             <input
               type="button"
-              name={`this.state.paper.listening.sections.${sectionIndex}.insert`}
+              name={`this.state.papers.paper.listening.sections.${sectionIndex}.insert`}
               className="btn btn-success"
               onClick={onChange}
               value="Insert A New Section"

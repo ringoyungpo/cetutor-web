@@ -2,7 +2,7 @@ import {
   GET_ERRORS,
   SET_CURRENT_USER,
   INFO_SUBMITTING,
-  INFO_SUBMITTED,
+  INFO_SUBMITTED
 } from './types'
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
@@ -17,8 +17,8 @@ export const registerUser = (userData, history) => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data,
-      }),
+        payload: err.response.data
+      })
     )
 }
 
@@ -27,7 +27,7 @@ export const loginUser = userData => dispatch => {
   // console.log(setSubmitting())
   dispatch({
     type: GET_ERRORS,
-    payload: {},
+    payload: {}
   })
   axios
     .post('api/users/token', userData)
@@ -43,7 +43,7 @@ export const loginUser = userData => dispatch => {
       dispatch(setSubmitted())
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data,
+        payload: err.response.data
       })
     })
 }
@@ -52,7 +52,7 @@ export const loginUser = userData => dispatch => {
 export const setCurrentUser = decoded => {
   return {
     type: SET_CURRENT_USER,
-    payload: decoded,
+    payload: decoded
   }
 }
 
@@ -68,12 +68,12 @@ export const logoutUser = () => dispatch => {
 
 export const setInfoSubmitting = () => {
   return {
-    type: INFO_SUBMITTING,
+    type: INFO_SUBMITTING
   }
 }
 
 export const setInfoSubmitted = () => {
   return {
-    type: INFO_SUBMITTED,
+    type: INFO_SUBMITTED
   }
 }

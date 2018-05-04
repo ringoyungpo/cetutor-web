@@ -20,8 +20,8 @@ router.post(
     new Paper({ ...req.body, user: req.user.id })
       .save()
       .then(paper => res.json(paper))
-      .catch(err => res.status(400).json(err))
-  },
+      .catch(err => res.status(400).json(err.errors))
+  }
 )
 
 // // @route   GET api/papers/all
@@ -51,7 +51,7 @@ router.get(
         res.json(papers)
       })
       .catch(err => res.status(404).json(err))
-  },
+  }
 )
 
 // // @route   GET api/papers/:id
@@ -76,15 +76,15 @@ router.put(
       req.body,
       {
         new: true,
-        runValidators: true,
-      },
+        runValidators: true
+      }
     )
       .then(paper => {
         if (isEmpty(paper)) res.status(404).json({ NoFound: 'paper no found' })
         res.json(paper)
       })
-      .catch(err => res.status(400).json(err))
-  },
+      .catch(err => res.status(400).json(err.errors))
+  }
 )
 
 // // @route   DELETE api/papers/:id
@@ -97,7 +97,7 @@ router.delete(
     Paper.findOneAndRemove({ _id: req.params.id, user: req.user._id })
       .then(paper => res.json({ success: true }))
       .catch(err => res.status(404).json(err))
-  },
+  }
 )
 
 module.exports = router
