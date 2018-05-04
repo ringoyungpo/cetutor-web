@@ -190,7 +190,7 @@ class PaperEditor extends Component {
     if (nextProps.errors) this.setState({ errors: nextProps.errors.errors })
 
     if (nextProps.papers) this.setState({ ...nextProps.papers })
-    else this.setState({ paper: JSON.parse(this.listeningTemplate) })
+    else this.setState({ paper: JSON.parse(this.PaperTemplate) })
   }
 
   componentDidMount() {
@@ -202,65 +202,29 @@ class PaperEditor extends Component {
     }
   }
 
-  listeningTemplate = JSON.stringify({
-    sections: [
-      {
-        directions: '',
-        sectionTitle: '',
-        modules: [
-          {
-            moduleSound: {
-              url: ''
-            },
-            questions: [
-              {
-                questionSound: {
-                  url: ''
-                },
-                rightAnswer: 0,
-                options: ['', '', '', '']
-              }
-            ]
-          }
-        ]
-      }
-    ]
+  PaperTemplate = JSONl.stringify({
+    writing: {
+      directions: ''
+    },
+    listening: {
+      sections: [JSON.parse(sectionTemplate)]
+    },
+    translation: {
+      question: ''
+    }
   })
 
   sectionTemplate = JSON.stringify({
     directions: '',
     sectionTitle: '',
-    modules: [
-      {
-        moduleSound: {
-          url: ''
-        },
-        questions: [
-          {
-            questionSound: {
-              url: ''
-            },
-            rightAnswer: 0,
-            options: ['', '', '', '']
-          }
-        ]
-      }
-    ]
+    modules: [JSON.parse(moduleTemplate)]
   })
 
   moduleTemplate = JSON.stringify({
     moduleSound: {
       url: ''
     },
-    questions: [
-      {
-        questionSound: {
-          url: ''
-        },
-        rightAnswer: 0,
-        options: ['', '', '', '']
-      }
-    ]
+    questions: [JSON.parse(questionTemplate)]
   })
 
   questionTemplate = JSON.stringify({
