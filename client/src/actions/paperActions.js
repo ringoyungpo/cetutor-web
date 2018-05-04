@@ -16,16 +16,12 @@ export const getCurrentUserPapers = () => dispatch => {
   axios
     .get('/api/papers/token')
     .then(res => {
-      // console.log('paperdata')
-      // console.log(res.data)
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
         payload: res.data
       })
     })
     .catch(err => {
-      // console.log('paperdata')
-      // console.log(err)
       dispatch({
         type: GET_CURRENT_USER_PAPERS,
         payload: []
@@ -49,14 +45,17 @@ export const clearCurrentPaper = () => {
 
 // Create Paper
 export const createPaper = (paperData, history) => dispatch => {
+  console.log({ paperData })
   dispatch({
     type: GET_ERRORS,
     payload: {}
   })
+  console.log({ paperData })
   dispatch({
     type: GET_PAPER,
     payload: paperData
   })
+  console.log({ paperData })
   axios
     .post('/api/papers', paperData)
     .then(res => {

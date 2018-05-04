@@ -137,25 +137,26 @@ class PaperEditor extends Component {
   onSubmit(e) {
     e.preventDefault()
 
-    if (!this.props.match.params.paperId)
-      this.props.createPaper(this.state.paper, this.props.history)
-    else
+    if (!this.props.match.params.paperId) {
+      this.props.createPaper({ ...this.state.papers.paper }, this.props.history)
+    } else
       this.props.updatePaper(
-        { ...this.state.paper, _id: this.props.match.params.paperId },
+        { ...this.state.papers.paper, _id: this.props.match.params.paperId },
         this.props.history
       )
   }
 
-  fileUploadHandler(SelectedFile, paper, paperPath) {
+  fileUploadHandler(SelectedFile, papers, paperPath) {
     const [
       listening,
       sections,
       sectionIndex,
       modules,
       moduleIndex,
-      ...moduleField
+      moduleField,
+      ...moduleChild
     ] = paperPath
-    console.log({ paperPath, moduleField })
+    const { paper } = papers
     const timestamp = Date.now()
     const tags = 'listening'
     const folder = 'listening'
@@ -183,13 +184,6 @@ class PaperEditor extends Component {
       data: formData
     })
       .then(res => {
-        // const [questions, questionIndex, questionSound] = moduleField
-        // console.log(
-        //   paper[listening][sections][sectionIndex][modules][moduleIndex][
-        //     questions
-        //   ][questionIndex][questionSound].url
-        // )
-        axios.defaults.headers.common['Authorization'] = authorization
         switch (moduleField) {
           case 'moduleSound':
             paper[listening][sections][sectionIndex][modules][moduleIndex][
@@ -197,24 +191,22 @@ class PaperEditor extends Component {
             ].url =
               res.data.secure_url
             break
-          default:
-            const [questions, questionIndex, questionSound] = moduleField
+          case 'questions':
+            const [questionIndex, questionSound] = moduleChild
             paper[listening][sections][sectionIndex][modules][moduleIndex][
-              questions
+              moduleField
             ][questionIndex][questionSound].url =
               res.data.secure_url
             break
         }
-        this.setState({ paper: paper })
+        papers = { ...papers, paper: paper }
+        this.setState({ papers: papers })
       })
       .catch(error => {
         console.log(error)
-        axios.defaults.headers.common['Authorization'] = authorization
       })
-  }
 
-  onDeleteListening(sectionIndex) {
-    console.log(sectionIndex)
+    axios.defaults.headers.common['Authorization'] = authorization
   }
 
   onChange(e) {
@@ -230,14 +222,14 @@ class PaperEditor extends Component {
 
     paper = papers.paper
 
-    let { writing, listening, translation } = paper
+    let { title, level, writing, listening, translation } = paper
 
     switch (part) {
       case 'title':
-        paper.title = e.target.value || ''
+        title = e.target.value || ''
         break
       case 'level':
-        paper.level = e.target.value || CET_6
+        level = e.target.value || CET_4
         break
       case 'writing':
         writing = writing || {}
@@ -245,7 +237,6 @@ class PaperEditor extends Component {
         break
       case 'listening':
         let [sections, sectionIndex, sectionField, ...sectionChild] = partDetail
-        console.log({ sections, sectionIndex, sectionField, ...sectionChild })
         listening = listening || {}
         sections = sections || []
         switch (sectionField) {
@@ -292,7 +283,7 @@ class PaperEditor extends Component {
                 break
               case 'moduleSound':
                 if (!e.target.files) break
-                this.fileUploadHandler(e.target.files[0], paper, [
+                this.fileUploadHandler(e.target.files[0], papers, [
                   part,
                   ...partDetail
                 ])
@@ -326,7 +317,7 @@ class PaperEditor extends Component {
                     ][moduleField].splice(questionIndex, 1)
                     break
                   case 'questionSound':
-                    this.fileUploadHandler(e.target.files[0], paper, [
+                    this.fileUploadHandler(e.target.files[0], papers, [
                       part,
                       ...partDetail
                     ])
@@ -336,7 +327,7 @@ class PaperEditor extends Component {
                     listening[sections][sectionIndex][sectionField][
                       moduleIndex
                     ][moduleField][questionIndex][questionField][optionIndex] =
-                      e.target.value || 0
+                      e.target.value || ''
                     break
                   case 'rightAnswer':
                     listening[sections][sectionIndex][sectionField][
@@ -355,10 +346,12 @@ class PaperEditor extends Component {
         break
     }
     paper = {
+      ...this.state.papers.paper,
+      title,
+      level,
       writing,
       listening,
-      translation,
-      ...this.state.paper
+      translation
     }
 
     papers = {
@@ -372,7 +365,6 @@ class PaperEditor extends Component {
   }
 
   render() {
-    console.log(this.state)
     const isCreating = () => isEmpty(this.props.match.params.paperId)
     let { papers, errors } = this.state
     let { paper, loading } = papers
@@ -387,14 +379,6 @@ class PaperEditor extends Component {
       <Spinner />
     ) : (
       <form onSubmit={this.onSubmit}>
-        <h2>
-          {JSON.stringify(
-            errors && errors.writing
-            // &&errors.writing.directions &&
-            // errors.writing.directions.message
-          )}
-        </h2>
-
         <h2>Paper</h2>
         <TextFieldGroup
           title="Title"
@@ -474,86 +458,6 @@ class PaperEditor extends Component {
                 Let's get some information to make your paper completed
               </p>
               {paperEditorForm}
-
-              {/* <SelectListGroup
-                  placeholder="Status"
-                  name="status"
-                  value={this.state.status}
-                  onChange={this.onChange}
-                  options={options}
-                   error={errors&&errors.status}
-                  info="Give us an idea of where you are at in your career"
-                />
-                <TextFieldGroup
-                  placeholder="Company"
-                  name="company"
-                  value={this.state.company}
-                  onChange={this.onChange}
-                   error={errors&&errors.company}
-                  info="Could be your own company or one you work for"
-                />
-                <TextFieldGroup
-                  placeholder="Website"
-                  name="website"
-                  value={this.state.website}
-                  onChange={this.onChange}
-                   error={errors&&errors.website}
-                  info="Could be your own website or a company one"
-                />
-                <TextFieldGroup
-                  placeholder="Location"
-                  name="location"
-                  value={this.state.location}
-                  onChange={this.onChange}
-                   error={errors&&errors.location}
-                  info="City or city & state suggested (eg. Boston, MA)"
-                />
-                <TextFieldGroup
-                  placeholder="* Skills"
-                  name="skills"
-                  value={this.state.skills}
-                  onChange={this.onChange}
-                   error={errors&&errors.skills}
-                  info="Please use comma separated values (eg.
-                    HTML,CSS,JavaScript,PHP"
-                />
-                <TextFieldGroup
-                  placeholder="Github Username"
-                  name="githubusername"
-                  value={this.state.githubusername}
-                  onChange={this.onChange}
-                   error={errors&&errors.githubusername}
-                  info="If you want your latest repos and a Github link, include your username"
-                />
-                <TextAreaFieldGroup
-                  placeholder="Short Bio"
-                  name="bio"
-                  value={this.state.bio}
-                  onChange={this.onChange}
-                   error={errors&&errors.bio}
-                  info="Tell us a little about yourself"
-                />
-
-                <div className="mb-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.setState(prevState => ({
-                        displaySocialInputs: !prevState.displaySocialInputs,
-                      }))
-                    }}
-                    className="btn btn-light"
-                  >
-                    Add Social Network Links
-                  </button>
-                  <span className="text-muted">Optional</span>
-                </div>
-                {socialInputs}
-                <input
-                  type="submit"
-                  value="Submit"
-                  className="btn btn-info btn-block mt-4"
-                /> */}
             </div>
           </div>
         </div>

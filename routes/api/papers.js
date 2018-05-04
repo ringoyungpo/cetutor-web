@@ -24,13 +24,19 @@ router.post(
   }
 )
 
-// // @route   GET api/papers/all
+// // @route   GET api/papers/
 // // @desc    Get all papers route
 // // @access  Public
 router.get('/', (req, res) => {
   Paper.find()
     .populate('user', ['nickname', 'avatar', 'isSuperUser'])
-    .then(papers => res.json(papers))
+    .then(papers => {
+      papers = papers.map(paper => {
+        const { _id, title, level, date, user } = paper
+        return { _id, title, level, date, user }
+      })
+      res.json(papers)
+    })
     .catch(err => res.status(404).json(err))
 })
 
@@ -45,8 +51,8 @@ router.get(
       // .populate('user', ['nickname', 'avatar', 'isSuperUser'])
       .then(papers => {
         papers = papers.map(paper => {
-          const { _id, title, level, date } = paper
-          return { _id, title, level, date }
+          const { _id, title, level, date, user } = paper
+          return { _id, title, level, date, user }
         })
         res.json(papers)
       })
