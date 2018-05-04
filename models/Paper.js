@@ -39,10 +39,6 @@ const PaperSchema = new Schema({
           required: true,
           enum: [NEWS_REPORT, CONVERSATION, PASSANGE, RECORD]
         },
-        directions: {
-          type: String,
-          required: true
-        },
         modules: [
           {
             moduleSound: {

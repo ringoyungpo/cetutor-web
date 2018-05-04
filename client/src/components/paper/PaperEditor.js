@@ -12,7 +12,14 @@ import { getPaperById } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import { isEmpty } from 'lodash'
 import Listening from './Listening'
-import { CET_4, CET_6 } from '../../constant/paperConst'
+import {
+  CET_4,
+  CET_6,
+  NEWS_REPORT,
+  CONVERSATION,
+  PASSANGE,
+  RECORD
+} from '../../constant/paperConst'
 import axios from 'axios'
 import { CLOUDINARY_AUDIO_API } from '../../config/keys'
 import { api_key, base, api_secret, audio } from '../../config/keys'
@@ -64,7 +71,6 @@ class PaperEditor extends Component {
     listening: {
       sections: [
         {
-          directions: '',
           sectionTitle: '',
           modules: [
             {
@@ -91,7 +97,6 @@ class PaperEditor extends Component {
   })
 
   sectionTemplate = JSON.stringify({
-    directions: '',
     sectionTitle: 'NEWS_REPORT',
     modules: [
       {
@@ -254,10 +259,9 @@ class PaperEditor extends Component {
           case 'delete':
             listening[sections].splice(sectionIndex, 1)
             break
-          case 'directions':
           case 'sectionTitle':
             listening[sections][sectionIndex][sectionField] =
-              e.target.value || ''
+              e.target.value || NEWS_REPORT
             break
           case 'modules':
             const [moduleIndex, moduleField, ...moduleChild] = sectionChild
@@ -425,7 +429,7 @@ class PaperEditor extends Component {
           <b>Answer Sheet</b>
         </p>
         <TextAreaFieldGroup
-          placeholder="Translation Directions"
+          placeholder="Translation Question"
           name="this.state.papers.paper.translation.question"
           value={translation.question}
           onChange={this.onChange}
@@ -478,7 +482,6 @@ PaperEditor.propTypes = {
       Listening: PropTypes.shape({
         sections: PropTypes.arrayOf(
           PropTypes.shape({
-            directions: PropTypes.string.isRequired,
             sectionTitle: PropTypes.string.isRequired,
             modules: PropTypes.arrayOf(
               PropTypes.shape({

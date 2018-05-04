@@ -31,7 +31,10 @@ const Listening = ({ sections, errors, onChange }) => {
         value="Insert A New Section"
       />
       {sections.map((sectionValue, sectionIndex) => {
-        const { sectionTitle, directions, modules } = sectionValue
+        const { sectionTitle, modules } = sectionValue
+        let sectionTitleTemp = new String(sectionTitle)
+          .toLowerCase()
+          .replace('_', ' ')
         return (
           <div key={sectionIndex}>
             <span>
@@ -60,21 +63,16 @@ const Listening = ({ sections, errors, onChange }) => {
               }
             />
             <b>Directions:</b>
-            <TextAreaFieldGroup
-              placeholder="Section Directions"
-              name={`this.state.papers.paper.listening.sections.${sectionIndex}.directions`}
-              value={directions || ''}
-              onChange={onChange}
-              error={
-                errors &&
-                errors[`listening.sections.${sectionIndex}.directions`] &&
-                errors[`listening.sections.${sectionIndex}.directions`].message
-              }
-            />
-            <br />
-            <br />
-            <br />
-            <br />
+            <p>
+              In this section, you will hear {modules.length} {sectionTitleTemp}
+              {modules.length > 1 ? 's' : null}. At the end of each{' '}
+              {sectionTitleTemp} you will hear four questions. Both the{' '}
+              {sectionTitleTemp}s and the question-s will be spoken only once.
+              After you hear a question, you must choose the best answer from
+              the four choices marked A), B), C) and D). Then mark the
+              corresponding letter on Answer Sheet with a single line through
+              the centre.
+            </p>
             <input
               type="button"
               name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.unshift`}
@@ -83,7 +81,7 @@ const Listening = ({ sections, errors, onChange }) => {
               value="Insert A Module"
             />
             {modules &&
-              modules.map((moduleValue, moduleIndex) => {
+              modules.map((moduleValue, moduleIndex, moduleArray) => {
                 const { moduleSound, questions } = moduleValue
                 const { url } = moduleSound
                 return (
@@ -109,14 +107,17 @@ const Listening = ({ sections, errors, onChange }) => {
                       onClick={onChange}
                       value="Delete This Module"
                     />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                    <div>
+                      <b>
+                        Questions 1{' '}
+                        {questions.length > 1 ? `to ${questions.length}` : null}{' '}
+                        are based on the conversation you have just heard.
+                      </b>
+                    </div>
                     <input
                       type="button"
                       name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
-                      className="btn btn-success float-left"
+                      className="btn btn-success"
                       onClick={onChange}
                       value="Insert a Question"
                     />
@@ -140,7 +141,9 @@ const Listening = ({ sections, errors, onChange }) => {
                       return (
                         <div key={questionIndex}>
                           <span>
-                            <b>Question {questionIndex + 1}. </b>
+                            <div>
+                              <b>Question {questionIndex + 1}. </b>
+                            </div>
                             <ReactAudioPlayer src={url} controls />
                             <input
                               type="file"
@@ -199,7 +202,7 @@ const Listening = ({ sections, errors, onChange }) => {
                           <input
                             type="button"
                             name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
-                            className="btn btn-success float-left"
+                            className="btn btn-success"
                             onClick={onChange}
                             value="Insert a Question"
                           />
@@ -235,7 +238,6 @@ const Listening = ({ sections, errors, onChange }) => {
 Listening.prototype = {
   sections: PropTypes.arrayOf(
     PropTypes.shape({
-      directions: PropTypes.string.isRequired,
       sectionTitle: PropTypes.string.isRequired,
       modules: PropTypes.arrayOf(
         PropTypes.shape({
