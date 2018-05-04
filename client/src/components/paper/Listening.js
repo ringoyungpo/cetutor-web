@@ -66,12 +66,17 @@ const Listening = ({ sections, errors, onChange }) => {
             <p>
               In this section, you will hear {modules.length} {sectionTitleTemp}
               {modules.length > 1 ? 's' : null}. At the end of each{' '}
-              {sectionTitleTemp} you will hear four questions. Both the{' '}
-              {sectionTitleTemp}s and the question-s will be spoken only once.
-              After you hear a question, you must choose the best answer from
-              the four choices marked A), B), C) and D). Then mark the
-              corresponding letter on Answer Sheet with a single line through
-              the centre.
+              {sectionTitleTemp} you will hear{' '}
+              {[
+                ...new Set(
+                  modules.map(moduleValue => moduleValue.questions.length)
+                )
+              ]}{' '}
+              questions. Both the {sectionTitleTemp}s and the question-s will be
+              spoken only once. After you hear a question, you must choose the
+              best answer from the four choices marked A), B), C) and D). Then
+              mark the corresponding letter on Answer Sheet with a single line
+              through the centre.
             </p>
             <input
               type="button"
