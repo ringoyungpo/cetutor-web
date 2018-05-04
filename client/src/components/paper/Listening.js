@@ -71,6 +71,10 @@ const Listening = ({ sections, errors, onChange }) => {
                 errors[`listening.sections.${sectionIndex}.directions`].message
               }
             />
+            <br />
+            <br />
+            <br />
+            <br />
             <input
               type="button"
               name={`this.state.paper.listening.sections.${sectionIndex}.modules.unshift`}
@@ -78,137 +82,142 @@ const Listening = ({ sections, errors, onChange }) => {
               onClick={onChange}
               value="Insert A Module"
             />
-            {modules.map((moduleValue, moduleIndex) => {
-              const { moduleSound, questions } = moduleValue
-              const { url } = moduleSound
-              return (
-                <div key={moduleIndex}>
-                  <b>
-                    {sectionTitle} {moduleIndex + 1}.{'\t'}
-                  </b>
-                  <span>
-                    {/* <Audio src={url} id={moduleIndex} /> */}
-                    <ReactAudioPlayer src={url} controls />
-                    <input
-                      type="file"
-                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
-                      onChange={onChange}
-                      accept="audio/*"
-                    />
-                    {/* <embed height="100" width="100" src="url" /> */}
-                  </span>
-                  <input
-                    type="button"
-                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
-                    className="btn btn-danger float-right"
-                    onClick={onChange}
-                    value="Delete This Module"
-                  />
-                  <input
-                    type="button"
-                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
-                    className="btn btn-success float-left"
-                    onClick={onChange}
-                    value="Insert a Question"
-                  />
-                  {questions.map((questionValue, questionIndex) => {
-                    const {
-                      questionSound,
-                      options,
-                      rightAnswer
-                    } = questionValue
-                    const { url } = questionSound
-                    const rightAnswerOptions = options.map(
-                      (optionValue, optionIndex) => {
-                        return {
-                          label: `${String.fromCharCode(
-                            optionIndex + 65
-                          )}: ${optionValue}`,
-                          value: String(optionIndex)
-                        }
-                      }
-                    )
-                    return (
-                      <div key={questionIndex}>
-                        <span>
-                          <b>Question {questionIndex + 1}. </b>
-                          <ReactAudioPlayer src={url} controls />
-                          <input
-                            type="file"
-                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
-                            onChange={onChange}
-                            accept="audio/*"
-                          />
-                        </span>
-                        <input
-                          type="button"
-                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
-                          className="btn btn-danger float-right"
-                          onClick={onChange}
-                          value="Delete This Question"
-                        />
-                        {options.map(
-                          (optionValue, optionIndex, optionsArray) => {
-                            return (
-                              <div key={optionIndex}>
-                                <TextFieldGroup
-                                  placeholder="Question Option"
-                                  name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
-                                  value={optionValue}
-                                  onChange={onChange}
-                                  error={
-                                    errors &&
-                                    errors[
-                                      `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
-                                    ] &&
-                                    errors[
-                                      `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
-                                    ].message
-                                  }
-                                />
-                              </div>
-                            )
-                          }
-                        )}
-                        <SelectListGroup
-                          title={`Right Answer ${questionIndex + 1}.`}
-                          placeholder="Right Answer"
-                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
-                          value={String(rightAnswer) || '0'}
-                          onChange={onChange}
-                          options={rightAnswerOptions}
-                          error={
-                            errors &&
-                            errors[
-                              `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
-                            ] &&
-                            errors[
-                              `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
-                            ].message
-                          }
-                        />
-                        <input
-                          type="button"
-                          name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
-                          className="btn btn-success float-left"
-                          onClick={onChange}
-                          value="Insert a Question"
-                        />
-                      </div>
-                    )
-                  })}
-                  <div>
+            {modules &&
+              modules.map((moduleValue, moduleIndex) => {
+                const { moduleSound, questions } = moduleValue
+                const { url } = moduleSound
+                return (
+                  <div key={moduleIndex}>
+                    <b>
+                      {sectionTitle} {moduleIndex + 1}.{'\t'}
+                    </b>
+                    <span>
+                      {/* <Audio src={url} id={moduleIndex} /> */}
+                      <ReactAudioPlayer src={url} controls />
+                      <input
+                        type="file"
+                        name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
+                        onChange={onChange}
+                        accept="audio/*"
+                      />
+                      {/* <embed height="100" width="100" src="url" /> */}
+                    </span>
                     <input
                       type="button"
-                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.insert`}
-                      className="btn btn-success"
+                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
+                      className="btn btn-danger float-right"
                       onClick={onChange}
-                      value="Insert A Module"
+                      value="Delete This Module"
                     />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <input
+                      type="button"
+                      name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.unshift`}
+                      className="btn btn-success float-left"
+                      onClick={onChange}
+                      value="Insert a Question"
+                    />
+                    {questions.map((questionValue, questionIndex) => {
+                      const {
+                        questionSound,
+                        options,
+                        rightAnswer
+                      } = questionValue
+                      const { url } = questionSound
+                      const rightAnswerOptions = options.map(
+                        (optionValue, optionIndex) => {
+                          return {
+                            label: `${String.fromCharCode(
+                              optionIndex + 65
+                            )}: ${optionValue}`,
+                            value: String(optionIndex)
+                          }
+                        }
+                      )
+                      return (
+                        <div key={questionIndex}>
+                          <span>
+                            <b>Question {questionIndex + 1}. </b>
+                            <ReactAudioPlayer src={url} controls />
+                            <input
+                              type="file"
+                              name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
+                              onChange={onChange}
+                              accept="audio/*"
+                            />
+                          </span>
+                          <input
+                            type="button"
+                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
+                            className="btn btn-danger float-right"
+                            onClick={onChange}
+                            value="Delete This Question"
+                          />
+                          {options.map(
+                            (optionValue, optionIndex, optionsArray) => {
+                              return (
+                                <div key={optionIndex}>
+                                  <TextFieldGroup
+                                    placeholder="Question Option"
+                                    name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`}
+                                    value={optionValue}
+                                    onChange={onChange}
+                                    error={
+                                      errors &&
+                                      errors[
+                                        `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
+                                      ] &&
+                                      errors[
+                                        `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.options.${optionIndex}`
+                                      ].message
+                                    }
+                                  />
+                                </div>
+                              )
+                            }
+                          )}
+                          <SelectListGroup
+                            title={`Right Answer ${questionIndex + 1}.`}
+                            placeholder="Right Answer"
+                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`}
+                            value={String(rightAnswer) || '0'}
+                            onChange={onChange}
+                            options={rightAnswerOptions}
+                            error={
+                              errors &&
+                              errors[
+                                `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
+                              ] &&
+                              errors[
+                                `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.rightAnswer`
+                              ].message
+                            }
+                          />
+                          <input
+                            type="button"
+                            name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.insert`}
+                            className="btn btn-success float-left"
+                            onClick={onChange}
+                            value="Insert a Question"
+                          />
+                        </div>
+                      )
+                    })}
+                    <div>
+                      <input
+                        type="button"
+                        name={`this.state.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.insert`}
+                        className="btn btn-success"
+                        onClick={onChange}
+                        value="Insert A Module"
+                      />
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
             <input
               type="button"
               name={`this.state.paper.listening.sections.${sectionIndex}.insert`}

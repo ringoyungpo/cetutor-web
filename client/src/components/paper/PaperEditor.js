@@ -25,159 +25,159 @@ class PaperEditor extends Component {
     this.state = {
       isloading: true,
       paper: {
-        translation: {
-          question: ''
-        },
-        listening: {
-          sections: [
-            {
-              directions: 'sdfsdfasadsf',
-              sectionTitle: 'jkjdfkjdf',
-              modules: [
-                {
-                  moduleSound: {
-                    url:
-                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                  },
-                  questions: [
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              directions: 'sdfsdfasadsf',
-              sectionTitle: 'jkjdfkjdf',
-              modules: [
-                {
-                  moduleSound: {
-                    url:
-                      'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
-                    status: 2
-                  },
-                  questions: [
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    },
-                    {
-                      questionSound: {
-                        url:
-                          'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
-                      },
-                      rightAnswer: 0,
-                      optionSelected: null,
-                      options: [
-                        '1The news report mainly about A?',
-                        '1The news report mainly about B?',
-                        '1The news report mainly about C?',
-                        '1The news report mainly about D?'
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        writing: {
-          directions: ''
-        },
-        level: CET_6,
-        title: ''
+        // translation: {
+        //   question: ''
+        // },
+        // listening: {
+        //   sections: [
+        //     {
+        //       directions: 'sdfsdfasadsf',
+        //       sectionTitle: 'jkjdfkjdf',
+        //       modules: [
+        //         {
+        //           moduleSound: {
+        //             url:
+        //               'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //           },
+        //           questions: [
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             }
+        //           ]
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       directions: 'sdfsdfasadsf',
+        //       sectionTitle: 'jkjdfkjdf',
+        //       modules: [
+        //         {
+        //           moduleSound: {
+        //             url:
+        //               'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3',
+        //             status: 2
+        //           },
+        //           questions: [
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             },
+        //             {
+        //               questionSound: {
+        //                 url:
+        //                   'https://raw.githubusercontent.com/zmxv/react-native-sound-demo/master/advertising.mp3'
+        //               },
+        //               rightAnswer: 0,
+        //               optionSelected: null,
+        //               options: [
+        //                 '1The news report mainly about A?',
+        //                 '1The news report mainly about B?',
+        //                 '1The news report mainly about C?',
+        //                 '1The news report mainly about D?'
+        //               ]
+        //             }
+        //           ]
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
+        // writing: {
+        //   directions: ''
+        // },
+        // level: CET_6,
+        // title: ''
       },
       errors: {}
     }
@@ -190,6 +190,7 @@ class PaperEditor extends Component {
     if (nextProps.errors) this.setState({ errors: nextProps.errors.errors })
 
     if (nextProps.papers) this.setState({ ...nextProps.papers })
+    else this.setState({ paper: JSON.parse(this.listeningTemplate) })
   }
 
   componentDidMount() {
@@ -620,7 +621,11 @@ class PaperEditor extends Component {
         <h4>Part II Listening Comprehension</h4>
 
         <Listening
-          sections={listening.sections}
+          sections={
+            (listening && listening.sections) || [
+              JSON.parse(this.listeningTemplate)
+            ]
+          }
           onChange={this.onChange}
           errors={errors}
         />
@@ -754,7 +759,45 @@ class PaperEditor extends Component {
 }
 
 PaperEditor.propTypes = {
-  papers: PropTypes.object.isRequired,
+  papers: PropTypes.shape({
+    writing: PropTypes.shape({
+      directions: PropTypes.string.isRequired
+    }).isRequired,
+    Listening: PropTypes.shape({
+      sections: PropTypes.arrayOf(
+        PropTypes.shape({
+          directions: PropTypes.string.isRequired,
+          sectionTitle: PropTypes.string.isRequired,
+          modules: PropTypes.arrayOf(
+            PropTypes.shape({
+              moduleSound: PropTypes.arrayOf(
+                PropTypes.shape({
+                  url: PropTypes.string.isRequired
+                })
+              ).isRequired,
+              questions: PropTypes.arrayOf(
+                PropTypes.shape({
+                  questionSound: PropTypes.arrayOf(
+                    PropTypes.shape({
+                      url: PropTypes.string.isRequired
+                    })
+                  ).isRequired,
+                  options: PropTypes.arrayOf(PropTypes.string.isRequired)
+                    .isRequired,
+                  rightAnswer: PropTypes.number.isRequired
+                })
+              ).isRequired
+            }).isRequired
+          ).isRequired
+        }).isRequired
+      ).isRequired,
+      onChange: PropTypes.func.isRequired,
+      errors: PropTypes.object
+    }).isRequired,
+    translation: PropTypes.shape({
+      question: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
   errors: PropTypes.object.isRequired
 }
 
