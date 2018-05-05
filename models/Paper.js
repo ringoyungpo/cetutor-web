@@ -115,6 +115,34 @@ const PaperSchema = new Schema({
             }
           }
         ]
+      },
+      selection: {
+        passages: [
+          {
+            passageContent: {
+              type: String,
+              required: true
+            },
+            questions: [
+              {
+                questionContent: {
+                  type: String,
+                  required: true
+                },
+                options: [
+                  {
+                    type: String,
+                    required: true
+                  }
+                ],
+                rightAnswer: {
+                  type: Number,
+                  required: true
+                }
+              }
+            ]
+          }
+        ]
       }
     }
   },

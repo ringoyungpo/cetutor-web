@@ -5,9 +5,10 @@ import TextFieldGroup from '../common/TextFieldGroup'
 import SelectListGroup from '../common/SelectListGroup'
 
 const Reading = ({ sections, errors, onChange }) => {
-  const { bankedCloze, locating } = sections
+  const { bankedCloze, locating, selection } = sections
   const { passage, options, rightOrder } = bankedCloze
   const { title, paragraphs, questions } = locating
+  const { passages } = selection
   const rightAnswerOptions = paragraphs.map(
     (paragraphValue, paragraphIndex) => {
       return {
@@ -173,7 +174,7 @@ const Reading = ({ sections, errors, onChange }) => {
         return (
           <div key={questionIndex}>
             <TextFieldGroup
-              title={questionIndex + 1}
+              title={String(questionIndex + 1)}
               placeholder="Enter the question content"
               name={`this.state.papers.paper.reading.sections.locating.questions.${questionIndex}.questionContent`}
               value={questionValue.questionContent}
@@ -207,6 +208,122 @@ const Reading = ({ sections, errors, onChange }) => {
           </div>
         )
       })}
+      <b>Section C</b>
+      <br />
+      <b>Directions</b>
+      <p>
+        There are 2 passages in this section. Each passage is followed by some
+        questions or unfinished statements. For each of them there are four
+        choices marked A,B,C and D.You should decide on the best choice and mark
+        the corresponding letter on Answer Sheet 2 with a single line through
+        the centre.
+      </p>
+      {passages.map((passageValue, passageIndex) => {
+        const { passageContent, questions, rightAnswer } = passageValue
+        return (
+          <div key={passageIndex}>
+            <input
+              type="button"
+              name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.delete`}
+              className="btn btn-danger float-right"
+              onClick={onChange}
+              value="Delete A Passage"
+            />
+            <TextAreaFieldGroup
+              title={`Passage ${passageIndex + 1}`}
+              placeholder="Enter the passage Content"
+              name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.passageContent`}
+              value={passageValue.passageContent}
+              onChange={onChange}
+              error={
+                errors &&
+                errors[
+                  `reading.sections.selection.passages.${passageIndex}.passageContent`
+                ] &&
+                errors[
+                  `reading.sections.selection.passages.${passageIndex}.passageContent`
+                ].message
+              }
+            />
+            {questions.map((questionValue, questionIndex) => {
+              const rightAnswerOptions = questionValue.options.map(
+                (optionValue, optionIndex) => {
+                  return {
+                    label: `${String.fromCharCode(
+                      optionIndex + 65
+                    )}: ${optionValue}`,
+                    value: String(optionIndex)
+                  }
+                }
+              )
+              return (
+                <div key={questionIndex}>
+                  <TextFieldGroup
+                    title={`Question ${questionIndex + 1}`}
+                    placeholder="Enter the question Content"
+                    name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.questionContent`}
+                    value={questionValue.questionContent}
+                    onChange={onChange}
+                    error={
+                      errors &&
+                      errors[
+                        `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.questionContent`
+                      ] &&
+                      errors[
+                        `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.questionContent`
+                      ].message
+                    }
+                  />
+                  <b>Options</b>
+                  {questionValue.options.map((optionValue, optionIndex) => {
+                    return (
+                      <TextFieldGroup
+                        placeholder="Enter the option Content"
+                        name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`}
+                        value={questionValue.options[optionIndex]}
+                        onChange={onChange}
+                        error={
+                          errors &&
+                          errors[
+                            `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
+                          ] &&
+                          errors[
+                            `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
+                          ].message
+                        }
+                      />
+                    )
+                  })}
+                  <SelectListGroup
+                    title={`Right Answer ${questionIndex + 1}.`}
+                    placeholder="Right Answer"
+                    name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.rightAnswer`}
+                    value={String(rightAnswer)}
+                    onChange={onChange}
+                    options={rightAnswerOptions}
+                    error={
+                      errors &&
+                      errors[
+                        `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.rightAnswer`
+                      ] &&
+                      errors[
+                        `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.rightAnswer`
+                      ].message
+                    }
+                  />
+                </div>
+              )
+            })}
+            <input
+              type="button"
+              name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.insert`}
+              className="btn btn-success"
+              onClick={onChange}
+              value="Insert A Passage"
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -227,6 +344,21 @@ Reading.prototype = {
         PropTypes.shape({
           questionContent: PropTypes.string.isRequired,
           rightAnswer: PropTypes.number.isRequired
+        }).isRequired
+      ).isRequired
+    }).isRequired,
+    selection: PropTypes.shape({
+      passages: PropTypes.arrayOf(
+        PropTypes.shape({
+          passageContent: PropTypes.string.isRequired,
+          questions: PropTypes.arrayOf(
+            PropTypes.shape({
+              questionContent: PropTypes.string.isRequired,
+              options: PropTypes.arrayOf(PropTypes.string.isRequired)
+                .isRequired,
+              rightAnswer: PropTypes.number.isRequired
+            }).isRequired
+          ).isRequired
         }).isRequired
       ).isRequired
     }).isRequired

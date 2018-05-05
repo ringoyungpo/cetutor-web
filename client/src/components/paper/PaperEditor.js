@@ -114,6 +114,20 @@ class PaperEditor extends Component {
             { questionContent: '', rightAnswer: 0 },
             { questionContent: '', rightAnswer: 0 }
           ]
+        },
+        selection: {
+          passages: [
+            {
+              passageContent: '',
+              questions: [
+                {
+                  questionContent: '',
+                  options: ['', '', '', '']
+                }
+              ],
+              rightAnswer: 0
+            }
+          ]
         }
       }
     },
@@ -148,8 +162,49 @@ class PaperEditor extends Component {
         passage: '',
         options: ['', '', '', '', '', '', '', '', '', ''],
         rightOrder: ['', '', '', '', '', '', '', '', '', '']
+      },
+      locating: {
+        title: '',
+        paragraphs: ['', '', '', '', '', '', '', '', '', ''],
+        questions: [
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 },
+          { questionContent: '', rightAnswer: 0 }
+        ]
+      },
+      selection: {
+        passages: [
+          {
+            passageContent: '',
+            questions: [
+              {
+                questionContent: '',
+                options: ['', '', '', '']
+              }
+            ],
+            rightAnswer: 0
+          }
+        ]
       }
     }
+  })
+
+  selectionPassagesTemplate = JSON.stringify({
+    passageContent: '',
+    questions: [
+      {
+        questionContent: '',
+        options: ['', '', '', '']
+      }
+    ],
+    rightAnswer: 0
   })
 
   moduleTemplate = JSON.stringify({
@@ -481,6 +536,60 @@ class PaperEditor extends Component {
                 break
             }
             break
+          case 'selection':
+            const selection = sectionField
+            const [
+              passages,
+              passageIndex,
+              passageField,
+              ...passageChild
+            ] = sectionChild
+            switch (passageField) {
+              case 'insert':
+                reading[sections][selection][passages].splice(
+                  passageIndex + 1,
+                  0,
+                  JSON.parse(this.selectionPassagesTemplate)
+                )
+              case 'delete':
+                reading[sections][selection][passages].splice(passageIndex, 1)
+                break
+              case 'passageContent':
+                const passageContent = passageField
+                reading[sections][selection][passages][passageIndex][
+                  passageContent
+                ] =
+                  e.target.value
+                break
+              case 'questions':
+                const questions = passageField
+                const [
+                  questionIndex,
+                  questionField,
+                  ...questionChild
+                ] = passageChild
+                switch (questionField) {
+                  case 'questionContent':
+                    const questionContent = questionField
+                    reading[sections][selection][passages][passageIndex][
+                      questions
+                    ][questionIndex][questionContent] =
+                      e.target.value
+                    break
+                  case 'options':
+                    const options = questionField
+                    const [optionIndex] = questionChild
+                    reading[sections][selection][passages][passageIndex][
+                      questions
+                    ][questionIndex][options][optionIndex] =
+                      e.target.value
+                    break
+                }
+
+                break
+            }
+
+            break
         }
         break
       case 'translation':
@@ -665,6 +774,21 @@ PaperEditor.propTypes = {
               PropTypes.shape({
                 questionContent: PropTypes.string.isRequired,
                 rightAnswer: PropTypes.number.isRequired
+              }).isRequired
+            ).isRequired
+          }).isRequired,
+          selection: PropTypes.shape({
+            passages: PropTypes.arrayOf(
+              PropTypes.shape({
+                passageContent: PropTypes.string.isRequired,
+                questions: PropTypes.arrayOf(
+                  PropTypes.shape({
+                    questionContent: PropTypes.string.isRequired,
+                    options: PropTypes.arrayOf(PropTypes.string.isRequired)
+                      .isRequired,
+                    rightAnswer: PropTypes.number.isRequired
+                  }).isRequired
+                ).isRequired
               }).isRequired
             ).isRequired
           }).isRequired
