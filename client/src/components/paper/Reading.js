@@ -245,6 +245,7 @@ const Reading = ({ sections, errors, onChange }) => {
                 ].message
               }
             />
+
             {questions.map((questionValue, questionIndex) => {
               const rightAnswerOptions = questionValue.options.map(
                 (optionValue, optionIndex) => {
@@ -258,6 +259,13 @@ const Reading = ({ sections, errors, onChange }) => {
               )
               return (
                 <div key={questionIndex}>
+                  <input
+                    type="button"
+                    name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.delete`}
+                    className="btn btn-danger float-right"
+                    onClick={onChange}
+                    value="Delete A Qusetion"
+                  />
                   <TextFieldGroup
                     title={`Question ${questionIndex + 1}`}
                     placeholder="Enter the question Content"
@@ -310,6 +318,13 @@ const Reading = ({ sections, errors, onChange }) => {
                         `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.rightAnswer`
                       ].message
                     }
+                  />
+                  <input
+                    type="button"
+                    name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.insert`}
+                    className="btn btn-success"
+                    onClick={onChange}
+                    value="Insert A Question"
                   />
                 </div>
               )

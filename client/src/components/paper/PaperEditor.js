@@ -201,10 +201,10 @@ class PaperEditor extends Component {
     questions: [
       {
         questionContent: '',
-        options: ['', '', '', '']
+        options: ['', '', '', ''],
+        rightAnswer: 0
       }
-    ],
-    rightAnswer: 0
+    ]
   })
 
   moduleTemplate = JSON.stringify({
@@ -220,6 +220,12 @@ class PaperEditor extends Component {
         options: ['', '', '', '']
       }
     ]
+  })
+
+  passageQuestionTemplate = JSON.stringify({
+    questionContent: '',
+    options: ['', '', '', ''],
+    rightAnswer: 0
   })
 
   questionTemplate = JSON.stringify({
@@ -551,6 +557,7 @@ class PaperEditor extends Component {
                   0,
                   JSON.parse(this.selectionPassagesTemplate)
                 )
+                break
               case 'delete':
                 reading[sections][selection][passages].splice(passageIndex, 1)
                 break
@@ -569,6 +576,20 @@ class PaperEditor extends Component {
                   ...questionChild
                 ] = passageChild
                 switch (questionField) {
+                  case 'delete':
+                    reading[sections][selection][passages][passageIndex][
+                      questions
+                    ].splice(questionIndex, 0)
+                    break
+                  case 'insert':
+                    reading[sections][selection][passages][passageIndex][
+                      questions
+                    ].splice(
+                      questionIndex + 1,
+                      0,
+                      JSON.parse(this.passageQuestionTemplate)
+                    )
+                    break
                   case 'questionContent':
                     const questionContent = questionField
                     reading[sections][selection][passages][passageIndex][
