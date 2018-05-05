@@ -517,7 +517,6 @@ class PaperEditor extends Component {
                       e.target.value
                     break
                 }
-
                 break
               case 'questions':
                 const questions = locatingField
@@ -604,6 +603,18 @@ class PaperEditor extends Component {
                       questions
                     ][questionIndex][options][optionIndex] =
                       e.target.value
+                    break
+                  case 'rightAnswer':
+                    console.log(e.target.value)
+                    const rightAnswer = questionField
+                    reading[sections][selection][passages][passageIndex][
+                      questions
+                    ][questionIndex][rightAnswer] = Number(e.target.value)
+                    console.log(
+                      reading[sections][selection][passages][passageIndex][
+                        questions
+                      ][questionIndex]
+                    )
                     break
                 }
 

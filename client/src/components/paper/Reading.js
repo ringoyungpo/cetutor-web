@@ -14,7 +14,7 @@ const Reading = ({ sections, errors, onChange }) => {
       return {
         label: `${String.fromCharCode(
           paragraphIndex + 65
-        )}: ${paragraphValue.substr(0, 64)}`,
+        )}: ${paragraphValue.substr(0, 32)}`,
         value: String(paragraphIndex)
       }
     }
@@ -285,28 +285,30 @@ const Reading = ({ sections, errors, onChange }) => {
                   <b>Options</b>
                   {questionValue.options.map((optionValue, optionIndex) => {
                     return (
-                      <TextFieldGroup
-                        placeholder="Enter the option Content"
-                        name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`}
-                        value={questionValue.options[optionIndex]}
-                        onChange={onChange}
-                        error={
-                          errors &&
-                          errors[
-                            `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
-                          ] &&
-                          errors[
-                            `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
-                          ].message
-                        }
-                      />
+                      <div key={optionIndex}>
+                        <TextFieldGroup
+                          placeholder="Enter the option Content"
+                          name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`}
+                          value={questionValue.options[optionIndex]}
+                          onChange={onChange}
+                          error={
+                            errors &&
+                            errors[
+                              `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
+                            ] &&
+                            errors[
+                              `reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.options.${optionIndex}`
+                            ].message
+                          }
+                        />
+                      </div>
                     )
                   })}
                   <SelectListGroup
                     title={`Right Answer ${questionIndex + 1}.`}
                     placeholder="Right Answer"
                     name={`this.state.papers.paper.reading.sections.selection.passages.${passageIndex}.questions.${questionIndex}.rightAnswer`}
-                    value={String(rightAnswer)}
+                    value={String(questionValue.rightAnswer)}
                     onChange={onChange}
                     options={rightAnswerOptions}
                     error={
