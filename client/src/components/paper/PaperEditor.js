@@ -97,7 +97,23 @@ class PaperEditor extends Component {
         bankedCloze: {
           passage: '',
           options: ['', '', '', '', '', '', '', '', '', ''],
-          rightOrder: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          rightOrder: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        },
+        locating: {
+          title: '',
+          paragraphs: ['', '', '', '', '', '', '', '', '', ''],
+          questions: [
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 },
+            { questionContent: '', rightAnswer: 0 }
+          ]
         }
       }
     },
@@ -410,6 +426,61 @@ class PaperEditor extends Component {
                 break
             }
             break
+          case 'locating':
+            const locating = sectionField
+            const [locatingField, ...locatingChild] = sectionChild
+            switch (locatingField) {
+              case 'title':
+                const tilte = locatingField
+                reading[sections][locating][tilte] = e.target.value
+                break
+              case 'paragraphs':
+                const paragraphs = locatingField
+                const [paragraphIndex, operate] = locatingChild
+                switch (operate) {
+                  case 'insert':
+                    reading[sections][locating][paragraphs].splice(
+                      paragraphIndex + 1,
+                      0,
+                      ''
+                    )
+                    break
+                  case 'delete':
+                    reading[sections][locating][paragraphs].splice(
+                      paragraphIndex,
+                      1
+                    )
+                    break
+                  default:
+                    reading[sections][locating][paragraphs][paragraphIndex] =
+                      e.target.value
+                    break
+                }
+
+                break
+              case 'questions':
+                const questions = locatingField
+                const [questionIndex, questionField] = locatingChild
+                switch (questionField) {
+                  case 'questionContent':
+                    const questionContent = questionField
+                    reading[sections][locating][questions][questionIndex][
+                      questionContent
+                    ] =
+                      e.target.value
+                    break
+                  case 'rightAnswer':
+                    const rightAnswer = questionField
+                    reading[sections][locating][questions][questionIndex][
+                      rightAnswer
+                    ] =
+                      e.target.value
+                    break
+                }
+
+                break
+            }
+            break
         }
         break
       case 'translation':
@@ -585,6 +656,17 @@ PaperEditor.propTypes = {
             options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
             rightOrder: PropTypes.arrayOf(PropTypes.number.isRequired)
               .isRequired
+          }).isRequired,
+          locating: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            paragraphs: PropTypes.arrayOf(PropTypes.string.isRequired)
+              .isRequired,
+            questions: PropTypes.arrayOf(
+              PropTypes.shape({
+                questionContent: PropTypes.string.isRequired,
+                rightAnswer: PropTypes.number.isRequired
+              }).isRequired
+            ).isRequired
           }).isRequired
         }).isRequired
       }).isRequired,

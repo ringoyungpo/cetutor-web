@@ -87,8 +87,32 @@ const PaperSchema = new Schema({
         ],
         rightOrder: [
           {
+            type: Number,
+            required: true
+          }
+        ]
+      },
+      locating: {
+        title: {
+          type: String,
+          required: true
+        },
+        paragraphs: [
+          {
             type: String,
             required: true
+          }
+        ],
+        questions: [
+          {
+            questionContent: {
+              type: String,
+              required: true
+            },
+            rightAnswer: {
+              type: Number,
+              required: true
+            }
           }
         ]
       }
