@@ -2,7 +2,9 @@ import {
   GET_ERRORS,
   SET_CURRENT_USER,
   INFO_SUBMITTING,
-  INFO_SUBMITTED
+  INFO_SUBMITTED,
+  ON_LOGIN_INPUT_CHANGE,
+  GET_CURRENT_AUTH_STATE
 } from './types'
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
@@ -20,6 +22,24 @@ export const registerUser = (userData, history) => dispatch => {
         payload: err.response.data
       })
     )
+}
+
+export const onLoginInputChange = e => dispatch => {
+  dispatch({
+    type: ON_LOGIN_INPUT_CHANGE,
+    payload: e.target
+  })
+}
+
+export const loginIntial = () => dispatch => {
+  dispatch({
+    type: GET_CURRENT_AUTH_STATE,
+    payload: null
+  })
+  dispatch({
+    type: GET_ERRORS,
+    payload: {}
+  })
 }
 
 export const loginUser = userData => dispatch => {

@@ -1,57 +1,37 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authActions'
+import {
+  loginUser,
+  onLoginInputChange,
+  loginIntial
+} from '../../actions/authActions'
 import TextFieldGroup from '../common/TextFieldGroup'
 import Spinner from '../common/Spinner'
 
 class Login extends Component {
-  constructor() {
-    super()
-    this.state = {
-      email: '',
-      password: '',
-      errors: {},
-    }
-
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
+  componentWillMount() {
+    this.props.loginIntial()
+    if (this.props.isAuthenticated) {
       this.props.history.push('/dashboard')
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
+    if (nextProps.isAuthenticated) {
       this.props.history.push('/dashboard')
-    }
-
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
     }
   }
 
   onSubmit(e) {
     e.preventDefault()
-
-    const userData = {
-      email: this.state.email,
-      password: this.state.password,
-    }
-
-    this.props.loginUser(userData)
-  }
-
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
+    this.props.loginUser(this.props.loginInput)
   }
 
   render() {
-    const { errors } = this.state
+    const { errors } = this.props
     const { submitting } = this.props.spinner
+    const { email, password } = this.props.loginInput
     // console.log
 
     return (
@@ -61,15 +41,15 @@ class Login extends Component {
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Log In</h1>
               <p className="lead text-center">
-                Sign in to your DevConnector account
+                Sign in to your CETutor account
               </p>
-              <form onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmit.bind(this)}>
                 <TextFieldGroup
                   placeholder="Email Address"
                   name="email"
                   type="email"
-                  value={this.state.email}
-                  onChange={this.onChange}
+                  value={email}
+                  onChange={this.props.onLoginInputChange}
                   error={errors.email}
                 />
 
@@ -77,8 +57,8 @@ class Login extends Component {
                   placeholder="Password"
                   name="password"
                   type="password"
-                  value={this.state.password}
-                  onChange={this.onChange}
+                  value={password}
+                  onChange={this.props.onLoginInputChange}
                   error={errors.password}
                 />
                 <input
@@ -97,15 +77,28 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  onLoginInputChange: PropTypes.func.isRequired,
+  loginIntial: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  loginInput: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired
+  }).isRequired,
   errors: PropTypes.object.isRequired,
-  spinner: PropTypes.object.isRequired,
+  spinner: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+  isAuthenticated: state.auth.isAuthenticated,
+  loginInput: state.auth.loginInput,
   errors: state.errors,
-  spinner: state.spinner,
+  spinner: state.spinner
 })
 
-export default connect(mapStateToProps, { loginUser })(Login)
+const mapDispatchToProps = {
+  loginUser,
+  onLoginInputChange,
+  loginIntial
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
