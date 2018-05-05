@@ -35,14 +35,14 @@ router.post('/', (req, res) => {
       const avatar = gravatar.url(req.body.email, {
         s: '200', // Size
         r: 'pg', // Rating
-        d: 'mm', // Default
+        d: 'mm' // Default
       })
 
       const newUser = new User({
         nickname: req.body.nickname,
         email: req.body.email,
         avatar,
-        password: req.body.password,
+        password: req.body.password
       })
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -89,20 +89,20 @@ router.post('/token', (req, res) => {
           id: user.id,
           nickname: user.nickname,
           avatar: user.avatar,
-          isSuperUser: user.isSuperUser,
+          isSuperUser: user.isSuperUser
         } // Create JWT Payload
 
         // Sign Token
         jwt.sign(
           payload,
           keys.secretOrKey,
-          { expiresIn: 3600 },
+          { expiresIn: 3 * 24 * 60 * 60 },
           (err, token) => {
             res.json({
               success: true,
-              token: 'Bearer ' + token,
+              token: 'Bearer ' + token
             })
-          },
+          }
         )
       } else {
         errors.password = 'Password incorrect'
@@ -122,9 +122,9 @@ router.get(
     res.json({
       id: req.user.id,
       nickname: req.user.nickname,
-      email: req.user.email,
+      email: req.user.email
     })
-  },
+  }
 )
 
 module.exports = router

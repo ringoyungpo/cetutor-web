@@ -23,6 +23,7 @@ const Listening = ({ sections, errors, onChange }) => {
 
   return (
     <div>
+      <h4>Part II Listening Comprehension</h4>
       <input
         type="button"
         name={`this.state.papers.paper.listening.sections.unshift`}
@@ -74,8 +75,8 @@ const Listening = ({ sections, errors, onChange }) => {
               ].join(',')}{' '}
               questions. Both the {sectionTitleTemp}s and the question-s will be
               spoken only once. After you hear a question, you must choose the
-              best answer from the four choices marked A), B), C) and D). Then
-              mark the corresponding letter on Answer Sheet with a single line
+              best answer from the four choices marked A, B, C and D. Then mark
+              the corresponding letter on Answer Sheet with a single line
               through the centre.
             </p>
             <input

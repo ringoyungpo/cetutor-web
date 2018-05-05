@@ -72,6 +72,28 @@ const PaperSchema = new Schema({
       }
     ]
   },
+  reading: {
+    sections: {
+      bankedCloze: {
+        passage: {
+          type: String,
+          required: true
+        },
+        options: [
+          {
+            type: String,
+            required: true
+          }
+        ],
+        rightOrder: [
+          {
+            type: String,
+            required: true
+          }
+        ]
+      }
+    }
+  },
   translation: {
     question: {
       type: String,

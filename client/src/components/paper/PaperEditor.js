@@ -12,6 +12,7 @@ import { getPaperById } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import { isEmpty } from 'lodash'
 import Listening from './Listening'
+import Reading from './Reading'
 import {
   CET_4,
   CET_6,
@@ -71,7 +72,7 @@ class PaperEditor extends Component {
     listening: {
       sections: [
         {
-          sectionTitle: '',
+          sectionTitle: 'NEWS_REPORT',
           modules: [
             {
               moduleSound: {
@@ -91,12 +92,21 @@ class PaperEditor extends Component {
         }
       ]
     },
+    reading: {
+      sections: {
+        bankedCloze: {
+          passage: '',
+          options: ['', '', '', '', '', '', '', '', '', ''],
+          rightOrder: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      }
+    },
     translation: {
       question: ''
     }
   })
 
-  sectionTemplate = JSON.stringify({
+  listeningSectionTemplate = JSON.stringify({
     sectionTitle: 'NEWS_REPORT',
     modules: [
       {
@@ -114,6 +124,16 @@ class PaperEditor extends Component {
         ]
       }
     ]
+  })
+
+  readingSectionTemplate = JSON.stringify({
+    sections: {
+      bankedCloze: {
+        passage: '',
+        options: ['', '', '', '', '', '', '', '', '', ''],
+        rightOrder: ['', '', '', '', '', '', '', '', '', '']
+      }
+    }
   })
 
   moduleTemplate = JSON.stringify({
@@ -227,7 +247,7 @@ class PaperEditor extends Component {
 
     paper = papers.paper
 
-    let { title, level, writing, listening, translation } = paper
+    let { title, level, writing, reading, listening, translation } = paper
 
     switch (part) {
       case 'title':
@@ -247,13 +267,15 @@ class PaperEditor extends Component {
         switch (sectionField) {
           case undefined:
             if (sectionIndex === 'unshift')
-              listening[sections].unshift(JSON.parse(this.sectionTemplate))
+              listening[sections].unshift(
+                JSON.parse(this.listeningSectionTemplate)
+              )
             break
           case 'insert':
             listening[sections].splice(
               sectionIndex + 1,
               0,
-              JSON.parse(this.sectionTemplate)
+              JSON.parse(this.listeningSectionTemplate)
             )
             break
           case 'delete':
@@ -344,6 +366,52 @@ class PaperEditor extends Component {
             }
         }
         break
+      case 'reading':
+        ;[sections, sectionField, ...sectionChild] = partDetail
+        switch (sectionField) {
+          case 'bankedCloze':
+            let [bankedClozeField, ...bankedClozeChild] = sectionChild
+            switch (bankedClozeField) {
+              case 'passage':
+                reading[sections][sectionField][bankedClozeField] =
+                  e.target.value
+                break
+              case 'options':
+                const [optionIndex, optionOperate] = bankedClozeChild
+                switch (optionOperate) {
+                  case undefined:
+                    reading[sections][sectionField][bankedClozeField][
+                      optionIndex
+                    ] =
+                      e.target.value
+                    break
+                  case 'insert':
+                    reading[sections][sectionField][bankedClozeField].splice(
+                      optionIndex + 1,
+                      0,
+                      ''
+                    )
+                    break
+                  case 'delete':
+                    reading[sections][sectionField][bankedClozeField].splice(
+                      optionIndex,
+                      1
+                    )
+                    break
+                }
+
+                break
+              case 'rightOrder':
+                const [rightOrderIndex] = bankedClozeChild
+                reading[sections][sectionField][bankedClozeField][
+                  rightOrderIndex
+                ] =
+                  e.target.value
+                break
+            }
+            break
+        }
+        break
       case 'translation':
         translation = translation || {}
         translation.question = e.target.value || ''
@@ -355,6 +423,7 @@ class PaperEditor extends Component {
       level,
       writing,
       listening,
+      reading,
       translation
     }
 
@@ -372,7 +441,7 @@ class PaperEditor extends Component {
     const isCreating = () => isEmpty(this.props.match.params.paperId)
     let { papers, errors } = this.state
     let { paper, loading } = papers
-    let { title, level, writing, listening, translation } = paper
+    let { title, level, writing, listening, reading, translation } = paper
 
     const options = [
       { label: 'CET-4', value: 'CET_4' },
@@ -414,13 +483,19 @@ class PaperEditor extends Component {
             errors['writing.directions'].message
           }
         />
-        <h4>Part II Listening Comprehension</h4>
 
         <Listening
           sections={listening.sections}
           onChange={this.onChange}
           errors={errors}
         />
+
+        <Reading
+          sections={reading.sections}
+          onChange={this.onChange}
+          errors={errors}
+        />
+
         <h4>Part IV Translation</h4>
         <b>Directions:</b>
         <p>
@@ -479,24 +554,20 @@ PaperEditor.propTypes = {
       writing: PropTypes.shape({
         directions: PropTypes.string.isRequired
       }).isRequired,
-      Listening: PropTypes.shape({
+      listening: PropTypes.shape({
         sections: PropTypes.arrayOf(
           PropTypes.shape({
             sectionTitle: PropTypes.string.isRequired,
             modules: PropTypes.arrayOf(
               PropTypes.shape({
-                moduleSound: PropTypes.arrayOf(
-                  PropTypes.shape({
-                    url: PropTypes.string.isRequired
-                  })
-                ).isRequired,
+                moduleSound: PropTypes.shape({
+                  url: PropTypes.string.isRequired
+                }),
                 questions: PropTypes.arrayOf(
                   PropTypes.shape({
-                    questionSound: PropTypes.arrayOf(
-                      PropTypes.shape({
-                        url: PropTypes.string.isRequired
-                      })
-                    ).isRequired,
+                    questionSound: PropTypes.shape({
+                      url: PropTypes.string.isRequired
+                    }),
                     options: PropTypes.arrayOf(PropTypes.string.isRequired)
                       .isRequired,
                     rightAnswer: PropTypes.number.isRequired
@@ -505,9 +576,17 @@ PaperEditor.propTypes = {
               }).isRequired
             ).isRequired
           }).isRequired
-        ).isRequired,
-        onChange: PropTypes.func.isRequired,
-        errors: PropTypes.object
+        ).isRequired
+      }).isRequired,
+      reading: PropTypes.shape({
+        sections: PropTypes.shape({
+          bankedCloze: PropTypes.shape({
+            passage: PropTypes.string.isRequired,
+            options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+            rightOrder: PropTypes.arrayOf(PropTypes.number.isRequired)
+              .isRequired
+          }).isRequired
+        }).isRequired
       }).isRequired,
       translation: PropTypes.shape({
         question: PropTypes.string.isRequired
