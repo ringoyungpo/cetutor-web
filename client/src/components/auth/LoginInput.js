@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import {
-  loginUser,
-  onLoginInputChange,
-  loginIntial
-} from '../../actions/authActions'
 import TextFieldGroup from '../common/TextFieldGroup'
 import Spinner from '../common/Spinner'
 
-class Login extends Component {
+export default class LoginInput extends Component {
   componentWillMount() {
     this.props.loginIntial()
     if (this.props.isAuthenticated) {
@@ -75,7 +69,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+LoginInput.propTypes = {
   loginUser: PropTypes.func.isRequired,
   onLoginInputChange: PropTypes.func.isRequired,
   loginIntial: PropTypes.func.isRequired,
@@ -87,18 +81,3 @@ Login.propTypes = {
   errors: PropTypes.object.isRequired,
   spinner: PropTypes.object.isRequired
 }
-
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  loginInput: state.auth.loginInput,
-  errors: state.errors,
-  spinner: state.spinner
-})
-
-const mapDispatchToProps = {
-  loginUser,
-  onLoginInputChange,
-  loginIntial
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)

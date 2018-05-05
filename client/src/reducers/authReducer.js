@@ -24,12 +24,12 @@ export default function(state = initialState, action) {
         user: action.payload
       }
     case ON_LOGIN_INPUT_CHANGE:
+      let { loginInput } = state
+      const { name, value } = action.payload
+      loginInput[name] = value
       return {
         ...state,
-        loginInput: {
-          ...state.loginInput,
-          [action.payload.name]: action.payload.value
-        }
+        loginInput: { ...loginInput }
       }
     case GET_CURRENT_AUTH_STATE:
       return state

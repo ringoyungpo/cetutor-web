@@ -14,7 +14,7 @@ import Landing from './components/layout/Landing'
 import PrivateRoute from './components/common/PrivateRoute'
 
 import Register from './components/auth/Ragister'
-import Login from './components/auth/Login'
+import Login from './containers/Login'
 import Dashboard from './components/dashboard/Dashboard'
 import { clearCurrentPaper } from './actions/paperActions'
 import PaperEditor from './components/paper/PaperEditor'
