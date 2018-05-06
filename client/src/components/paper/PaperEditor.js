@@ -122,10 +122,10 @@ class PaperEditor extends Component {
               questions: [
                 {
                   questionContent: '',
-                  options: ['', '', '', '']
+                  options: ['', '', '', ''],
+                  rightAnswer: 0
                 }
-              ],
-              rightAnswer: 0
+              ]
             }
           ]
         }
@@ -186,10 +186,11 @@ class PaperEditor extends Component {
             questions: [
               {
                 questionContent: '',
-                options: ['', '', '', '']
+                options: ['', '', '', ''],
+
+                rightAnswer: 0
               }
-            ],
-            rightAnswer: 0
+            ]
           }
         ]
       }

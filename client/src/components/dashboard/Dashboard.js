@@ -6,6 +6,7 @@ import { getCurrentUserPapers } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import PaperIntro from '../../components/paper/PaperIntro'
 import DashActionBar from './DashActionBar'
+import { deletePaper } from '../../actions/paperActions'
 // import Experience from './Experience'
 // import Education from './Education'
 
@@ -35,7 +36,10 @@ class Dashboard extends Component {
             {/* <ProfileActions /> */}
             {/* <Experience experience={profile.experience} />
             <Education education={profile.education} /> */}
-            <PaperIntro currentUserPapers={currentUserPapers} />
+            <PaperIntro
+              currentUserPapers={currentUserPapers}
+              deletePaper={this.props.deletePaper}
+            />
             <div style={{ marginBottom: '60px' }} />
             {/* <button
               onClick={this.onDeleteClick.bind(this)}
@@ -86,4 +90,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { getCurrentUserPapers })(Dashboard)
+export default connect(mapStateToProps, { deletePaper, getCurrentUserPapers })(
+  Dashboard
+)
