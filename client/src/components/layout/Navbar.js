@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { logoutUser } from '../../actions/authActions'
-import { clearCurrentPaper } from '../../actions/paperActions'
 
-class Navbar extends Component {
+export default class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault()
     this.props.logoutUser()
@@ -13,7 +10,7 @@ class Navbar extends Component {
   }
 
   render() {
-    const { isAuthenticated, user } = this.props.auth
+    const { isAuthenticated, user } = this.props
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -84,14 +81,8 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
+  clearCurrentPaper: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
-
-const mapStateToProps = state => ({
-  auth: state.auth,
-})
-
-export default connect(mapStateToProps, { logoutUser, clearCurrentPaper })(
-  Navbar,
-)

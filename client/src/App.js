@@ -8,7 +8,7 @@ import { setCurrentUser, logoutUser } from './actions/authActions'
 
 // import logo from './logo.svg';
 import './App.css'
-import Navbar from './components/layout/Navbar'
+import Navbar from './containers/Navbar'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
 import PrivateRoute from './containers/PrivateRoute'
