@@ -26,7 +26,7 @@ export const setInfoSubmitted = () => {
   }
 }
 
-//Register User
+//RegisterInput User
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post('/api/users/', userData)

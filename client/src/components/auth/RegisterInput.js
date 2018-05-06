@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import {
-  registerUser,
-  authIntial,
-  onRegisterInputChange
-} from '../../actions/authActions'
 import TextFieldGroup from '../common/TextFieldGroup'
 
-class Register extends Component {
+export default class RegisterInput extends Component {
   componentWillMount() {
     this.props.authIntial()
     if (this.props.isAuthenticated) {
@@ -78,7 +71,7 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
+RegisterInput.propTypes = {
   registerUser: PropTypes.func.isRequired,
   registerInput: PropTypes.shape({
     nickname: PropTypes.string.isRequired,
@@ -89,15 +82,3 @@ Register.propTypes = {
   isAuthenticated: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 }
-
-const mapStateToProps = state => ({
-  registerInput: state.auth.registerInput,
-  isAuthenticated: state.auth.isAuthenticated,
-  errors: state.errors
-})
-
-export default connect(mapStateToProps, {
-  registerUser,
-  authIntial,
-  onRegisterInputChange
-})(withRouter(Register))
