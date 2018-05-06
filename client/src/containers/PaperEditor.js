@@ -15,11 +15,15 @@ const mapStateToProps = state => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, {
+const mapDispatchToProps = {
   createPaper,
   updatePaper,
   getPaperById,
   onPaperEditChange,
   setPaperEditing,
   fileUploadHandler
-})(withRouter(PaperEditor))
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withRouter(PaperEditor)
+)

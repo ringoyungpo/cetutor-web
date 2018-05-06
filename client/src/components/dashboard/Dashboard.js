@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getCurrentUserPapers } from '../../actions/paperActions'
 import Spinner from '../common/Spinner'
 import PaperIntro from '../../components/paper/PaperIntro'
 import DashActionBar from './DashActionBar'
-import { deletePaper } from '../../actions/paperActions'
-// import Experience from './Experience'
-// import Education from './Education'
-
-class Dashboard extends Component {
+export default class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentUserPapers()
   }
@@ -84,12 +78,3 @@ Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
   papers: PropTypes.object.isRequired
 }
-
-const mapStateToProps = state => ({
-  papers: state.papers,
-  auth: state.auth
-})
-
-export default connect(mapStateToProps, { deletePaper, getCurrentUserPapers })(
-  Dashboard
-)

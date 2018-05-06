@@ -15,7 +15,7 @@ import PrivateRoute from './containers/PrivateRoute'
 
 import Register from './containers/Register'
 import Login from './containers/Login'
-import Dashboard from './components/dashboard/Dashboard'
+import Dashboard from './containers/Dashboard'
 import { clearCurrentPaper } from './actions/paperActions'
 import PaperEditor from './containers/PaperEditor'
 import Errors from './components/errors/Errors'
