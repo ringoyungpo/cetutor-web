@@ -11,7 +11,7 @@ import './App.css'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Landing from './components/layout/Landing'
-import PrivateRoute from './components/common/PrivateRoute'
+import PrivateRoute from './containers/PrivateRoute'
 
 import Register from './containers/Register'
 import Login from './containers/Login'
