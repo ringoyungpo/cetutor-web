@@ -14,7 +14,7 @@ const Reading = ({ sections, errors, onChange }) => {
       return {
         label: `${String.fromCharCode(
           paragraphIndex + 65
-        )}: ${paragraphValue.substr(0, 32)}`,
+        )}: ${paragraphValue.substr(0, 32)}...`,
         value: String(paragraphIndex)
       }
     }
@@ -83,7 +83,9 @@ const Reading = ({ sections, errors, onChange }) => {
       {rightOrder.map((rightOrderValue, rightOrderIndex) => {
         const rightOrderOptions = options.map((optionValue, optionIndex) => {
           return {
-            label: `${String.fromCharCode(optionIndex + 65)}: ${optionValue}`,
+            label: `${String.fromCharCode(
+              optionIndex + 65
+            )}: ${optionValue.substr(0, 32)}...`,
             value: String(optionIndex)
           }
         })
@@ -252,7 +254,7 @@ const Reading = ({ sections, errors, onChange }) => {
                   return {
                     label: `${String.fromCharCode(
                       optionIndex + 65
-                    )}: ${optionValue}`,
+                    )}: ${optionValue.substr(0, 32)}...`,
                     value: String(optionIndex)
                   }
                 }

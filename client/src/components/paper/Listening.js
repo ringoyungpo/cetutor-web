@@ -144,7 +144,7 @@ const Listening = ({ sections, errors, onChange, fileUploadHandler }) => {
                           return {
                             label: `${String.fromCharCode(
                               optionIndex + 65
-                            )}: ${optionValue}`,
+                            )}: ${optionValue.substr(0, 32)}...`,
                             value: String(optionIndex)
                           }
                         }
