@@ -6,7 +6,10 @@ import Spinner from '../common/Spinner'
 export default class LoginInput extends Component {
   componentWillMount() {
     this.props.authIntial()
-    if (this.props.isAuthenticated) {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuthenticated) {
       this.props.history.push('/dashboard')
     }
   }
