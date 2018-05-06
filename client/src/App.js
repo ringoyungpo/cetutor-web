@@ -17,7 +17,7 @@ import Register from './containers/Register'
 import Login from './containers/Login'
 import Dashboard from './components/dashboard/Dashboard'
 import { clearCurrentPaper } from './actions/paperActions'
-import PaperEditor from './components/paper/PaperEditor'
+import PaperEditor from './containers/PaperEditor'
 import Errors from './components/errors/Errors'
 
 // Check for token

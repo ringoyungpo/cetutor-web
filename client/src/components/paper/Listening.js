@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import SelectListGroup from '../common/SelectListGroup'
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup'
 import TextFieldGroup from '../common/TextFieldGroup'
+import AudioPlayerGroup from '../common/AudioPlayerGroup'
 import ReactAudioPlayer from 'react-audio-player'
 import isEmpty from 'lodash'
 import {
@@ -13,7 +14,7 @@ import {
   LOADING_AUDIO_URL
 } from '../../constant/paperConst'
 
-const Listening = ({ sections, errors, onChange }) => {
+const Listening = ({ sections, errors, onChange, fileUploadHandler }) => {
   const sectionTitleOptions = [
     { label: 'News Report', value: NEWS_REPORT },
     { label: 'Conversation', value: CONVERSATION },
@@ -95,17 +96,21 @@ const Listening = ({ sections, errors, onChange }) => {
                     <b>
                       {sectionTitle} {moduleIndex + 1}.{'\t'}
                     </b>
-                    <span>
-                      {/* <Audio src={url} id={moduleIndex} /> */}
-                      <ReactAudioPlayer src={url} controls />
-                      <input
-                        type="file"
-                        name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound`}
-                        onChange={onChange}
-                        accept="audio/*"
-                      />
-                      {/* <embed height="100" width="100" src="url" /> */}
-                    </span>
+                    <AudioPlayerGroup
+                      url={url}
+                      name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound.url`}
+                      onChange={fileUploadHandler}
+                      error={
+                        errors &&
+                        errors[
+                          `listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound.url`
+                        ] &&
+                        errors[
+                          `listening.sections.${sectionIndex}.modules.${moduleIndex}.moduleSound.url`
+                        ].message
+                      }
+                    />
+
                     <input
                       type="button"
                       name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.delete`}
@@ -146,18 +151,31 @@ const Listening = ({ sections, errors, onChange }) => {
                       )
                       return (
                         <div key={questionIndex}>
-                          <span>
-                            <div>
-                              <b>Question {questionIndex + 1}. </b>
-                            </div>
-                            <ReactAudioPlayer src={url} controls />
+                          <div>
+                            <b>Question {questionIndex + 1}. </b>
+                          </div>
+                          <AudioPlayerGroup
+                            name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound.url`}
+                            url={url}
+                            error={
+                              errors &&
+                              errors[
+                                `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound.url`
+                              ] &&
+                              errors[
+                                `listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound.url`
+                              ].message
+                            }
+                            onChange={fileUploadHandler}
+                          />
+                          {/* <ReactAudioPlayer src={url} controls />
                             <input
                               type="file"
-                              name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound`}
-                              onChange={onChange}
+                              name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.questionSound.url`}
+                              onChange={fileUploadHandler}
                               accept="audio/*"
-                            />
-                          </span>
+                            /> */}
+
                           <input
                             type="button"
                             name={`this.state.papers.paper.listening.sections.${sectionIndex}.modules.${moduleIndex}.questions.${questionIndex}.delete`}
@@ -269,6 +287,7 @@ Listening.prototype = {
     }).isRequired
   ).isRequired,
   onChange: PropTypes.func.isRequired,
+  fileUploadHandler: PropTypes.func.isRequired,
   errors: PropTypes.object
 }
 

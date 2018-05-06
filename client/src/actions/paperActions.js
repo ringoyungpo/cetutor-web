@@ -7,8 +7,13 @@ import {
   PAPERS_LOADING,
   CLEAR_CURRENT_PAPER,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  ON_PAPER_EDIT_CHANGE
 } from './types'
+
+import { api_key, base, api_secret, audio } from '../config/keys'
+import sha1 from 'sha1'
+import qs from 'qs'
 
 // Get current paper
 export const getCurrentUserPapers = () => dispatch => {
@@ -131,4 +136,55 @@ export const deletePaper = (papers, paperId) => dispatch => {
         payload: err.response.data
       })
     )
+}
+
+export const onPaperEditChange = e => dispatch => {
+  dispatch({
+    type: ON_PAPER_EDIT_CHANGE,
+    payload: e.target
+  })
+}
+
+export const setPaperEditing = paper => dispatch => {
+  dispatch({
+    type: GET_PAPER,
+    payload: paper
+  })
+}
+
+export const fileUploadHandler = e => dispatch => {
+  const { name, value, files } = e.target
+  const timestamp = Date.now()
+  const tags = 'listening'
+  const folder = 'listening'
+  const signature = sha1(
+    qs.stringify({
+      folder,
+      tags,
+      timestamp
+    }) + api_secret
+  )
+  const formData = new FormData()
+  formData.append('file', files[0])
+  formData.append('folder', folder)
+  formData.append('signature', signature)
+  formData.append('tags', tags)
+  formData.append('timestamp', timestamp)
+  formData.append('api_key', api_key)
+
+  const authorization = axios.defaults.headers.common['Authorization']
+  delete axios.defaults.headers.common['Authorization']
+  axios({
+    method: 'POST',
+    url: audio,
+    data: formData
+  })
+    .then(res => {
+      const target = { name: name, value: res.data.secure_url }
+      dispatch(onPaperEditChange({ target }))
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  axios.defaults.headers.common['Authorization'] = authorization
 }
