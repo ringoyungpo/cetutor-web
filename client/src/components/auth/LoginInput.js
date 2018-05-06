@@ -5,14 +5,8 @@ import Spinner from '../common/Spinner'
 
 export default class LoginInput extends Component {
   componentWillMount() {
-    this.props.loginIntial()
+    this.props.authIntial()
     if (this.props.isAuthenticated) {
-      this.props.history.push('/dashboard')
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated) {
       this.props.history.push('/dashboard')
     }
   }
@@ -72,7 +66,7 @@ export default class LoginInput extends Component {
 LoginInput.propTypes = {
   loginUser: PropTypes.func.isRequired,
   onLoginInputChange: PropTypes.func.isRequired,
-  loginIntial: PropTypes.func.isRequired,
+  authIntial: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   loginInput: PropTypes.shape({
     email: PropTypes.string.isRequired,

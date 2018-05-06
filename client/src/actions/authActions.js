@@ -4,18 +4,42 @@ import {
   INFO_SUBMITTING,
   INFO_SUBMITTED,
   ON_LOGIN_INPUT_CHANGE,
-  GET_CURRENT_AUTH_STATE
+  ON_REGISTER_INPUT_CHANGE,
+  GET_CURRENT_AUTH_STATE,
+  CLEAR_LOGIN_INPUT,
+  CLEAR_REGISTER_INPUT
 } from './types'
 import axios from 'axios'
 import setAuthToken from '../utils/setAuthToken'
 import jwt_decode from 'jwt-decode'
 import { setSubmitting, setSubmitted } from './spinnerAction'
 
+export const setInfoSubmitting = () => {
+  return {
+    type: INFO_SUBMITTING
+  }
+}
+
+export const setInfoSubmitted = () => {
+  return {
+    type: INFO_SUBMITTED
+  }
+}
+
 //Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post('/api/users/', userData)
-    .then(res => history.push('/login'))
+    .then(res => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+      dispatch({
+        type: CLEAR_REGISTER_INPUT
+      })
+      history.push('/login')
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -31,7 +55,14 @@ export const onLoginInputChange = e => dispatch => {
   })
 }
 
-export const loginIntial = () => dispatch => {
+export const onRegisterInputChange = e => dispatch => {
+  dispatch({
+    type: ON_REGISTER_INPUT_CHANGE,
+    payload: e.target
+  })
+}
+
+export const authIntial = () => dispatch => {
   dispatch({
     type: GET_CURRENT_AUTH_STATE,
     payload: null
@@ -58,6 +89,9 @@ export const loginUser = userData => dispatch => {
       const decode = jwt_decode(token)
       dispatch(setSubmitted())
       dispatch(setCurrentUser(decode))
+      dispatch({
+        type: CLEAR_LOGIN_INPUT
+      })
     })
     .catch(err => {
       dispatch(setSubmitted())
@@ -84,16 +118,4 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false)
   // Set current user to {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}))
-}
-
-export const setInfoSubmitting = () => {
-  return {
-    type: INFO_SUBMITTING
-  }
-}
-
-export const setInfoSubmitted = () => {
-  return {
-    type: INFO_SUBMITTED
-  }
 }

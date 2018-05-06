@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import {
   loginUser,
   onLoginInputChange,
-  loginIntial
+  authIntial
 } from '../actions/authActions'
 import LoginInput from '../components/auth/LoginInput'
 
@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   loginUser,
   onLoginInputChange,
-  loginIntial
+  authIntial
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginInput)

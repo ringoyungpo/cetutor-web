@@ -1,7 +1,10 @@
 import {
   SET_CURRENT_USER,
   ON_LOGIN_INPUT_CHANGE,
-  GET_CURRENT_AUTH_STATE
+  GET_CURRENT_AUTH_STATE,
+  ON_REGISTER_INPUT_CHANGE,
+  CLEAR_REGISTER_INPUT,
+  CLEAR_LOGIN_INPUT
 } from '../actions/types'
 import { isEmpty } from 'lodash'
 
@@ -12,6 +15,12 @@ const initialState = {
   loginInput: {
     email: '',
     password: ''
+  },
+  registerInput: {
+    nickname: '',
+    email: '',
+    password: '',
+    passwordComfirmed: ''
   }
 }
 
@@ -23,16 +32,56 @@ export default function(state = initialState, action) {
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload
       }
+      break
     case ON_LOGIN_INPUT_CHANGE:
-      let { loginInput } = state
-      const { name, value } = action.payload
-      loginInput[name] = value
-      return {
-        ...state,
-        loginInput: { ...loginInput }
+      {
+        const { name, value } = action.payload
+        let { loginInput } = state
+        loginInput[name] = value
+        return {
+          ...state,
+          loginInput: { ...loginInput }
+        }
       }
+      break
+    case ON_REGISTER_INPUT_CHANGE:
+      {
+        let { registerInput } = state
+        const { name, value } = action.payload
+        registerInput[name] = value
+        return {
+          ...state,
+          registerInput: { ...registerInput }
+        }
+      }
+      break
+    case CLEAR_LOGIN_INPUT:
+      {
+        return {
+          ...state,
+          loginInput: {
+            email: '',
+            password: ''
+          }
+        }
+      }
+      break
+    case CLEAR_REGISTER_INPUT:
+      {
+        return {
+          ...state,
+          registerInput: {
+            nickname: '',
+            email: '',
+            password: '',
+            passwordComfirmed: ''
+          }
+        }
+      }
+      break
     case GET_CURRENT_AUTH_STATE:
       return state
+      break
     // case INFO_SUBMITTING:
     //   return {
     //     ...state,
@@ -45,5 +94,6 @@ export default function(state = initialState, action) {
     //   }
     default:
       return state
+      break
   }
 }
