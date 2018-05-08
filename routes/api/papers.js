@@ -30,6 +30,7 @@ router.post(
 router.get('/', (req, res) => {
   Paper.find()
     .populate('user', ['nickname', 'avatar', 'isSuperUser'])
+    .sort('-date')
     .then(papers => {
       papers = papers.map(paper => {
         const { _id, title, level, date, user } = paper
