@@ -89,7 +89,8 @@ router.post('/token', (req, res) => {
           id: user.id,
           nickname: user.nickname,
           avatar: user.avatar,
-          isSuperUser: user.isSuperUser
+          isSuperUser: user.isSuperUser,
+          email: user.email
         } // Create JWT Payload
 
         // Sign Token
