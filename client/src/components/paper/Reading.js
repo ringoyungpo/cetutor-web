@@ -14,7 +14,9 @@ const Reading = ({ sections, errors, onChange }) => {
       return {
         label: `${String.fromCharCode(
           paragraphIndex + 65
-        )}: ${paragraphValue.substr(0, 32)}...`,
+        )}: ${paragraphValue.substr(0, 32)}${
+          paragraphValue.length > 32 ? '...' : ''
+        }`,
         value: String(paragraphIndex)
       }
     }
@@ -85,7 +87,9 @@ const Reading = ({ sections, errors, onChange }) => {
           return {
             label: `${String.fromCharCode(
               optionIndex + 65
-            )}: ${optionValue.substr(0, 32)}...`,
+            )}: ${optionValue.substr(0, 32)}${
+              optionValue.length > 32 ? '...' : ''
+            }`,
             value: String(optionIndex)
           }
         })
@@ -254,7 +258,9 @@ const Reading = ({ sections, errors, onChange }) => {
                   return {
                     label: `${String.fromCharCode(
                       optionIndex + 65
-                    )}: ${optionValue.substr(0, 32)}...`,
+                    )}: ${optionValue.substr(0, 32)}${
+                      optionValue.length > 32 ? '...' : ''
+                    }`,
                     value: String(optionIndex)
                   }
                 }
