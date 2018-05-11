@@ -20,7 +20,7 @@ router.post(
     new Paper({ ...req.body, user: req.user.id })
       .save()
       .then(paper => res.json(paper))
-      .catch(err => res.status(400).json(err.errors))
+      .catch(err => res.status(400).json(err))
   }
 )
 

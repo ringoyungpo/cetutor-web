@@ -7,6 +7,7 @@ const proxy = require('http-proxy-middleware')
 
 const users = require('./routes/api/users')
 const papers = require('./routes/api/papers')
+const answers = require('./routes/api/answers')
 
 const app = express()
 
@@ -34,6 +35,9 @@ app.use('/api/users', users)
 
 // Paper Routes
 app.use('/api/papers', papers)
+
+// Answer Routes
+app.use('/api/answers', answers)
 
 app.use(
   '/v1_1',
