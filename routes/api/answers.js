@@ -39,6 +39,7 @@ router.get(
   (req, res) => {
     Answer.find({ user: req.user.id })
       // .populate('user', ['nickname', 'avatar', 'isSuperUser'])
+      .sort('-date')
       .then(answers => {
         answers = answers.map(answer => {
           const { _id, title, level, date, user } = answer
@@ -46,6 +47,29 @@ router.get(
         })
         res.json(answers)
       })
+      .catch(err => res.status(404).json(err))
+  }
+)
+
+// // @route   GET api/answers/:id
+// // @desc    Get answers by id route
+// // @access  Public
+router.get('/:id', (req, res) => {
+  Answer.findById(req.params.id)
+    .populate('user', ['nickname', 'avatar', 'isSuperUser'])
+    .then(answers => res.json(answers))
+    .catch(err => res.status(404).json(err))
+})
+
+// // @route   DELETE api/answers/:id
+// // @desc    Delete answers route
+// // @access  Private
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Answer.findOneAndRemove({ _id: req.params.id, user: req.user._id })
+      .then(answer => res.json({ success: true }))
       .catch(err => res.status(404).json(err))
   }
 )
