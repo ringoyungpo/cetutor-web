@@ -157,7 +157,7 @@ const AnswerSchema = new Schema({
                   required: true
                 },
                 optionSelected: {
-                  type: String
+                  type: Number
                 }
               }
             ]
