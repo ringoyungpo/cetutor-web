@@ -78,7 +78,7 @@ const Listening = ({ sections, errors, onChange, fileUploadHandler }) => {
               spoken only once. After you hear a question, you must choose the
               best answer from the four choices marked A, B, C and D. Then mark
               the corresponding letter on Answer Sheet with a single line
-              through the centre.
+              through the center.
             </p>
             <input
               type="button"
